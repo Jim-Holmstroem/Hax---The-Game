@@ -74,7 +74,7 @@ class LoadFactory<T> //TODO could it be called a factory?
 /* ENGADGETMENT */
 
 1. Output,/wo pointerhandling [x]
-2. Input, /wo pointerhandling [ ]
+2. Input, /wo pointerhandling [X]
 3. Heap class [ ]
 4. LoadFactory<T> class now /w pointer handling [ ]
 

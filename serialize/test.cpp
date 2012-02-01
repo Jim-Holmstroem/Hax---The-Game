@@ -1,5 +1,6 @@
 #include"test.h"
 
+#include<iostream>
 #include<sstream>
 
 namespace hax {
@@ -65,7 +66,6 @@ int main(){
     SerializableMap<SerializableString,MiniA> sm_cp;
     filetest(sm,sm_cp,"SerializableVector");
 
-
     SerializableVector<MiniA> sv0;
     SerializableVector<MiniA> sv_cp0;
     filetest(sv0,sv_cp0,"SerializableVector0");
@@ -73,7 +73,6 @@ int main(){
     SerializableMap<std::string,MiniA> sm0;
     SerializableMap<std::string,MiniA> sm_cp0;
     filetest(sm0,sm_cp0,"SerializableMap0");
-
 
     std::stringstream ss (std::stringstream::in|std::stringstream::out);
 

@@ -1,0 +1,42 @@
+MOD = game_debug level area indoor outdoor route road character hero human undead object container obstacle coin
+
+SRC = $(MOD:=.cpp)
+HDR = $(MOD:=.h)
+OBJ = $(MOD:=.o)
+
+PRGM = hax_debug
+
+#built-in variable for directory search
+VPATH = world:ch:area:obj:ncurses
+
+# built-in variable for g++ compiler flags
+CXXFLAGS = -g -Wall -Wextra -DDEBUG
+
+all:
+	make -f Makefile_debug $(PRGM)
+
+$(PRGM): $(OBJ) Makefile_debug
+	$(CXX) $(OBJ) -o $(PRGM)
+
+# automatic variables: $< = first prerequisite, $@ = target
+game_debug.o: game_debug.cpp game_debug.h Makefile_debug
+#	$(CXX) $(CXXFLAGS) $< -o $@
+
+level.o: level.cpp level.h Makefile_debug
+#obstacle.o: obstacle.cpp obstacle.h Makefile_debug
+#container.o: container.cpp container.h Makefile_debug
+#object.o: object.cpp object.h Makefile_debug
+#road.o: road.cpp road.h Makefile_debug
+#route.o: route.cpp route.h Makefile_debug
+#outdoor.o: outdoor.cpp outdoor.h Makefile_debug
+#indoor.o: indoor.cpp indoor.h Makefile_debug
+#area.o: area.cpp area.h Makefile_debug
+#undead.o: undead.cpp undead.h Makefile_debug
+#human.o: human.cpp human.h Makefile_debug
+#hero.o: hero.cpp hero.h Makefile_debug
+#character.o: character.cpp character.h Makefile_debug
+
+clean:
+	rm -f $(OBJ) $(PRGM)
+run:
+	valgrind --leak-check=full ./$(PRGM)

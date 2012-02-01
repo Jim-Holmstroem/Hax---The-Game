@@ -1,0 +1,43 @@
+
+
+since 20110731
+# added Coins to Wallet in Character constructor
+# created no requirement Door with match_key == NULL, fixed seg fault
+# made Area::description() virtual so Shop::description() can print
+content of "vector<Object*> goods"
+# created Shop to test buy/sell
+# buy works correctly
+# sell does not return correct value, this is because of Wallet::operator-=
+# int weight and volume for all the derived Coins were not set since
+derived default constructor did not call base constructor, so random values
+were initialized which caused some of the Coins not to be added at
+logic Container::hold_weight() or Container::hold_volume()
+# fixed: Key did not set weight and volume
+# added random descr for Key
+# valgrind gives "Conditional jump or move depends on uninitialised
+values at Container::add(Object*). Solution was to set weight and
+volume = 0 in Object default constructor since in
+Container::add(Object*) there is an if(weight > foo || volume > foo)
+# fixed memory leak in Shop constructor: goods = new Ground();
+# fixed memory leaks in Level constructor: opmap = new ...Op...;
+# changed Character::view_inventory to show objects in all containers
+# added Character::view_curContainer, Character::change_curContainer
+# changed Character::pick_up and Character::drop to use "curContainer"
+instead of "inventory"
+# in Character::buy(string) and Character::sell(string) now uses
+dynamic_cast to check if "curArea" is a class Shop, hence no need to
+have Area::buy(string) and Area::sell(string), enough with
+Shop::buy(string) and Shop::sell(string)
+# added Container::contents(), added Container::get_subContainers()
+# added Character::move_obj("name", "source", "destination")
+# added in operation.h: CharOpBool3String, arguments are separated with |
+# changed Level::add(Character*) to add appendix if name collision
+# changed in game_debug.cpp: split(string) to more general function
+with delimiter choice
+
+since 201107**
+# made Wallet and Ground private classes in Character and Area respectively
+
+since 20110703
+fixed so that a Character blocking a road was not added to global
+players (cannot be given commands)???

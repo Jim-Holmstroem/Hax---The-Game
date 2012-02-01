@@ -1,0 +1,21 @@
+iserializable.o: In function `main':
+test.cpp:(.text+0x0): multiple definition of `main'
+test.o:test.cpp:(.text+0x0): first defined here
+
+iserializablecontainer.o: In function `main':
+test.cpp:(.text+0x0): multiple definition of `main'
+test.o:test.cpp:(.text+0x0): first defined here
+
+serializablemap.o: In function `main':
+test.cpp:(.text+0x0): multiple definition of `main'
+test.o:test.cpp:(.text+0x0): first defined here
+
+serializablevector.o: In function `main':
+test.cpp:(.text+0x0): multiple definition of `main'
+test.o:test.cpp:(.text+0x0): first defined here
+
+parsehelper.o: In function `main':
+test.cpp:(.text+0x0): multiple definition of `main'
+test.o:test.cpp:(.text+0x0): first defined here
+
+collect2: ld returned 1 exit status

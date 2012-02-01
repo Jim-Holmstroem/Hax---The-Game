@@ -1,0 +1,39 @@
+**New game**
+focus Albus
+view
+pu orange backpack
+ls
+cd orange backpack
+ls
+cd ..
+ls
+view
+go west
+view
+pu dead tree
+go east
+help
+view
+fight Albus
+fight Snape
+view
+view
+go northeast
+view
+go southwest
+pu rusty key
+go southwest
+view
+go northeast
+go in
+view
+pu cool backpack
+buy cool backpack
+view
+ls
+cd rusty key
+cd cool backpack
+ls
+cd ..
+ls
+quit

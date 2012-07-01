@@ -1,0 +1,96 @@
+/* FILE-EXAMPLE */
+
+{//Stack
+    var1
+    var2
+    {
+        varA
+        {
+            varAB
+            varBB
+        }
+        varB
+        varC
+    }
+    var3
+    var4
+}
+{//Heap
+    123 : Dwarf
+    {
+        var1
+        {
+            varA
+            {
+                varAB
+                varBB
+            }
+            varC
+        }
+        var2
+        var3
+    }
+    125 Midget
+    {
+        var1
+        {
+            varA
+            {
+                varAB
+                varBB
+            }
+            varC
+        }
+        var2
+        var3
+    }
+}
+
+/* CLASS-INTERFACEs */
+
+class Heap
+{
+    
+    void load(stream);
+    void save(stream);
+    
+    pointer const operator[](const int UID) const; //returns the new pointer of the UID-element
+    
+}
+
+class LoadFactory<T> //TODO could it be called a factory?
+{
+    Heap heap;
+    T* GetLevel(string filename);//allocate? and return pointer
+    /*{
+       //loadTheLevel
+       //loadTheHeap
+       //connectThePointers        
+        
+    }*/
+
+}
+
+/* ENGADGETMENT */
+
+1. Output,/wo pointerhandling [x]
+2. Input, /wo pointerhandling [X]
+3. Heap class [ ]
+4. LoadFactory<T> class now /w pointer handling [ ]
+
+...
+x. Worlddomination
+
+
+/* PROBLEMS */
+
+What is allocated on the heap, how to know which is the correct class in the hirarcy to allocate? it's decided by the virtual To/FromString. but how decides what should be allocated?
+NOTE will need to have what class that should be allocated by the Heap in the saved file. so heap will allocate the proper class (given only the file as input) (only needed for allocated classes since the rest would be taken care of by fine-selection :])
+
+TODO NOTE will parse the <address>:<type> as HeapInformation <--make a new class to handle this
+
+What format should the addresses be serialized to/from is could it be just streamed or shoudl one have a variable in serializable?
+(addresses is serialized to their hex-value)
+
+
+

@@ -29,6 +29,18 @@ inline void checkToken(std::istream& in,const std::string& check) throw()
     }
 };
 
+void* Generate(const std::string& type)
+{
+    //list all non-abstract classes and their defaultcontructors
+    if(type=="")
+    {
+    
+    }else if(type=="out")
+    {
+    
+    }
+};
+
 /*
 inline bool peekToken(std::istream& in,const std::string& check)
 {

@@ -8,6 +8,20 @@
 
 //TODO add namespace helper (and change whereever it's used)
 
+#include "../area/area.h"
+#include "../area/indoor.h"
+#include "../area/outdoor.h"
+#include "../area/road.h"
+#include "../area/route.h"
+#include "../ch/character.h"
+#include "../ch/hero.h"
+#include "../ch/human.h"
+#include "../ch/undead.h"
+#include "../obj/coin.h"
+#include "../obj/container.h"
+#include "../obj/object.h"
+#include "../obj/ostacle.h"
+
 namespace hax {
 
 struct ParseException : public std::runtime_error
@@ -31,13 +45,67 @@ inline void checkToken(std::istream& in,const std::string& check) throw()
 
 void* Generate(const std::string& type)
 {
+    //NOTE fugly
     //list all non-abstract classes and their defaultcontructors
-    if(type=="")
-    {
     
-    }else if(type=="out")
+    //==== AREA ====
+    if(type=="area")
     {
-    
+        return new area::area();
+    }
+    else if(type=="indoor")
+    {
+        return new indoor();
+    }
+    else if(type=="outdoor")
+    {
+        return new outdoor();
+    }
+    else if(type=="road")
+    {
+        return new road();
+    }
+    else if(type=="route")
+    {
+        return new route();
+    }
+    //==== CH ====
+    else if(type=="character")
+    {
+        return new character();
+    }
+    else if(type=="hero")
+    {
+        return new hero();
+    }
+    else if(type=="human")
+    {
+        return new human();
+    }
+    else if(type=="undead")
+    {
+        return new undead();
+    }
+    //==== OBJ  ====
+    else if(type=="coin")
+    {
+        return new coin();
+    }
+    else if(type=="container")
+    {
+        return new container();
+    }
+    else if(type=="object")
+    {
+        return new object();
+    }
+    else if(type=="obstacle")
+    {
+        return new obstacle();
+    }
+    else
+    {
+        throw type+" doesn't exist";
     }
 };
 

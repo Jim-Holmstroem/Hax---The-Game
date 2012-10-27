@@ -107,8 +107,8 @@ template < class T,
     };
     virtual void ElementFromString(std::istream& in)
     {
-        T elem;
-        in >> elem;
+        value_type elem;
+        in >> *elem;
         content.push_back(elem);
     };
     virtual void ToString(std::ostream& out) const
@@ -134,7 +134,7 @@ template < class T,
   public:
     virtual std::string getType() const
     {
-        return "SerializableVector<"+value_type().getType()+">";
+        return "SerializableVector<"+value_type()->getType()+">";
     };
 
 };

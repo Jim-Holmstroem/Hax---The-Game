@@ -119,7 +119,7 @@ template < class Key,
         key_type keyData;     
         in >> keyData;
         value_type elem(keyData, mapped_type());
-        in >> elem.second;
+        in >> *(elem.second);
         content.insert(elem);
     }
     virtual void ToString(std::ostream& out) const

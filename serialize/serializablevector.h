@@ -103,12 +103,18 @@ template < class T,
     /* Pure virtual functions from ISerializableContainer */
     virtual void ElementToString(std::ostream& out, const value_type& elem) const
     {
-        out << elem << ' ';
+        out << *elem << ' ';
     };
     virtual void ElementFromString(std::istream& in)
     {
         value_type elem;
         in >> *elem;
+/*
+        checkToken(in,"{");
+	elem->FromString(in);
+        checkToken(in,"}");
+*/
+
         content.push_back(elem);
     };
     virtual void ToString(std::ostream& out) const
@@ -125,9 +131,9 @@ template < class T,
         in.get();
         while(in.peek()=='#')
         {
-            checkToken(in,"#"); 
+            checkToken(in,"#");
             ElementFromString(in);
-            in.get(); 
+            in.get();
         }
     };
   

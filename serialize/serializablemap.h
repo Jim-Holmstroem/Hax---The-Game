@@ -112,7 +112,7 @@ template < class Key,
     /* Pure virtual functions from ISerializableContainer */
     virtual void ElementToString(std::ostream& out, const value_type& elem) const
     {
-        out << elem.first << ' ' << elem.second << ' ';
+        out << elem.first << ' ' << *(elem.second) << ' ';
     };
     virtual void ElementFromString(std::istream& in)
     {
@@ -146,7 +146,7 @@ template < class Key,
     virtual std::string getType() const 
     {
 	return "SerializableMap";
-//       return "SerializableMap<"+key_type().getType()+","+mapped_type()->getType()+">";
+//        return "SerializableMap<"+key_type().getType()+","+mapped_type()->getType()+">";
     };
 };
 

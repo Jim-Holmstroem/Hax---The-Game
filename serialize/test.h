@@ -58,7 +58,7 @@ template<class T> class LoadFactory<T>
 //gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html#Variadic-Macros
 namespace hax {
 
-void filetest(ISerializable& testobj,std::string filename);
+void filetest(ISerializable& testobj, ISerializable& testobj_cp, std::string filename);
 
 class MiniA : public ISerializable
 {
@@ -73,11 +73,11 @@ class MiniA : public ISerializable
         return "MiniA";
     };
   protected:
-    virtual void ToString(std::ostream& out) const
+    inline virtual void ToString(std::ostream& out) const
     {
-        out << mini1 << ' ' << mini2 << ' '; //TODO make a function to wich you only register wich ones that should be serialized 
+        out << mini1 << ' ' << mini2 << ' '; //TODO make a function to wich you only register wich ones that should be serialized
     };
-    virtual void FromString(std::istream& in)
+    inline virtual void FromString(std::istream& in)
     {
 	    in >> mini1 >> mini2; 
     };

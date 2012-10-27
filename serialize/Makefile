@@ -8,7 +8,7 @@ EXE = test_serialize
 
 CXX = g++
 
-CFLAG = -c -Wall -Wextra #-ftabstop=4 
+CFLAG = -c -g -Wall -Wextra #-ftabstop=4 
 LFLAG =
 
 all: $(EXE)

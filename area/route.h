@@ -12,6 +12,7 @@ namespace hax{
 
     class Route : public ISerializable{
       public:
+        Route();
         Route(std::string, Area*, Area*);
         ~Route();
 
@@ -36,6 +37,7 @@ namespace hax{
 
     class Door : public Route{
       public:
+        Door();
 	Door(std::string, Area*, Area*);
 	Door(std::string, Area*, Area*, Key*);
 	virtual std::string getType() const;
@@ -48,6 +50,7 @@ namespace hax{
 
     class Hatch : public Route{ //fall-lucka #TODO check this class
       public:
+        Hatch();
 	Hatch(std::string, Area*, Area*);
 	virtual std::string getType() const;
 	virtual bool isBlocked(Character*) const;

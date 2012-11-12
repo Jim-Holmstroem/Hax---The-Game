@@ -4,8 +4,12 @@
 #include "../obj/container.h" //needed for Ground
 #include "../obj/obstacle.h"
 
+hax::Road::Road() : Route(){
+    enemy = NULL;
+    p_obs = NULL;
+}
 hax::Road::Road(std::string name, Area* from, Area* to) : Route(name, from, to){
-    enemy = NULL; //null_ptr
+    enemy = NULL;
     p_obs = NULL;
 }
 hax::Road::Road(std::string name, Area* from, Area* to, Character* ch) : Route(name, from, to){ //TODO change to Foe*

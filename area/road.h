@@ -10,6 +10,7 @@ namespace hax{
 
     class Road : public Route{
       public:
+        Road();
         Road(std::string, Area*, Area*);
         Road(std::string, Area*, Area*, Character*);
         Road(std::string, Area*, Area*, Obstacle*);

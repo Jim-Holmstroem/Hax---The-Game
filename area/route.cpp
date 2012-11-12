@@ -3,6 +3,11 @@
 #include "../area/area.h"
 #include "../obj/container.h" //needed for inventory
 
+hax::Route::Route()
+{
+    thisArea = NULL;
+    nextArea = NULL;
+}
 hax::Route::Route(std::string n, Area* from, Area* to){
     name = n;
     thisArea = from;
@@ -19,6 +24,9 @@ void hax::Route::ToString(std::ostream&) const{
 void hax::Route::FromString(std::istream&){
 } //TODO
 
+hax::Door::Door() : Route(){
+    match_key = NULL;
+}
 hax::Door::Door(std::string name, Area* from, Area* to) : Route(name, from, to){
     match_key = NULL;
 }
@@ -53,6 +61,7 @@ std::string hax::Door::passMessage() const{
     }
 }
 
+hax::Hatch::Hatch() : Route(){}
 hax::Hatch::Hatch(std::string name, Area* from, Area* to) : Route(name, from, to){
 //    type = "hatch";
 }

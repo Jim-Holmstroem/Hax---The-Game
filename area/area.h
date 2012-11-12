@@ -4,19 +4,21 @@
 #include<map>
 #include "route.h"
 #include "../obj/container.h"
-#ifndef DEBUG
-#include "../ncurses/logger.h"
-#endif
 #include "../serialize/serializablevector.h"
 #include "../serialize/serializablemap.h"
 #include "../serialize/serializablestring.h"
+#include "../serialize/characterHeap.h"
+#include "../serialize/routeHeap.h"
+#ifndef DEBUG
+#include "../ncurses/logger.h"
+#endif
 
 namespace hax{
 #ifndef DEBUG
     extern Logger log;
 #endif
 
-    typedef SerializableMap<std::string, Route*> MapRoute;
+    typedef SerializableMap<SerializableString, Route*> MapRoute;
 
     class Character; //forward declaration
 //    class Object;

@@ -4,7 +4,6 @@
 #include<map>
 #include<queue>
 #include "object.h"
-
 #include "../serialize/serializablevector.h"
 
 namespace hax{
@@ -62,6 +61,25 @@ namespace hax{
 //      Pokemon poke; //derived from Character
 };
 */
+
+    inline Object* getAllocatedObject(std::string objType)
+    {
+        if(objType == "backpack")
+        {
+            return new Backpack();
+        }
+    };
+
+    template<>
+        inline void SerializableVector<Object*>::ElementFromString(std::istream& in)
+    {
+        std::string objType;
+        in >> objType;
+        Object* obj = getAllocatedObject(objType);
+        in >> *obj;
+        content.push_back(obj);
+    };
+
 }
 
 #endif

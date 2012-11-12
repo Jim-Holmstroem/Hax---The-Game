@@ -153,25 +153,25 @@ template < class T >
     class SerializableVector<T*> : public ISerializableContainer<T*>
 {
   protected:
-    std::vector<T*> content;
+    std::vector<T*,std::allocator<T*> > content;
 
   public:
-    typedef typename std::vector<T*>::value_type value_type;
-    typedef typename std::vector<T*>::allocator_type allocator_type;
+    typedef typename std::vector<T*,std::allocator<T*> >::value_type value_type;
+    typedef typename std::vector<T*,std::allocator<T*> >::allocator_type allocator_type;
 
-    typedef typename std::vector<T*>::size_type size_type;
-    typedef typename std::vector<T*>::difference_type difference_type;
+    typedef typename std::vector<T*,std::allocator<T*> >::size_type size_type;
+    typedef typename std::vector<T*,std::allocator<T*> >::difference_type difference_type;
 
-    typedef typename std::vector<T*>::reference reference;
-    typedef typename std::vector<T*>::const_reference const_reference;
+    typedef typename std::vector<T*,std::allocator<T*> >::reference reference;
+    typedef typename std::vector<T*,std::allocator<T*> >::const_reference const_reference;
 
-    typedef typename std::vector<T*>::pointer pointer;
-    typedef typename std::vector<T*>::const_pointer const_pointer;
+    typedef typename std::vector<T*,std::allocator<T*> >::pointer pointer;
+    typedef typename std::vector<T*,std::allocator<T*> >::const_pointer const_pointer;
 
-    typedef typename std::vector<T*>::iterator iterator;
-    typedef typename std::vector<T*>::const_iterator const_iterator;
-    typedef typename std::vector<T*>::reverse_iterator reverse_iterator;
-    typedef typename std::vector<T*>::const_reverse_iterator const_reverse_iterator;
+    typedef typename std::vector<T*,std::allocator<T*> >::iterator iterator;
+    typedef typename std::vector<T*,std::allocator<T*> >::const_iterator const_iterator;
+    typedef typename std::vector<T*,std::allocator<T*> >::reverse_iterator reverse_iterator;
+    typedef typename std::vector<T*,std::allocator<T*> >::const_reverse_iterator const_reverse_iterator;
 
     explicit SerializableVector(const allocator_type& alloc = allocator_type()):content(alloc){};
     explicit SerializableVector(size_type n,const_reference value = value_type(),const allocator_type& alloc = allocator_type()):content(n,value){};
@@ -247,7 +247,7 @@ template < class T >
     virtual void ToString(std::ostream& out) const
     {
         std::cout << "using partial specialized SerializableVector<T*>::ToString..." << std::endl;
-        SerializableVector<T*>::const_iterator it = content.begin();
+        SerializableVector<T*,std::allocator<T*> >::const_iterator it = content.begin();
         for(; it!=content.end(); ++it)
         {
             out << "# ";
@@ -268,7 +268,7 @@ template < class T >
   public:
     virtual std::string getType() const
     {
-        return "SerializableVector<"+T().getType()+"*>";
+        return "SerializableVector<"+value_type()->getType()+"*>";
     };
 
 };

@@ -5,6 +5,7 @@
 #include<vector>
 
 //can have problem with violate variables, luckely we don't use them :)
+//REMEMBER add UNUSED __only__ when it logically not being in use.
 #define UNUSED(x) (void)(x)
 
 namespace hax{

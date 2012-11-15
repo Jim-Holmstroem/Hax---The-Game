@@ -16,7 +16,7 @@ namespace hax{
     extern Logger log;
 #endif
 
-    typedef SerializableMap<SerializableString, Route*> MapRoute;
+    typedef std::map<SerializableString, Route*> MapRoute;//TODO SerializableMap
 
     class Character; //forward declaration
 //    class Object;
@@ -30,7 +30,7 @@ namespace hax{
 
 //        Area& operator=(const Area&);
         std::string getName() const;
-        SerializableVector<Character*> chars() const; //TODO remove? currently used by level.cpp
+        std::vector<Character*> chars() const; //TODO SerializableVector //TODO remove? currently used by level.cpp
         Area& neighbor(const Route&) const;
         std::string directions() const;
         virtual std::string description() const;
@@ -44,10 +44,10 @@ namespace hax{
 
 	//search functions
         Character* getChar(std::string);
-        SerializableVector<Character*>::iterator findChar(Character*);
+        std::vector<Character*>::iterator findChar(Character*); //TODO SerializableVector
         bool hasChar(Character* const) const;
         Object* getObject(std::string);
-        SerializableVector<Object*>::iterator findObject(Object*);
+        std::vector<Object*>::iterator findObject(Object*); //TODO SerializableVector
         bool hasObject(Object* const) const;
 
 	//serialization
@@ -57,7 +57,7 @@ namespace hax{
 	//data objects
         MapRoute exits; //TODO make this protected
       protected:
-        SerializableVector<Character*> vec_char;
+        std::vector<Character*> vec_char; //TODO SerializableVector
 //      SerializableVector<Character*> vec_creep; //for characters blocking a road, or other static enemies
         std::string name;
         std::string descr; //description

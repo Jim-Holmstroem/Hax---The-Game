@@ -165,7 +165,7 @@ std::string hax::Level::getType() const{
 }
 void hax::Level::updatePlayers(){
     for(size_t i=0; i<vec_area.size(); i++){
-        const SerializableVector<Character*> charsInArea = vec_area[i]->chars();
+        const std::vector<Character*> charsInArea = vec_area[i]->chars(); //TODO SerializableVector
 
         for(size_t k=0; k<charsInArea.size(); k++){
             Character* ch = charsInArea[k]; //this Character could have died

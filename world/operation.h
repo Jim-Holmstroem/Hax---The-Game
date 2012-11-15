@@ -13,20 +13,6 @@ namespace hax{
     class Operation{
       public:
         virtual void call(const std::string arg, Character* curChar, Level* curLevel) = 0;
-
-        //http://stackoverflow.com/questions/236129/how-to-split-a-string-in-c
-        std::vector<std::string>& split(const std::string& s, char delim, std::vector<std::string>& elems){
-            std::stringstream ss(s);
-            std::string item;
-            while(std::getline(ss, item, delim)){
-                elems.push_back(item);
-            }
-            return elems;
-        };
-        std::vector<std::string> split(const std::string s, char delim){
-            std::vector<std::string> elems;
-            return split(s, delim, elems);
-        };
     };
     class LevelOpVoid : public Operation{
       private:
@@ -151,7 +137,7 @@ namespace hax{
         void call(const std::string arg, Character* curChar, Level* curLevel){
             UNUSED(curLevel);
             if(curChar != NULL){
-                std::vector<std::string> words = split(arg,'|');
+                std::vector<std::string> words = hax::split(arg,'|');
                 for(size_t i=0; i<words.size(); i++){
                     std::cout << words[i] << std::endl;
                 }

@@ -47,7 +47,7 @@ bool hax::Container::empty() const{
 }
 std::string hax::Container::contents() const{
     std::ostringstream oss;
-    SerializableVector<Object*>::const_iterator it;
+    std::vector<Object*>::const_iterator it; //TODO SerializableVector
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
         oss << (*it)->description() <<" (W"<< (*it)->getWeight() <<"/V"<< (*it)->getVolume() <<"/P"<< (*it)->getPrice() <<"), ";
     }
@@ -81,8 +81,8 @@ std::map<std::string, hax::Container*> hax::Container::get_subContainers(){
 }
 
 
-hax::SerializableVector<hax::Object*>::iterator hax::Container::findObject(Object* const ob){
-    SerializableVector<Object*>::iterator it;
+std::vector<hax::Object*>::iterator hax::Container::findObject(Object* const ob){ //TODO SerializableVector
+    std::vector<Object*>::iterator it; //TODO SerializableVector
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
         if(*it == ob){
             return it;
@@ -91,7 +91,7 @@ hax::SerializableVector<hax::Object*>::iterator hax::Container::findObject(Objec
     return it; //not found, return vec_obj.end()
 }
 hax::Object* hax::Container::getObject(std::string objName){
-    SerializableVector<Object*>::iterator it;
+    std::vector<Object*>::iterator it; //TODO SerializableVector
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
         if((*it)->description() == objName){
             return *it;
@@ -100,7 +100,7 @@ hax::Object* hax::Container::getObject(std::string objName){
     return NULL; //not found, return NULL
 }
 bool hax::Container::hasObject(Object* const ob) const{
-    SerializableVector<Object*>::const_iterator it;
+    std::vector<Object*>::const_iterator it; //TODO SerializableVector
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
         if(*it == ob){
             return true;

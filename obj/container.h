@@ -26,7 +26,7 @@ namespace hax{
 	std::string contents() const;
 	std::map<std::string, Container*> get_subContainers();
         Object* getObject(std::string);
-        SerializableVector<hax::Object*>::iterator findObject(Object* const);
+        std::vector<hax::Object*>::iterator findObject(Object* const); //TODO SerializableVector
         bool hasObject(Object* const) const;
 
 /*
@@ -41,7 +41,7 @@ namespace hax{
 */
 
       protected:
-        SerializableVector<Object*> vec_obj;
+        std::vector<Object*> vec_obj; //TODO SerializableVector
       private:
     };
 
@@ -62,7 +62,7 @@ namespace hax{
 };
 */
 
-    inline Object* getAllocatedObject(std::string objType)
+    /*inline Object* getAllocatedObject(std::string objType)
     {
         if(objType == "backpack")
         {
@@ -71,7 +71,7 @@ namespace hax{
     };
 
     template<>
-        inline void SerializableVector<Object*>::ElementFromString(std::istream& in)
+    inline void std::vector<Object*>::ElementFromString(std::istream& in) //TODO SerializableVector
     {
         std::string objType;
         in >> objType;
@@ -79,7 +79,7 @@ namespace hax{
         in >> *obj;
         content.push_back(obj);
     };
-
+    */
 }
 
 #endif

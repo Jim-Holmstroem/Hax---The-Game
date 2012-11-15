@@ -45,7 +45,7 @@ namespace hax{
 	void spawn();
 	bool kill(std::string);
 
-        SerializableVector<Area*> vec_area; //must be pointer since Area has pure virtual functions
+        std::vector<Area*> vec_area; //TODO SerializableVector //must be pointer since Area has pure virtual functions
 	std::map<std::string, Operation*> opmap;
 	std::vector<bool(Character::*)(void)> randomActions;
 	std::map<std::string, std::string> levelHelp;

@@ -241,7 +241,7 @@ void hax::Character::fight(Character* ch){
     }
 }
 bool hax::Character::fight_random(){
-    const SerializableVector<Character*> charsInArea = curArea->chars();
+    const std::vector<Character*> charsInArea = curArea->chars(); //TODO SerializableVector
     unsigned int totChars = charsInArea.size();
     if(totChars == 1){ //no one to fight
         return false;

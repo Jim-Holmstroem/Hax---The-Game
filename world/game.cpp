@@ -9,6 +9,7 @@
 #include "../area/road.h"
 #include "../ncurses/sprite.h"
 #include "../ncurses/multisprite.h"
+
 #include "../helper.h"
 
 /*
@@ -244,7 +245,7 @@ void hax::newGame(){
             nodelay(stdscr,true);
             commandMode = false;
 
-            myGame->parse( hax::split(input) );
+            myGame->parse( hax::split(input,' ') );
         }
 
     }

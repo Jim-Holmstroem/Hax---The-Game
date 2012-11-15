@@ -37,7 +37,7 @@ hax::Area::~Area(){
 std::string hax::Area::getName() const{
     return name;
 }
-hax::SerializableVector<hax::Character*> hax::Area::chars() const{
+std::vector<hax::Character*> hax::Area::chars() const{ //TODO SerializableVector
     return vec_char;
 }
 hax::Area& hax::Area::neighbor(const Route& ro) const{ //TODO a command look north, return view and "this route leads to Hogwarts."
@@ -58,7 +58,7 @@ std::string hax::Area::description() const{
     oss <<"You are in "<< name <<". "<< descr << std::endl;
 
     std::string curChar;
-    SerializableVector<Character*>::const_iterator it;
+    std::vector<Character*>::const_iterator it; //TODO SerializableVector
     for(it = vec_char.begin(); it != vec_char.end(); it++){
         curChar.append( (*it)->getName() +" the "+ (*it)->getType() +", ");
     }
@@ -99,7 +99,7 @@ bool hax::Area::drop(Object* const ob){
 
 
 hax::Character* hax::Area::getChar(std::string name){
-    SerializableVector<Character*>::iterator it;
+    std::vector<Character*>::iterator it; //TODO SerializableVector
     for(it = vec_char.begin(); it != vec_char.end(); it++){
         if((*it)->getName() == name){ //"it" is a pointer to a Character pointer
             return *it;
@@ -107,8 +107,8 @@ hax::Character* hax::Area::getChar(std::string name){
     }
     return NULL; //not found, return NULL
 }
-hax::SerializableVector<hax::Character*>::iterator hax::Area::findChar(Character* ch){
-    SerializableVector<Character*>::iterator it;
+std::vector<hax::Character*>::iterator hax::Area::findChar(Character* ch){ //TODO SerializableVector
+    std::vector<Character*>::iterator it; //TODO SerializableVector
     for(it = vec_char.begin(); it != vec_char.end(); it++){
         if(*it == ch){ //"it" is a pointer to a Character pointer
             return it;
@@ -117,7 +117,7 @@ hax::SerializableVector<hax::Character*>::iterator hax::Area::findChar(Character
     return it; //not found, return vec_char.end()
 }
 bool hax::Area::hasChar(Character* const ch) const{
-    SerializableVector<Character*>::const_iterator it;
+    std::vector<Character*>::const_iterator it; //TODO SerializableVector
     for(it = vec_char.begin(); it != vec_char.end(); it++){
         if(*it == ch){
             return true;
@@ -128,17 +128,17 @@ bool hax::Area::hasChar(Character* const ch) const{
 hax::Object* hax::Area::getObject(std::string name){
     return gnd->getObject(name);
 }
-hax::SerializableVector<hax::Object*>::iterator hax::Area::findObject(Object* ob){
+std::vector<hax::Object*>::iterator hax::Area::findObject(Object* ob){ //TODO SerializableVector
     return gnd->findObject(ob);
 }
 bool hax::Area::hasObject(Object* const ob) const{
     return gnd->hasObject(ob);
 }
 void hax::Area::ToString(std::ostream& out) const{
-    out << name <<" "<< descr <<" "<< std::endl;
-    out << vec_char << std::endl;
-    out << exits << std::endl;
-    out << gnd << std::endl;
+    //out << name <<" "<< descr <<" "<< std::endl; //TODO SerializableVector
+    //out << vec_char << std::endl;
+    //out << exits << std::endl;
+    //out << gnd << std::endl;
 };
 void hax::Area::FromString(std::istream& in){
 }; //TODO

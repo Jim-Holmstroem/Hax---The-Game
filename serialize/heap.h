@@ -12,6 +12,8 @@
 #include<sstream>
 #include<stdexcept>
 
+#include "../helper.h"
+
 namespace hax
 {
     class Description : public ISerializable
@@ -51,6 +53,12 @@ namespace hax
            return "Description"; 
         };
 
+        virtual void ReLink(const std::map<std::size_t, std::size_t>& converter)
+        {
+            UNUSED(converter);
+            std::cerr << "Heap.ReLink should never be called";
+        };
+
     };
 
     class Heap : public SerializableMap<Description,ISerializable*>
@@ -77,8 +85,15 @@ namespace hax
         {
             return "Heap"; //NOTE, will never be used
         };
+
+        template<typename T>
+        T* allocate<T>()
+        {
+            return new T();
+        };
+
       private:
-        std::map<size_t,ISerializable*> convert;
+        std::map<size_t, ISerializable*> convert;
 
     };
 

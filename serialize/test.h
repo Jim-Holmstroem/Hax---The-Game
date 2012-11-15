@@ -13,7 +13,6 @@
 #include"iserializable.h"
 #include"serializablemap.h"
 #include"serializablevector.h"
-
 #include"serializablestring.h"
 #include"heap.h"
 /*
@@ -81,6 +80,10 @@ class MiniA : public ISerializable
     {
         in >> mini1 >> mini2;
     };
+    virtual void ReLink(const std::map<std::size_t, std::size_t>& converter)
+    {
+    
+    };
 };
 
 
@@ -108,6 +111,10 @@ class A : public ISerializable
     virtual void FromString(std::istream& in)
     {
         in >> var1 >> var2 >> var3 >> minia >> minib;
+    };
+    virtual void ReLink(const std::map<std::size_t, std::size_t>& converter)
+    {
+        
     };
 };
 
@@ -150,6 +157,11 @@ void SerializableVector<A*>::ElementFromString(std::istream& in)
     in >> *elem;
     content.push_back(elem);
 };
+template <>
+void SerializableVector<A*>::ReLink(const std::map<std::size_t, std::size_t>& converter)
+{
+
+};
 
 template <>
 void SerializableMap<SerializableString,A*>::ElementFromString(std::istream& in)
@@ -160,6 +172,11 @@ void SerializableMap<SerializableString,A*>::ElementFromString(std::istream& in)
     value_type elem(keyData, new A());
     in >> *(elem.second);
     content.insert(elem);
+};
+template <>
+void SerializableMap<SerializableString,A*>::ReLink(const std::map<std::size_t, std::size_t>& converter)
+{
+
 };
 
 }

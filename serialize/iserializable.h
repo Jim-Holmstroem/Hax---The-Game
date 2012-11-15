@@ -14,7 +14,7 @@ namespace hax
       protected:
         virtual void ToString(std::ostream& out) const = 0;
         virtual void FromString(std::istream& in) = 0;
-//    virtual void ReLink(std::map<std::size_t,std::size_t>& converter) = 0;
+        virtual void ReLink(const std::map<std::size_t, std::size_t>& converter) = 0;
 
       public:
         virtual std::string getType() const = 0;

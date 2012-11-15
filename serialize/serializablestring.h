@@ -1,5 +1,7 @@
 #include"iserializable.h"
 #include<string>
+#include<iostream>
+#include<map>
 
 namespace hax{
 
@@ -26,6 +28,10 @@ namespace hax{
         };
         virtual void FromString(std::istream& in){
             in >> _str;
+        };
+        virtual void ReLink(const std::map<std::size_t, std::size_t>& converter)
+        {
+            std::cerr << "SerializableString.ReLink should never be called";
         };
 
       private:

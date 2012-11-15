@@ -90,10 +90,6 @@ int main(){
     SerializableMap<SerializableString,A*> smPtrNew;
     filetest(smPtrRef, smPtrNew);
 
-
-
-
-
     std::stringstream ss (std::stringstream::in|std::stringstream::out);
     void * vp = new B();
     ss << vp;

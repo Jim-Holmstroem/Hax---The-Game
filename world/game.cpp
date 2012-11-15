@@ -40,18 +40,18 @@ int main(int argc, const char* argv[]){
 
     int opt = 0;
 
-    while((opt = hax::welcome_menu())!=4){
+    while((opt = hax::welcome_menu())!=4){ //While not quit
         switch(opt){
-            case 0:
+            case 0: //New Game
                 hax::newGame();
                 break;
-            case 1:
+            case 1: //Load Game
                 mvprintw(LINES-4,0,"not supported yet");
                 break;
-            case 2:
+            case 2: //Options
                 mvprintw(LINES-3,0,"not supported yet");
                 break;
-            case 3:
+            case 3: //Credz
                 hax::credits();
                 break;
             default:

@@ -4,7 +4,8 @@
 #include<cstring>
 #include<vector>
 
-#define UNUSED(x) (void)(sizeof((x), 0))
+//can have problem with violate variables, luckely we don't use them :)
+#define UNUSED(x) (void)(x)
 
 namespace hax{
 

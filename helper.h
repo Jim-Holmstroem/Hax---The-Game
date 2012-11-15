@@ -9,20 +9,20 @@
 #define UNUSED(x) (void)(x)
 
 namespace hax{
+//http://stackoverflow.com/questions/236129/how-to-split-a-string-in-c
+std::vector<std::string> split(const std::string& s, char delim){
+    std::vector<std::string> elems;
+    std::stringstream ss(s);
+    std::string item;
 
-std::vector<std::string> split(std::string input){
-    std::vector<std::string> words;
+    while(std::getline(ss, item, delim)){
+        elems.push_back(item);
+    }
 
-    std::istringstream iss(input);
-    do{
-        std::string word;
-        iss >> word; //read a word
-        words.push_back(word); //add the word to words
-    }while(iss);//while not empty
-
-    words.pop_back(); //delete the ENTER that followed to input
-
-    return words;
+    return elems;
+};
+inline std::vector<std::string> split(const std::string& s){
+    return split(s, ' '); 
 };
 
 }

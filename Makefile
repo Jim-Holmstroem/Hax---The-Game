@@ -10,7 +10,12 @@ PRGM = hax
 VPATH = world:ch:area:obj:ncurses
 
 # built-in variable for g++ compiler flags
-CXXFLAGS = -g -Wall -Wextra
+CXXFLAGS = -g -Wall -Wextra -Wno-missing-field-initializers -Wno-write-strings
+# The supresed warnings:
+# 	missing-field-initializers - strct = {0} actually zeroes the struct
+# 	write-strings - method("string") shouldn't be any problems.
+
+
 LFLAGS = -lncurses -lmenu
 
 all:

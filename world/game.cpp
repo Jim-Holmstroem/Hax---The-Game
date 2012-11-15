@@ -9,6 +9,7 @@
 #include "../area/road.h"
 #include "../ncurses/sprite.h"
 #include "../ncurses/multisprite.h"
+#include "../helper.h"
 
 /*
 *   Loads a char * filename into namespace img
@@ -68,21 +69,6 @@ int main(int argc, const char* argv[]){
 
 void hax::options(){
 
-};
-
-std::vector<std::string> hax::split(std::string input){
-    std::vector<std::string> words;
-
-    std::istringstream iss(input);
-    do{
-        std::string word;
-        iss >> word; //read a word
-        words.push_back(word); //add the word to words
-    }while(iss);//while not empty
-
-    words.pop_back(); //delete the ENTER that followed to input
-
-    return words;
 };
 
 hax::Level* hax::initNewGame(){ //use auto pointer?

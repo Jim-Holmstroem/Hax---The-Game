@@ -19,7 +19,7 @@ CXXFLAGS = -g -Wall -Wextra -Wno-missing-field-initializers -Wno-write-strings
 LFLAGS = -lncurses -lmenu
 
 all:
-	make -j -s $(PRGM)
+	make -j -s $(PRGM) #j=multithreading, s=noecho
 
 $(PRGM): $(OBJ) Makefile
 	$(CXX) $(OBJ) $(LFLAGS) -o $(PRGM)

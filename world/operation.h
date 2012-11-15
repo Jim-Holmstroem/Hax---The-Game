@@ -1,7 +1,10 @@
 #ifndef OPERATION_H
 #define OPERATION_H
+
 #include<sstream>
 #include<vector>
+
+#include "../helper.h"
 
 namespace hax{
     class Level;
@@ -38,6 +41,8 @@ namespace hax{
             this->op = op;
         };
         virtual void call(const std::string arg, Character* curChar, Level* curLevel){
+            UNUSED(arg);
+            UNUSED(curChar);
             (curLevel->*op)();
         };
     };
@@ -50,6 +55,7 @@ namespace hax{
             this->op = op;
         };
         void call(const std::string arg, Character* curChar, Level* curLevel){
+            UNUSED(curChar);
             if(arg == ""){
                 std::cout <<"Specify a target"<< std::endl;
             }else{
@@ -72,6 +78,8 @@ namespace hax{
             this->op = op;
         };
         void call(const std::string arg, Character* curChar, Level* curLevel){
+            UNUSED(arg);
+            UNUSED(curLevel);
             if(curChar != NULL){
                 (curChar->*op)();
             }else{
@@ -87,6 +95,8 @@ namespace hax{
             this->op = op;
         };
         void call(const std::string arg, Character* curChar, Level* curLevel){
+            UNUSED(arg);
+            UNUSED(curLevel);
             if(curChar != NULL){
                 (curChar->*op)();
             }else{
@@ -102,6 +112,8 @@ namespace hax{
             this->op = op;
         };
         void call(const std::string arg, Character* curChar, Level* curLevel){
+            UNUSED(arg);
+            UNUSED(curLevel);
             if(curChar != NULL){
                 (curChar->*op)();
             }else{
@@ -117,6 +129,7 @@ namespace hax{
             this->op = op;
         };
         void call(const std::string arg, Character* curChar, Level* curLevel){
+            UNUSED(curLevel);
             if(curChar != NULL){
                 if(arg == ""){
                     std::cout <<"Specify a target"<< std::endl;
@@ -136,6 +149,7 @@ namespace hax{
             this->op = op;
         };
         void call(const std::string arg, Character* curChar, Level* curLevel){
+            UNUSED(curLevel);
             if(curChar != NULL){
                 std::vector<std::string> words = split(arg,'|');
                 for(size_t i=0; i<words.size(); i++){

@@ -5,7 +5,6 @@
 #include<map>
 #include "operation.h"
 #include "../serialize/serializablevector.h"
-#include "../serialize/areaHeap.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif

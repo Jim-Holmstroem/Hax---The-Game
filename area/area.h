@@ -7,8 +7,6 @@
 #include "../serialize/serializablevector.h"
 #include "../serialize/serializablemap.h"
 #include "../serialize/serializablestring.h"
-#include "../serialize/characterHeap.h"
-#include "../serialize/routeHeap.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif

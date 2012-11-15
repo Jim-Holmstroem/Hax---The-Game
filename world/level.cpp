@@ -4,7 +4,6 @@
 #include "../area/area.h"
 #include "../ch/character.h"
 #include "../obj/container.h"
-#include "../serialize/characterHeap.h"
 /*#include<algorithm>
   #include<functional>*/
 

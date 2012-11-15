@@ -18,18 +18,20 @@
 #include "../ncurses/cat1.asciiart"
 
 void msleep(unsigned long milisec){
-    struct timespec req={0};
-    time_t sec=(int)(milisec/1000);
-    milisec=milisec-(sec*1000);
+    struct timespec req = { 0 };
+    time_t sec = (int)(milisec/1000);
+    milisec = milisec - (sec*1000);
     req.tv_sec = sec;
-    req.tv_nsec=milisec*1000000L;
-    while(nanosleep(&req,&req)==-1){
+    req.tv_nsec = milisec*1000000L;
+    while( nanosleep( &req, &req ) == -1 ){
         continue;
     }
     return;
 };
 
 int main(int argc, const char* argv[]){
+    UNUSED(argc);
+    UNUSED(argv);
 
     initscr();
     cbreak();
@@ -148,12 +150,12 @@ void hax::newGame(){
 
     hax::log.write("Type help for a list of available commands. Pay attention to case sensitivity!");
 
-    clock_t timer;
+    //clock_t timer;
     while(true){;
 
         if(!commandMode){
 
-            timer = clock();
+            //timer = clock();
             c = getch();
 
             s.drawClear();

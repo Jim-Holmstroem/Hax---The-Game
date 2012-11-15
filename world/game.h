@@ -35,7 +35,6 @@ namespace hax{
     
     void newGame();
     void loadGame();
-    Level* initNewGame(); //TODO this should take place in Level..
     void options();
     void credits();
 

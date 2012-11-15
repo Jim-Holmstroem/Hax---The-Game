@@ -1,9 +1,9 @@
 #include<cstdio>
 #include<cstdlib>
 #include "level.h"
-#include "../area/area.h"
-#include "../ch/character.h"
-#include "../obj/container.h"
+#include "../area/all.h"
+#include "../ch/all.h"
+#include "../obj/all.h"
 /*#include<algorithm>
   #include<functional>*/
 
@@ -55,7 +55,48 @@ hax::Level::Level(){
     charHelp["ls"] = "Show objects in current container";
     charHelp["cd"] = "Change curent container: cd <container>, cd # to return home";
     charHelp["mv"] = "Move object from somewhere to somewhere: mv <object><source><destination>";
+
 }
+
+void hax::Level::init(){
+    Area* borg = new Castle("Hogwarts");
+    Area* kth = new School("KTH");
+    Area* skog = new Forest("FoReSt Of DoOm");
+
+    Character* albus = new Wizard("Albus");
+    Character* voldy = new Wizard("Voldy");
+    Character* conan = new Barbarian("Conan");
+    Character* snape = new Wizard("Snape");
+    Character* necro = new Necromancer("Sauron");
+
+    Key* nyckel = new Key();
+
+    //build level
+    add(borg);
+    add(kth);
+    add(skog);
+    add(albus);
+    add(voldy);
+    add(conan);
+    add(necro);
+    borg->addRoute(new Road("north", borg, kth));
+    borg->addRoute(new Road("west", borg, skog));
+    kth->addRoute(new Road("south", kth, borg));
+    kth->addRoute(new Door("southwest", kth, skog, nyckel));
+    skog->addRoute(new Road("east", skog, borg, new Tree()));
+    skog->addRoute(new Road("northeast", skog, kth, snape));
+
+    //add Character to Area
+    borg->enter(albus);
+    borg->enter(necro);
+    kth->enter(conan);
+    kth->enter(voldy);
+
+    //add Object to Area
+    kth->pick_up(nyckel);
+
+}
+
 hax::Level::~Level(){
     std::cout<<"~Level: deleting Level..."<<std::endl;
 //    std::for_each(vec_area.begin(), vec_area.end(), std::mem_fun(&Level::delete));

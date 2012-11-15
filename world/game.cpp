@@ -71,55 +71,11 @@ int main(int argc, const char* argv[]){
 }; //end of main
 
 void hax::options(){
-
-};
-
-hax::Level* hax::initNewGame(){ //use auto pointer?
-    //create objects
-    Level* test = new Level();
-    Area* borg = new Castle("Hogwarts");
-    Area* kth = new School("KTH");
-    Area* skog = new Forest("FoReSt Of DoOm");
-
-    Character* albus = new Wizard("Albus");
-    Character* voldy = new Wizard("Voldy");
-    Character* conan = new Barbarian("Conan");
-    Character* snape = new Wizard("Snape");
-    Character* necro = new Necromancer("Sauron");
-
-    Key* nyckel = new Key();
-
-    //build level
-    test->add(borg);
-    test->add(kth);
-    test->add(skog);
-    test->add(albus);
-    test->add(voldy);
-    test->add(conan);
-    test->add(necro);
-    borg->addRoute(new Road("north", borg, kth));
-    borg->addRoute(new Road("west", borg, skog));
-    kth->addRoute(new Road("south", kth, borg));
-    kth->addRoute(new Door("southwest", kth, skog, nyckel));
-    skog->addRoute(new Road("east", skog, borg, new Tree()));
-    skog->addRoute(new Road("northeast", skog, kth, snape));
-
-    //add Character to Area
-    borg->enter(albus);
-    borg->enter(necro);
-    kth->enter(conan);
-    kth->enter(voldy);
-
-    //add Object to Area
-    kth->pick_up(nyckel);
-
-    //add Object to Character
-
-    return test;
+    //TODO
 };
 
 void hax::newGame(){
-    std::auto_ptr<Level> myGame( initNewGame() ); //I want a fixed pointer that cannot change to another object but can manipulate its object!!!!!
+    std::auto_ptr<Level> myGame( new Level() ); //I want a fixed pointer that cannot change to another object but can manipulate its object!!!!!
 //    std::for_each(myGame->allChars().begin(), myGame->allChars().end(), std::mem_fun(&Character::action)); //REMEMBER very bad to use iterator on two copies of same vector
 
     int c = 0;

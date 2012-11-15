@@ -30,8 +30,6 @@ void msleep(unsigned long milisec){
 
 int main(int argc, const char* argv[]){
 
-    //DEBUGGING
-
     initscr();
     cbreak();
     curs_set(0);

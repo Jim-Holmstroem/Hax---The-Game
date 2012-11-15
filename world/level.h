@@ -22,8 +22,6 @@ namespace hax{
     class Level : public ISerializable{
       public:
         Level();
-        Level(int); //specify number of areas
-//        Level(const Level&);
         ~Level();
 
         void add(Area*);

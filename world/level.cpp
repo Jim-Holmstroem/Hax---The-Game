@@ -56,14 +56,6 @@ hax::Level::Level(){
     charHelp["cd"] = "Change curent container: cd <container>, cd # to return home";
     charHelp["mv"] = "Move object from somewhere to somewhere: mv <object><source><destination>";
 }
-hax::Level::Level(int n){
-    Area* alist[] = {}; //fill with indoor and outdoor objects
-    for(int i=0; i<n; i++){
-        vec_area.push_back(alist[i]);
-    }
-}
-/*hax::Level::Level(const Level& le){
-  }*/
 hax::Level::~Level(){
     std::cout<<"~Level: deleting Level..."<<std::endl;
 //    std::for_each(vec_area.begin(), vec_area.end(), std::mem_fun(&Level::delete));

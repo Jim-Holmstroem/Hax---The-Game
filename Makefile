@@ -1,4 +1,4 @@
-MOD = game level area indoor outdoor route road character hero human undead object container obstacle coin logger sprite multisprite helper
+MOD = helper game level area indoor outdoor route road character hero human undead object container obstacle coin logger sprite multisprite 
 
 SRC = $(MOD:=.cpp)
 HDR = $(MOD:=.h)
@@ -24,8 +24,8 @@ all:
 $(PRGM): $(OBJ) Makefile
 	$(CXX) $(OBJ) $(LFLAGS) -o $(PRGM)
 
-game.o: game.cpp game.h Makefile
-level.o: level.cpp level.h Makefile
+#game.o: game.cpp game.h Makefile
+#level.o: level.cpp level.h Makefile
 
 clean:
 	rm -f $(OBJ) $(PRGM)

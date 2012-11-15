@@ -1,7 +1,7 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-#include<cstring>
+#include<string>
 #include<vector>
 
 //can have problem with violate variables, luckely we don't use them :)

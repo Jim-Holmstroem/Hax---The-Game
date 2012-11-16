@@ -268,7 +268,10 @@ template < class T >
   public:
     virtual std::string getType() const
     {
-        return "SerializableVector<"+value_type()->getType()+"*>";
+        T* obj = new T();
+        std::string type = obj->getType();
+        delete obj;
+        return "SerializableVector<"+type+"*>";
     };
 
 };

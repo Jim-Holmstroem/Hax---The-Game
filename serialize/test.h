@@ -147,38 +147,6 @@ class B : public A
     };
 };
 
-//NOTE if the specialized member function is placed directly in serializationvector.h it needs to be inlined (workaround), otherwise error multiple def
-//REF http://www.daniweb.com/software-development/cpp/threads/179430/linking-together-templated-classes-with-specialized-member-functions
-template <>
-void SerializableVector<A*>::ElementFromString(std::istream& in)
-{
-    std::cout << "using specialized SerializableVector<A*>::ElementFromString..." << std::endl;
-    A* elem = new A();
-    in >> *elem;
-    content.push_back(elem);
-};
-template <>
-void SerializableVector<A*>::ReLink(const std::map<std::size_t, std::size_t>& converter)
-{
-
-};
-
-template <>
-void SerializableMap<SerializableString,A*>::ElementFromString(std::istream& in)
-{
-    std::cout << "using specialized SerializableMap<SerializableString,A*>::ElementFromString..." << std::endl;
-    key_type keyData;
-    in >> keyData;
-    value_type elem(keyData, new A());
-    in >> *(elem.second);
-    content.insert(elem);
-};
-template <>
-void SerializableMap<SerializableString,A*>::ReLink(const std::map<std::size_t, std::size_t>& converter)
-{
-
-};
-
 }
 
 #endif

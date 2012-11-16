@@ -260,8 +260,20 @@ template < class Key, class T>
         out << elem.first << ' ' << *(elem.second) << ' ';
     };
 
-    //not defined here so that it can be specialized elsewhere when needed
-    void ElementFromString(std::istream& in);
+    virtual void ElementFromString(std::istream& in)
+    {
+        key_type keyData;
+        in >> keyData;
+        value_type elem(keyData, new T());
+        in >> *(elem.second);
+        content.insert(elem);
+       //TODO 
+    };
+
+    virtual void ReLink(const std::map<std::size_t, std::size_t>& converter)
+    {
+        //TODO
+    };
 
     virtual void ToString(std::ostream& out) const
     {
@@ -289,17 +301,6 @@ template < class Key, class T>
         return "SerializableMap<"+key_type().getType()+","+mapped_type()->getType()+"*>";
     };
 };
-
-template <class Key, class T>
-void SerializableMap<Key,T*>::ElementFromString(std::istream& in)
-{
-    key_type keyData;
-    in >> keyData;
-    value_type elem(keyData, new T());
-    in >> *(elem.second);
-    content.insert(elem);
-};
-
 
 }
 

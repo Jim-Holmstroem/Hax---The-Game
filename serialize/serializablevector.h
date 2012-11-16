@@ -148,8 +148,6 @@ template < class T,
 
 };
 
-
-
 /**********************************************************
 Template partial specialization for a vector with pointers
 **********************************************************/
@@ -245,8 +243,19 @@ template < class T >
         out << *elem << ' ';
     };
 
-    //not defined here so that it can be specialized elsewhere when needed
-    void ElementFromString(std::istream& in);
+    virtual void ElementFromString(std::istream& in)
+    {
+     std::cout << "using partial specialized SerializableVector<T*>::ElementFromString..." << std::endl;
+    T* elem = new T();
+    in >> *elem;
+    content.push_back(elem);
+   //TODO 
+    };
+    
+    virtual void ReLink(const std::map<std::size_t, std::size_t>& converter)
+    {
+        //TODO
+    };
 
     virtual void ToString(std::ostream& out) const
     {
@@ -276,18 +285,6 @@ template < class T >
     };
 
 };
-
-
-template <class T>
-void SerializableVector<T*>::ElementFromString(std::istream& in)
-{
-    std::cout << "using partial specialized SerializableVector<T*>::ElementFromString..." << std::endl;
-    T* elem = new T();
-    in >> *elem;
-    content.push_back(elem);
-};
-
-
 
 }
 #endif

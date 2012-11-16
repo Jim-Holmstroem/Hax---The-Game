@@ -49,7 +49,7 @@ int main(){
     filetest(*ba,b_cp);
     delete ba;
 
-    SerializableVector<A> svRef0;
+/*    SerializableVector<A> svRef0;
     SerializableVector<A> svNew0;
     filetest(svRef0, svNew0);
 
@@ -60,16 +60,7 @@ int main(){
     SerializableMap<SerializableString,A> smRef0;
     SerializableMap<SerializableString,A> smNew0;
     filetest(smRef0, smNew0);
-
-    SerializableMap<SerializableString,A*> smPtrRef0;
-    SerializableMap<SerializableString,A*> smPtrNew0;
-    filetest(smPtrRef0, smPtrNew0);
-
-    SerializableVector<A> svRef;
-    svRef.push_back(A());
-    svRef.push_back(A());
-    SerializableVector<A> svNew;
-    filetest(svRef, svNew);
+*/
 
     SerializableVector<A*> svPtrRef;
     svPtrRef.push_back(new A());
@@ -77,12 +68,24 @@ int main(){
     SerializableVector<A*> svPtrNew;
     filetest(svPtrRef, svPtrNew);
 
+    
+    SerializableMap<SerializableString,A*> smPtrRef0;
+    SerializableMap<SerializableString,A*> smPtrNew0;
+    filetest(smPtrRef0, smPtrNew0);
+/*
+    SerializableVector<A> svRef;
+    svRef.push_back(A());
+    svRef.push_back(A());
+    SerializableVector<A> svNew;
+    filetest(svRef, svNew);
+*/
+/*
     SerializableMap<SerializableString,A> smRef;
     smRef["1st"] = A();
     smRef["2nd"] = A();
     SerializableMap<SerializableString,A> smNew;
     filetest(smRef, smNew);
-
+*/
     SerializableMap<SerializableString,A*> smPtrRef;
     smPtrRef["1st"] = new A();
     smPtrRef.insert(std::pair<SerializableString,A*>("2nd",new A()));

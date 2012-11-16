@@ -87,10 +87,16 @@ namespace hax
         };
 
         template<typename T>
-        T* allocate<T>()
+        T* allocate()
         {
             return new T();
         };
+        template<typename T>
+        void deallocate(T* t)
+        {
+            delete t; 
+        };
+        
 
       private:
         std::map<size_t, ISerializable*> convert;

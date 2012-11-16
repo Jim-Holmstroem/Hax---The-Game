@@ -20,8 +20,6 @@ int main(int argc, const char* argv[]);
 
 namespace hax{
     class Level; //forward declaration
-    std::vector<std::string>& split(const std::string&, char, std::vector<std::string>&);
-    std::vector<std::string> split(const std::string, char);
     Level* initNewGame();
 }
 #endif

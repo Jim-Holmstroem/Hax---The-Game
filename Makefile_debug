@@ -1,4 +1,4 @@
-MOD = game_debug level area indoor outdoor route road character hero human undead object container obstacle coin
+MOD = helper game_debug level area indoor outdoor route road character hero human undead object container obstacle coin
 
 SRC = $(MOD:=.cpp)
 HDR = $(MOD:=.h)

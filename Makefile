@@ -1,4 +1,4 @@
-MOD = game level area indoor outdoor route road character hero human undead object container obstacle coin logger sprite multisprite
+MOD = helper game level area indoor outdoor route road character hero human undead object container obstacle coin logger sprite multisprite
 
 SRC = $(MOD:=.cpp)
 HDR = $(MOD:=.h)

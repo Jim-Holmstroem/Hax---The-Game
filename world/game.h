@@ -29,7 +29,6 @@ namespace hax{
     extern Logger log;
 
     class Level; //forward declaration
-    std::vector<std::string> split(std::string);
     bool commandMode;
 
     int welcome_menu(); //displays the start menu returns the index of the item clicked(enter)

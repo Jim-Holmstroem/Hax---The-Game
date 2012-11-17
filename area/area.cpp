@@ -95,9 +95,18 @@ bool hax::Area::pick_up(Object* const ob){
 bool hax::Area::drop(Object* const ob){
     return gnd->remove(ob);
 }
-
-
-
+bool hax::Area::rest(Character* latmask){
+    std::ostringstream oss;
+    oss << latmask->getName()+" rests in "+name+"." << std::endl;
+#ifdef DEBUG
+    std::cout << oss.str();
+#else
+    hax::log.write(oss.str());
+#endif
+}
+hax::Character* hax::Area::spawn(){
+    return NULL; //TODO
+}
 hax::Character* hax::Area::getChar(std::string name){
     SerializableVector<Character*>::iterator it;
     for(it = vec_char.begin(); it != vec_char.end(); it++){
@@ -139,11 +148,12 @@ void hax::Area::ToString(std::ostream& out) const{
     out << vec_char << std::endl;
     out << exits << std::endl;
     out << gnd << std::endl;
-};
+}
 void hax::Area::FromString(std::istream& in){
-}; //TODO
-
-
+} //TODO
+std::string hax::Area::getType() const{
+    return "area";
+}
 
 hax::Area::Ground::Ground() : Container(){
     name = "ground";

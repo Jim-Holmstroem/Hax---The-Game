@@ -1,27 +1,34 @@
 #include<cstdio>
 #include<cstdlib>
+#include<fstream>
 #include "level.h"
 #include "../area/area.h"
 #include "../ch/character.h"
 #include "../obj/container.h"
-#include "../serialize/characterHeap.h"
+#include "../serialize/simpleHeap.h"
 /*#include<algorithm>
   #include<functional>*/
 
-hax::Level::Level(){
+hax::Level::Level()
+{
     curChar = NULL;
 
     randomActions.push_back(&Character::go_random);
     randomActions.push_back(&Character::fight_random);
     randomActions.push_back(&Character::rest);
 
+    /*Global commands*/
+    opmap["save"] = new LevelOpBool1String(&Level::save);
+    opmap["load"] = new LevelOpBool1String(&Level::load);
+    /*Level specific commands*/
+    opmap["focus"] = new LevelOpBool1String(&Level::focus);
+    opmap["kill"] = new LevelOpBool1String(&Level::kill);
     opmap["help"] = new LevelOpVoid(&Level::help);
     opmap["info"] = new LevelOpVoid(&Level::info);
-    opmap["focus"] = new LevelOpBool1String(&Level::focus);
     opmap["spawn"] = new LevelOpVoid(&Level::spawn);
-    opmap["kill"] = new LevelOpBool1String(&Level::kill);
     opmap["action"] = new LevelOpVoid(&Level::action);
     opmap["a"] = new LevelOpVoid(&Level::action); //TODO remove later, only for easy testing
+    /*Character specific commands*/
     opmap["go"] = new CharOpBool1String(&Character::go);
     opmap["fight"] = new CharOpBool1String(&Character::fight);
     opmap["rest"] = new CharOpBoolVoid(&Character::rest);
@@ -37,11 +44,11 @@ hax::Level::Level(){
     opmap["mv"] = new CharOpBool3String(&Character::move_obj);
 
     //the keys will be printed in alphabetical order when iterated
+    levelHelp["focus"] = "Select a character to perform actions: focus <character>";
+    levelHelp["kill"] = "Kill a character: kill <character>";
     levelHelp["help"] = "Show a list of available commands";
     levelHelp["info"] = "Show current status of this level";
-    levelHelp["focus"] = "Select a character to perform actions: focus <character>";
     levelHelp["spawn"] = "Spawn a random character";
-    levelHelp["kill"] = "Kill a character: kill <character>";
     levelHelp["action"] ="Each character performs a random action";
     charHelp["go"] = "Go to another area: go <direction>";
     charHelp["fight"] = "Fight another character to the death: fight <character>";
@@ -57,7 +64,8 @@ hax::Level::Level(){
     charHelp["cd"] = "Change curent container: cd <container>, cd # to return home";
     charHelp["mv"] = "Move object from somewhere to somewhere: mv <object><source><destination>";
 }
-hax::Level::Level(int n){
+hax::Level::Level(int n)
+{
     Area* alist[] = {}; //fill with indoor and outdoor objects
     for(int i=0; i<n; i++){
         vec_area.push_back(alist[i]);
@@ -65,12 +73,11 @@ hax::Level::Level(int n){
 }
 /*hax::Level::Level(const Level& le){
   }*/
-hax::Level::~Level(){
+hax::Level::~Level()
+{
     std::cout<<"~Level: deleting Level..."<<std::endl;
 //    std::for_each(vec_area.begin(), vec_area.end(), std::mem_fun(&Level::delete));
-    for(size_t i=0; i<vec_area.size(); i++){
-        delete vec_area[i];
-    }
+    deleteAreas();
     std::map<std::string, Operation*>::iterator it = opmap.begin();
     while(it != opmap.end()){
         delete it->second;
@@ -79,10 +86,12 @@ hax::Level::~Level(){
     std::cout<<"Level deleted"<<std::endl;
 }
 
-void hax::Level::add(Area* ar){
+void hax::Level::add(Area* ar)
+{
     vec_area.push_back(ar);
 }
-void hax::Level::add(Character* ch){
+void hax::Level::add(Character* ch)
+{
     std::pair< std::map<std::string,Character*>::iterator, bool > ret;
     ret = players.insert( std::pair<std::string,Character*>(ch->getName(),ch) ); //will automatically check for key collisions
     if(ret.second == false){
@@ -95,7 +104,8 @@ void hax::Level::add(Character* ch){
         }
     }
 }
-void hax::Level::parse(const std::vector<std::string> words){
+void hax::Level::parse(const std::vector<std::string> words)
+{
     Character* myChar;
     std::string op = "";
     size_t pos = 0;
@@ -157,14 +167,17 @@ void hax::Level::parse(const std::vector<std::string> words){
 
     }
 }
-void hax::Level::ToString(std::ostream& out) const{
-}; //TODO
-void hax::Level::FromString(std::istream& in){
-}; //TODO
-std::string hax::Level::getType() const{
-    return "level";
+void hax::Level::ToString(std::ostream& out) const
+{
+    out << vec_area;
+//    out<< curChar << curCharName; //not important
 }
-void hax::Level::updatePlayers(){
+void hax::Level::FromString(std::istream& in)
+{
+} //TODO
+std::string hax::Level::getType() const{return "level";}
+void hax::Level::updatePlayers()
+{
     for(size_t i=0; i<vec_area.size(); i++){
         const SerializableVector<Character*> charsInArea = vec_area[i]->chars();
 
@@ -181,7 +194,8 @@ void hax::Level::updatePlayers(){
         curChar = NULL;
     }
 }
-void hax::Level::action(){
+void hax::Level::action()
+{
     std::map<std::string, Character*>::iterator it = players.begin();
     while(it != players.end()){
         Character* ch = it->second;
@@ -194,7 +208,8 @@ void hax::Level::action(){
         it++;
     }
 }
-bool hax::Level::focus(std::string selectChar){ //select a Character for executing character specific commands, no need to input name each time
+bool hax::Level::focus(std::string selectChar) //select a Character for executing character specific commands, no need to input name each time
+{
     if(players.find(selectChar) != players.end()){
         curChar = players[selectChar];
         curCharName = selectChar;
@@ -204,7 +219,8 @@ bool hax::Level::focus(std::string selectChar){ //select a Character for executi
         return false;
     }
 }
-void hax::Level::info(){
+void hax::Level::info()
+{
     std::cout << "Total number of areas: " << vec_area.size() << std::endl;
     std::cout << "Total number of characters: " << players.size() << std::endl;
     std::string tmp;
@@ -216,25 +232,37 @@ void hax::Level::info(){
     }
     std::cout << tmp << std::endl;
 }
-void hax::Level::help(){
-    std::cout << "**Global commands**" << std::endl;
-    std::cout << "quit - Quit this level" << std::endl; //TODO new, save, load
+void hax::Level::help()
+{
+    std::ostringstream oss;
+    oss << "**Global commands**" << std::endl;
+    oss << "quit - Quit this level" << std::endl;
+    oss << "save <filename> - Save level" << std::endl;
+    oss << "load <filename> - Load level" << std::endl;
+    //TODO new game
 
-    std::cout << std::endl << "**Level specific commands**" << std::endl;
+    oss << std::endl << "**Level specific commands**" << std::endl;
     std::map<std::string,std::string>::const_iterator it = levelHelp.begin();
     while(it != levelHelp.end()){
-        std::cout << it->first << " - " << it->second << std::endl;
+        oss << it->first << " - " << it->second << std::endl;
         it++;
     }
-    std::cout << std::endl << "**Character specific commands**" << std::endl;
-    std::cout << "These commands can be executed by either entering \"<character> <command> <argument>\", or first focusing a character and then omitting the character name, i.e. \"focus <character>\" and then \"<command> <argument>\"." << std::endl << std::endl;
+    oss << std::endl << "**Character specific commands**" << std::endl;
+    oss << "These commands can be executed by either entering \"<character> <command> <argument>\", or first focusing a character and then omitting the character name, i.e. \"focus <character>\" and then \"<command> <argument>\"." << std::endl << std::endl;
     it = charHelp.begin();
     while(it != charHelp.end()){
-        std::cout << it->first << " - " << it->second << std::endl;
+        oss << it->first << " - " << it->second << std::endl;
         it++;
     }
+
+#ifdef DEBUG
+    std::cout << oss.str();
+#else
+    hax::log.write(oss.str());
+#endif
 }
-void hax::Level::spawn(){
+void hax::Level::spawn()
+{
 //TODO get random pointer from vec_area
     Area* spawnLocation = vec_area[0];
     Character* spawnedPlayer = spawnLocation->spawn();
@@ -242,7 +270,8 @@ void hax::Level::spawn(){
         add(spawnedPlayer);
     }
 }
-bool hax::Level::kill(std::string name){
+bool hax::Level::kill(std::string name)
+{
     if(players.find(name) != players.end()){
         if(curChar != NULL && curChar->getName() == name){
             curChar = NULL;
@@ -254,5 +283,26 @@ bool hax::Level::kill(std::string name){
     }else{
         std::cout << "This character does not exist!" << std::endl;
         return false;
+    }
+}
+bool hax::Level::save(std::string filename)
+{
+    std::ofstream outFile(("saved/"+filename+".dat").c_str());
+    outFile << *this;
+    outFile.close();
+}
+bool hax::Level::load(std::string filename)
+{
+    deleteAreas();
+    std::cout << "Current objects deleted. Starting to load from "+filename+"..." << std::endl;
+
+    std::ifstream inFile(("saved/"+filename+".dat").c_str());
+    inFile >> *this;
+    inFile.close();
+}
+void hax::Level::deleteAreas()
+{
+    for(size_t i=0; i<vec_area.size(); i++){
+        delete vec_area[i];
     }
 }

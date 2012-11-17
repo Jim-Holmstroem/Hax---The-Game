@@ -281,10 +281,7 @@ template < class Key, class T>
   public:
     virtual std::string getType() const
     {
-        T* mappedObj = new T();
-        std::string mappedObjType = mappedObj->getType();
-        delete mappedObj;
-        return "SerializableMap<"+key_type().getType()+","+mappedObjType+"*>";
+        return "SerializableMap<"+key_type().getType()+","+T().getType()+"*>";
     };
 };
 

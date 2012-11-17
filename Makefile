@@ -1,4 +1,4 @@
-MOD = helper game level area indoor outdoor route road character hero human undead object container obstacle coin logger sprite multisprite
+MOD = helper game level area indoor outdoor route road character human undead object container obstacle coin logger sprite multisprite simpleHeap
 
 SRC = $(MOD:=.cpp)
 HDR = $(MOD:=.h)
@@ -7,7 +7,7 @@ OBJ = $(MOD:=.o)
 PRGM = hax
 
 #built-in variable for directory search
-VPATH = world:ch:area:obj:ncurses
+VPATH = world:ch:area:obj:serialize:ncurses
 
 # built-in variable for g++ compiler flags
 CXXFLAGS = -g -Wall -Wextra

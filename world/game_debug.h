@@ -6,7 +6,7 @@
 #include<unistd.h> //for sleep(int)
 #include<ctime>
 #include<csignal>
-#include<cstring>
+#include<string>
 #include<iostream>
 #include<fstream>
 #include<sstream>

@@ -1,11 +1,12 @@
 #include "container.h"
+#include "../serialize/simpleHeap.h"
 
-hax::Container::Container(){
-}
+hax::Container::Container(){}
 /*hax::Container::Container(const Container& co) : Object(co){
   vec_obj = co.vec_obj;
   }*/
-hax::Container::~Container(){
+hax::Container::~Container()
+{
     std::cout << "~Container: emptying " << description() << "..." << std::endl;
     for(size_t i=0; i<vec_obj.size(); i++){
         delete vec_obj[i];
@@ -13,11 +14,11 @@ hax::Container::~Container(){
     vec_obj.clear();
 }
 
-hax::Object* hax::Container::operator[](size_t i){ //TODO const version?
-    return vec_obj[i];
-}
+//TODO const version?
+hax::Object* hax::Container::operator[](size_t i){return vec_obj[i];}
 
-bool hax::Container::add(Object* const ob){
+bool hax::Container::add(Object* const ob)
+{
     if(weight+ob->getWeight() > hold_weight() || volume+ob->getVolume() > hold_volume()){
         return false;
     }else{
@@ -28,7 +29,8 @@ bool hax::Container::add(Object* const ob){
         return true;
     }
 }
-bool hax::Container::remove(Object* const ob){
+bool hax::Container::remove(Object* const ob)
+{
     if( findObject(ob) != vec_obj.end() ){
         vec_obj.erase(findObject(ob));
         weight -= ob->getWeight();
@@ -39,13 +41,10 @@ bool hax::Container::remove(Object* const ob){
         return false;
     }
 }
-size_t hax::Container::size() const{
-    return vec_obj.size();
-}
-bool hax::Container::empty() const{
-    return vec_obj.empty();
-}
-std::string hax::Container::contents() const{
+size_t hax::Container::size() const{return vec_obj.size();}
+bool hax::Container::empty() const{return vec_obj.empty();}
+std::string hax::Container::contents() const
+{
     std::ostringstream oss;
     SerializableVector<Object*>::const_iterator it;
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
@@ -53,7 +52,8 @@ std::string hax::Container::contents() const{
     }
     return oss.str();
 }
-std::map<std::string, hax::Container*> hax::Container::get_subContainers(){
+std::map<std::string, hax::Container*> hax::Container::get_subContainers()
+{
     std::map<std::string, Container*> allFolders;
     std::queue<Container*> searchQueue;
     searchQueue.push(this);
@@ -81,7 +81,8 @@ std::map<std::string, hax::Container*> hax::Container::get_subContainers(){
 }
 
 
-hax::SerializableVector<hax::Object*>::iterator hax::Container::findObject(Object* const ob){
+hax::SerializableVector<hax::Object*>::iterator hax::Container::findObject(Object* const ob)
+{
     SerializableVector<Object*>::iterator it;
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
         if(*it == ob){
@@ -90,7 +91,8 @@ hax::SerializableVector<hax::Object*>::iterator hax::Container::findObject(Objec
     }
     return it; //not found, return vec_obj.end()
 }
-hax::Object* hax::Container::getObject(std::string objName){
+hax::Object* hax::Container::getObject(std::string objName)
+{
     SerializableVector<Object*>::iterator it;
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
         if((*it)->description() == objName){
@@ -99,7 +101,8 @@ hax::Object* hax::Container::getObject(std::string objName){
     }
     return NULL; //not found, return NULL
 }
-bool hax::Container::hasObject(Object* const ob) const{
+bool hax::Container::hasObject(Object* const ob) const
+{
     SerializableVector<Object*>::const_iterator it;
     for(it = vec_obj.begin(); it != vec_obj.end(); it++){
         if(*it == ob){
@@ -108,8 +111,18 @@ bool hax::Container::hasObject(Object* const ob) const{
     }
     return false;
 }
+void hax::Container::ToString(std::ostream& out) const
+{
+    out << vec_obj;
+}
+void hax::Container::FromString(std::istream& in)
+{
+}//TODO
+std::string hax::Container::getType() const{return "container";}
 
-hax::Backpack::Backpack(){
+
+hax::Backpack::Backpack()
+{
     name = "backpack";
     const char* attr[] = { //attributes
         "gangsta",
@@ -123,12 +136,6 @@ hax::Backpack::Backpack(){
     volume = 2;
     price = 50;
 }
-int hax::Backpack::hold_weight() const{
-    return 30;
-}
-int hax::Backpack::hold_volume() const{
-    return 10;
-}
-std::string hax::Backpack::getType() const{
-    return "backpack";
-}
+int hax::Backpack::hold_weight() const{return 30;}
+int hax::Backpack::hold_volume() const{return 10;}
+std::string hax::Backpack::getType() const{return "backpack";}

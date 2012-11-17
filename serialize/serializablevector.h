@@ -266,14 +266,8 @@ template < class T >
     };
   
   public:
-    virtual std::string getType() const
-    {
-        T* obj = new T();
-        std::string type = obj->getType();
-        delete obj;
-        return "SerializableVector<"+type+"*>";
-    };
-
+    //not defined here so that it can be specialized elsewhere when needed
+    virtual std::string getType() const;
 };
 
 
@@ -286,6 +280,11 @@ void SerializableVector<T*>::ElementFromString(std::istream& in)
     content.push_back(elem);
 };
 
+template <class T>
+std::string SerializableVector<T*>::getType() const
+{
+    return "SerializableVector<"+T().getType()+"*>";
+};
 
 
 }

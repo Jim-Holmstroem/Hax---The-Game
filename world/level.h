@@ -5,7 +5,6 @@
 #include<map>
 #include "operation.h"
 #include "../serialize/serializablevector.h"
-#include "../serialize/areaHeap.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif
@@ -45,8 +44,14 @@ namespace hax{
 	void help();
 	void spawn();
 	bool kill(std::string);
+        bool save(std::string);
+        bool load(std::string);
+        void deleteAreas();
 
-        SerializableVector<Area*> vec_area; //must be pointer since Area has pure virtual functions
+        /*data*/
+        SerializableVector<Area*> vec_area;
+
+        /*used for operations*/
 	std::map<std::string, Operation*> opmap;
 	std::vector<bool(Character::*)(void)> randomActions;
 	std::map<std::string, std::string> levelHelp;

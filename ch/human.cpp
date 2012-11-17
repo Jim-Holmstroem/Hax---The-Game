@@ -1,50 +1,63 @@
 #include "human.h"
 
-hax::Human::Human(){
+hax::Human::Human() : Character()
+{
+    align = true;
 }
-hax::Human::Human(std::string name) : Hero(name){
+hax::Human::Human(std::string name) : Character(name)
+{
+    align = true;
 }
-hax::Human::Human(const Human& hu) : Hero(hu){
-}
-hax::Human::~Human(){
-}
+hax::Human::Human(const Human& hu) : Character(hu){}
+hax::Human::~Human(){}
 
 /*hax::Human& hax::Human::operator=(const Human& hu){
   return *this;
   }*/
 
-std::string hax::Human::getType() const{
-    return "human";
+void hax::Human::view_stats() const
+{
+    Character::view_stats();
 }
-void hax::Human::attack(Character* ch){
+void hax::Human::attack(Character* ch)
+{
     int damage = strength;
     ch->curHp -= damage;
     std::cout << this->getName() << " hits " << ch->getName() << " for " << damage << " damage" << std::endl;
 }
-void hax::Human::talk_to(Character* ch){
+void hax::Human::talk_to(Character* ch)
+{
 } //TODO
-void hax::Human::ToString(std::ostream& out) const{
+void hax::Human::ToString(std::ostream& out) const
+{
     Character::ToString(out);
-    out << getType();
 }; //TODO
-void hax::Human::FromString(std::istream& in){
+void hax::Human::FromString(std::istream& in)
+{
 }; //TODO
+std::string hax::Human::getType() const{return "human";}
+void hax::Human::initStats(int curHp, int maxHp, int strength, int weight)
+{
+    Character::initStats(curHp, maxHp, strength, weight);
+}
 
-hax::Wizard::Wizard(){
-    initStats();
+
+hax::Wizard::Wizard() : Human()
+{
+    initStats(30,30,5,60);
 }
-hax::Wizard::Wizard(std::string name) : Human(name){
-    initStats();
+hax::Wizard::Wizard(std::string name) : Human(name)
+{
+    initStats(30,30,5,60);
 }
-hax::Wizard::Wizard(const Wizard& wi) : Human(wi){
+hax::Wizard::Wizard(const Wizard& wi) : Human(wi)
+{
     curMp = wi.curMp;
     maxMp = wi.maxMp;
 }
-std::string hax::Wizard::getType() const{
-    return (Human::getType() +" wizard");
-}
-void hax::Wizard::view_stats() const{
-    Character::view_stats();
+void hax::Wizard::view_stats() const
+{
+    Human::view_stats();
 #ifdef DEBUG
     std::cout <<"MP: "<< curMp <<"/"<< maxMp << std::endl;
 #else
@@ -53,7 +66,8 @@ void hax::Wizard::view_stats() const{
     hax::log.write(oss.str());
 #endif
 }
-void hax::Wizard::attack(Character* ch){
+void hax::Wizard::attack(Character* ch)
+{
     if(curMp >= 5){
         std::cout << getName() << " casts Lightning Bolt for 10 dmg" << std::endl;
         curMp -= 5;
@@ -62,42 +76,41 @@ void hax::Wizard::attack(Character* ch){
         Human::attack(ch);
     }
 }
-void hax::Wizard::talk_to(Character* ch){
+void hax::Wizard::talk_to(Character* ch)
+{
 } //TODO
-void hax::Wizard::initStats(){
-    curHp = 30;
-    maxHp = curHp;
+void hax::Wizard::initStats(int curHp, int maxHp, int strength, int weight)
+{
+    Human::initStats(curHp, maxHp, strength, weight);
     curMp = 100;
     maxMp = curMp;
-    strength = 5;
-    weight = 60;
 }
-void hax::Wizard::ToString(std::ostream& out) const{
-}; //TODO
-void hax::Wizard::FromString(std::istream& in){
-}; //TODO
+void hax::Wizard::ToString(std::ostream& out) const
+{
+    Human::ToString(out);
+} //TODO
+void hax::Wizard::FromString(std::istream& in)
+{
+} //TODO
+std::string hax::Wizard::getType() const{return ("wizard");}
 
-hax::Barbarian::Barbarian(){
-    initStats();
+
+hax::Barbarian::Barbarian() : Human()
+{
+    initStats(50,50,10,80);
 }
-hax::Barbarian::Barbarian(std::string name) : Human(name){
-    initStats();
+hax::Barbarian::Barbarian(std::string name) : Human(name)
+{
+    initStats(50,50,10,80);
 }
-hax::Barbarian::Barbarian(const Barbarian& ba) : Human(ba){
-}
-std::string hax::Barbarian::getType() const{
-    return (Human::getType() +" barbarian");
-}
-void hax::Barbarian::attack(Character* ch){
+hax::Barbarian::Barbarian(const Barbarian& ba) : Human(ba){}
+void hax::Barbarian::attack(Character* ch)
+{
     Human::attack(ch);
     std::cout << this->getName() << " attacks again!" << std::endl;
     Human::attack(ch);
 }
-void hax::Barbarian::talk_to(Character* ch){
+void hax::Barbarian::talk_to(Character* ch)
+{
 } //TODO
-void hax::Barbarian::initStats(){
-    curHp = 50;
-    maxHp = curHp;
-    strength = 10;
-    weight = 80;
-}
+std::string hax::Barbarian::getType() const{return "barbarian";}

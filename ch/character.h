@@ -33,7 +33,6 @@ namespace hax{
 
 //        Character& operator=(const Character&);
         bool alignment() const;
-//        virtual std::string getType() const = 0; //already defined in iserializable.h
         std::string getName() const;
         int getcurHp() const;
         int getmaxHp() const;
@@ -41,7 +40,7 @@ namespace hax{
         int totWeight() const;
         bool hasObject(Object* const) const;
 
-        virtual void action() = 0; //TODO return type? depends on current situation, for Hero let it be input from getch, for Foe let it be random
+        virtual void action(); //TODO return type? depends on current situation, for Hero let it be input from getch, for Foe let it be random
         virtual void view_stats() const;
         void view_area() const;
 	void view_inventory() const;
@@ -55,19 +54,20 @@ namespace hax{
         bool fight(std::string);
         void fight(Character*);
         bool fight_random();
-        virtual void attack(Character*) = 0;
-        virtual void talk_to(Character*) = 0; //TODO return type?
+        virtual void attack(Character*);
+        virtual void talk_to(Character*); //TODO return type?
         bool pick_up(std::string);
         bool drop(std::string);
         bool buy(std::string);
         bool sell(std::string);
         bool rest();
 
-	//serialization
+	/*serialization*/
 	virtual void ToString(std::ostream&) const;
 	virtual void FromString(std::istream&);
+        virtual std::string getType() const;
 
-	//data objects
+	/*public data*/
         Area* curArea;
         int curHp; //if health<0 then sleeping with the fishes TODO this should be protected, but then ch->curHp is protected in derived classes
 
@@ -76,9 +76,9 @@ namespace hax{
         int maxHp;
         int strength;
         int weight; //unit is kg
-      private:
-        virtual void initStats() = 0;
+        virtual void initStats(int,int,int,int);
 
+      private:
         class Wallet : public Container{ //supposed to contain in-game currency
           public:
             Wallet();
@@ -101,7 +101,7 @@ namespace hax{
             unsigned int maxSize;
         };
 
-	//data objects continued
+	/*private data*/
         std::string name;
         Pocket* inventory;
         Wallet myWallet;

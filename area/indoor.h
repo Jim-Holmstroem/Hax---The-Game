@@ -6,7 +6,8 @@ namespace hax{
 
     class Ground; //forward declaration
 
-    class Indoor : public Area{
+    class Indoor : public Area
+    {
       public:
         Indoor();
         Indoor(std::string);
@@ -18,26 +19,28 @@ namespace hax{
         void leave(Character*);
         virtual bool rest(Character*);
 	virtual Character* spawn();
-
-      protected:
-      private:
     };
 
-    class Castle : public Indoor{
+    class Castle : public Indoor
+    {
       public:
         Castle();
         Castle(std::string);
 	virtual std::string getType() const;
     };
 
-    class School : public Indoor{
+    class School : public Indoor
+    {
       public:
         School();
         School(std::string);
 	virtual std::string getType() const;
     };
-    class Shop : public Indoor{
+
+    class Shop : public Indoor
+    {
       public:
+        Shop();
 	Shop(std::string);
 	~Shop();
 	virtual std::string getType() const;

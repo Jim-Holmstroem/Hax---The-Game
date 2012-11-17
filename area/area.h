@@ -4,11 +4,7 @@
 #include<map>
 #include "route.h"
 #include "../obj/container.h"
-#include "../serialize/serializablevector.h"
-#include "../serialize/serializablemap.h"
-#include "../serialize/serializablestring.h"
-#include "../serialize/characterHeap.h"
-#include "../serialize/routeHeap.h"
+#include "../serialize/simpleHeap.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif
@@ -41,10 +37,10 @@ namespace hax{
         virtual void leave(Character* const); //TODO return type?
         bool pick_up(Object* const);
         bool drop(Object* const);
-        virtual bool rest(Character*) = 0;
-        virtual Character* spawn() = 0;
+        virtual bool rest(Character*);
+        virtual Character* spawn();
 
-	//search functions
+	/*search functions*/
         Character* getChar(std::string);
         SerializableVector<Character*>::iterator findChar(Character*);
         bool hasChar(Character* const) const;
@@ -52,11 +48,12 @@ namespace hax{
         SerializableVector<Object*>::iterator findObject(Object*);
         bool hasObject(Object* const) const;
 
-	//serialization
+	/*serialization*/
 	virtual void ToString(std::ostream&) const;
 	virtual void FromString(std::istream&);
+        virtual std::string getType() const;
 
-	//data objects
+	/*data*/
         MapRoute exits; //TODO make this protected
       protected:
         SerializableVector<Character*> vec_char;

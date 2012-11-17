@@ -29,7 +29,9 @@ myWallet.add(new Coin( values[rand()%len(values)] ));
 */
 }
 hax::Character::Character(const Character& ch){
+#ifdef DEBUG
     std::cout <<"Character::copy constructor"<< std::endl;
+#endif
     curArea = ch.curArea;
     align = ch.align;
     //race = ch.getType();
@@ -85,6 +87,9 @@ int hax::Character::totWeight() const{
 }
 bool hax::Character::hasObject(Object* const ob) const{
     return inventory->hasObject(ob);
+}
+void hax::Character::action(){
+//TODO
 }
 void hax::Character::view_stats() const{
 #ifdef DEBUG
@@ -146,7 +151,13 @@ bool hax::Character::move_obj(std::string objName, std::string source, std::stri
     }
 }
 void hax::Character::view_inventory() const{ //print objects in all containers
-//TODO
+    std::ostringstream oss;
+    oss << *inventory;
+#ifdef DEBUG
+    std::cout << oss.str() << std::endl;
+#else
+    hax::log.write(oss.str());
+#endif
 }
 void hax::Character::view_curContainer() const{
     std::cout << curContainer->description() <<" (maxW"<< curContainer->hold_weight() <<"/maxV"<< curContainer->hold_volume() <<"): "<< curContainer->contents() << std::endl;
@@ -253,6 +264,12 @@ bool hax::Character::fight_random(){
     fight(enemy);
     return true;
 }
+void hax::Character::attack(Character* enemy){
+//TODO
+}
+void hax::Character::talk_to(Character* npc){
+//TODO
+}
 bool hax::Character::pick_up(std::string objName){
     Object* ob = curArea->getObject(objName);
     if(ob != NULL){ //object found in curArea
@@ -333,17 +350,15 @@ bool hax::Character::rest(){
     return(curArea->rest(this));
 }
 void hax::Character::ToString(std::ostream& out) const{
-    std::ostringstream oss;
-    oss << getType() <<" "<< name <<" "<< curHp <<" "<< maxHp <<" "<< strength <<" "<< weight;
-    out << oss.str();
-    out << curArea << std::endl; //OBS the address of curArea is written to the stream
-    out << inventory << std::endl;
-    out << &myWallet << std::endl;
-    out << curContainer << std::endl;
-};
+    out << getType() <<" "<< name <<" "<< curHp <<" "<< maxHp <<" "<< strength <<" "<< weight;
+    out << *inventory << std::endl;
+    out << myWallet << std::endl;
+//    out << curContainer << std::endl; //not important
+    out << curArea << std::endl; //OBS the address of curArea is written to the stream, TODO maybe this does not need to be saved since the information can be obtained by iterating through vec_char in each Area instance
+}
 void hax::Character::FromString(std::istream& in){
-}; //TODO
-
+} //TODO
+std::string hax::Character::getType() const{return "character";}
 /*
   void hax::Character::check(Object* ob){ //TODO
   if( curArea->hasObject(ob) ){
@@ -352,9 +367,12 @@ void hax::Character::FromString(std::istream& in){
   }
   }
 */
-
-
-
+void hax::Character::initStats(int curHp, int maxHp, int strength, int weight){
+    this->curHp = curHp;
+    this->maxHp = maxHp;
+    this->strength = strength;
+    this->weight = weight;
+}
 
 
 hax::Character::Wallet::Wallet(){

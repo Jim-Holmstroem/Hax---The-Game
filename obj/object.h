@@ -8,7 +8,8 @@
 #define len(a) ( sizeof(a) / sizeof(a[0]) )
 
 namespace hax{
-    class Object : public ISerializable{
+    class Object : public ISerializable
+    {
       public:
         Object();
 //        Object(const Object&);
@@ -33,18 +34,19 @@ namespace hax{
 	//serialization
 	virtual void ToString(std::ostream&) const;
 	virtual void FromString(std::istream&);
+        virtual std::string getType() const;
 
       protected:
+        /*data*/
         std::string name;
         std::string descr;
         int weight; //unit is kg
         int volume; //unit is liter
         int price; //unit is kr
-      private:
-
     };
 
-    class Key : public Object{
+    class Key : public Object
+    {
       public:
         Key();
 	virtual std::string getType() const;

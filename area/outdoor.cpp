@@ -1,21 +1,21 @@
 #include "outdoor.h"
 #include "../ch/human.h"
 
-hax::Outdoor::Outdoor(){
-}
-hax::Outdoor::Outdoor(std::string name) : Area(name){
-}
-hax::Outdoor::Outdoor(const Outdoor& ou) : Area(ou){
-}
-hax::Outdoor::~Outdoor(){
-}
-void hax::Outdoor::enter(Character* ch){
+hax::Outdoor::Outdoor() : Area(){}
+hax::Outdoor::Outdoor(std::string name) : Area(name){}
+hax::Outdoor::Outdoor(const Outdoor& ou) : Area(ou){}
+hax::Outdoor::~Outdoor(){}
+void hax::Outdoor::enter(Character* ch)
+{
     Area::enter(ch);
 }
-void hax::Outdoor::leave(Character* ch){
+void hax::Outdoor::leave(Character* ch)
+{
     Area::leave(ch);
 }
-bool hax::Outdoor::rest(Character* ch){
+bool hax::Outdoor::rest(Character* ch)
+{
+    Area::rest(ch);
     int maxHp = ch->getmaxHp();
     int heal = maxHp/4;
     ch->curHp += heal;
@@ -27,13 +27,14 @@ bool hax::Outdoor::rest(Character* ch){
 }
 
 
-hax::Forest::Forest(std::string name) : Outdoor(name){
+hax::Forest::Forest() : Outdoor(){}
+hax::Forest::Forest(std::string name) : Outdoor(name)
+{
     descr = "You are surrounded by trees.";
 }
-std::string hax::Forest::getType() const{
-    return "forest";
-}
-bool hax::Forest::rest(Character* ch){
+std::string hax::Forest::getType() const{return "forest";}
+bool hax::Forest::rest(Character* ch)
+{
     Outdoor::rest(ch);
 /*    if(vec_char.size() > 1){ //other Chars here beside yourself
       vec_char[0]->fight(ch); //TODO slumpa chans och index
@@ -45,7 +46,8 @@ bool hax::Forest::rest(Character* ch){
     robber->fight(ch);
     return true;
 }
-hax::Character* hax::Forest::spawn(){
+hax::Character* hax::Forest::spawn()
+{
 //list of random names
     Character* creep = new Barbarian("spawnedBarb");
     enter(creep);

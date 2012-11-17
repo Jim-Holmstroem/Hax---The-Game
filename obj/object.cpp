@@ -38,12 +38,12 @@ std::string hax::Object::description() const{
     }
 }
 void hax::Object::ToString(std::ostream& out) const{
-    std::ostringstream oss;
-    oss << name <<" "<< descr <<" "<< weight <<" "<< volume <<" "<< price << std::endl;
-    out << oss.str();
-};
+    out << name <<" "<< descr <<" "<< weight <<" "<< volume <<" "<< price << std::endl;
+}
 void hax::Object::FromString(std::istream& in){
-}; //TODO
+} //TODO
+std::string hax::Object::getType() const{return "object";}
+
 
 hax::Key::Key(){
     name = getType();

@@ -1,10 +1,11 @@
 #ifndef HUMAN_H
 #define HUMAN_H
-#include "hero.h"
+#include "character.h"
 #include<iostream>
 
 namespace hax{
-    class Human : public Hero{
+    class Human : public Character
+    {
       public:
         Human();
         Human(std::string);
@@ -12,32 +13,36 @@ namespace hax{
         ~Human();
 
 //        Human& operator=(const Human&);
-        virtual std::string getType() const;
+        virtual void view_stats() const;
         virtual void attack(Character*);
         virtual void talk_to(Character*);
+
 	virtual void ToString(std::ostream&) const;
 	virtual void FromString(std::istream&);
+        virtual std::string getType() const;
+
       protected:
-      private:
+        virtual void initStats(int,int,int,int);
     };
 
-    class Wizard : public Human{
+    class Wizard : public Human
+    {
       public:
         Wizard();
         Wizard(std::string);
 	Wizard(const Wizard&);
-	virtual std::string getType() const;
 	virtual void view_stats() const;
 	virtual void attack(Character*);
         virtual void talk_to(Character*);
+
 	virtual void ToString(std::ostream&) const;
 	virtual void FromString(std::istream&);
+	virtual std::string getType() const;
 
       protected:
         int curMp; //magic points
         int maxMp;
-      private:
-        virtual void initStats();
+        virtual void initStats(int,int,int,int);
 
     };
 
@@ -46,12 +51,10 @@ namespace hax{
 	Barbarian();
 	Barbarian(std::string);
 	Barbarian(const Barbarian&);
-	virtual std::string getType() const;
 	virtual void attack(Character*);
         virtual void talk_to(Character*);
-      private:
-	virtual void initStats();
 
+	virtual std::string getType() const;
     };
 }
 #endif

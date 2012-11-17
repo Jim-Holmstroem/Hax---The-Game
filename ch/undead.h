@@ -3,7 +3,8 @@
 #include "character.h"
 
 namespace hax{
-    class Undead : public Character{
+    class Undead : public Character
+    {
       public:
         Undead();
         Undead(std::string);
@@ -13,30 +14,32 @@ namespace hax{
         virtual std::string getType() const;
         virtual void attack(Character*);
 	virtual void talk_to(Character*); //TODO
+
+      protected:
+        virtual void initStats(int,int,int,int);
       private:
         void regenerate();
-
     };
-    class Skeleton : public Undead{
+
+    class Skeleton : public Undead
+    {
       public:
 	Skeleton();
 	Skeleton(std::string);
 	std::string getType() const;
 //no definition of attack here so will automatically use Undead::attack(ch)
-
-      private:
-        void initStats();
     };
 
-    class Necromancer : public Undead{
+    class Necromancer : public Undead
+    {
       public:
 	Necromancer();
 	Necromancer(std::string);
-	std::string getType() const;
 	void attack(Character*);
+	std::string getType() const;
 
-      private:
-	void initStats();
+      protected:
+	virtual void initStats(int,int,int,int);
     };
 
 }

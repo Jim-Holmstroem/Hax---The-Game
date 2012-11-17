@@ -3,9 +3,11 @@
 #include "area.h"
 
 namespace hax{
+
     class Character;
 
-    class Outdoor : public Area{
+    class Outdoor : public Area
+    {
       public:
         Outdoor();
         Outdoor(std::string);
@@ -17,18 +19,16 @@ namespace hax{
         void leave(Character*);
         virtual bool rest(Character*);
 	virtual Character* spawn() = 0;
-
-      protected:
-      private:
     };
 
-    class Forest : public Outdoor{
+    class Forest : public Outdoor
+    {
       public:
+        Forest();
         Forest(std::string);
 	virtual std::string getType() const;
         bool rest(Character*);
 	Character* spawn();
-
     };
 }
 #endif

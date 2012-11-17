@@ -8,7 +8,8 @@
 
 namespace hax{
 
-    class Container : public Object{
+    class Container : public Object
+    {
       public:
         Container();
 //        Container(const Container&);
@@ -25,9 +26,14 @@ namespace hax{
         bool empty() const;
 	std::string contents() const;
 	std::map<std::string, Container*> get_subContainers();
-        Object* getObject(std::string);
         SerializableVector<hax::Object*>::iterator findObject(Object* const);
+        Object* getObject(std::string);
         bool hasObject(Object* const) const;
+
+	//serialization
+	virtual void ToString(std::ostream&) const;
+	virtual void FromString(std::istream&);
+        virtual std::string getType() const;
 
 /*
         friend std::ostream& operator<<(std::ostream& out, const Container& c){
@@ -39,13 +45,14 @@ namespace hax{
             return out;
         };
 */
-
       protected:
+        /*data*/
         SerializableVector<Object*> vec_obj;
-      private:
     };
 
-    class Backpack : public Container{
+
+    class Backpack : public Container
+    {
       public:
         Backpack();
         virtual int hold_weight() const;
@@ -61,24 +68,6 @@ namespace hax{
 //      Pokemon poke; //derived from Character
 };
 */
-
-    inline Object* getAllocatedObject(std::string objType)
-    {
-        if(objType == "backpack")
-        {
-            return new Backpack();
-        }
-    };
-
-    template<>
-        inline void SerializableVector<Object*>::ElementFromString(std::istream& in)
-    {
-        std::string objType;
-        in >> objType;
-        Object* obj = getAllocatedObject(objType);
-        in >> *obj;
-        content.push_back(obj);
-    };
 
 }
 

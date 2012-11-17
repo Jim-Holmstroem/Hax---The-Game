@@ -1,4 +1,4 @@
-MOD = helper game_debug level area indoor outdoor route road character hero human undead object container obstacle coin
+MOD = helper game_debug level area indoor outdoor route road character human undead object container obstacle coin simpleHeap
 
 SRC = $(MOD:=.cpp)
 HDR = $(MOD:=.h)
@@ -7,7 +7,7 @@ OBJ = $(MOD:=.o)
 PRGM = hax_debug
 
 #built-in variable for directory search
-VPATH = world:ch:area:obj:ncurses
+VPATH = world:ch:area:obj:serialize:ncurses
 
 # built-in variable for g++ compiler flags
 CXXFLAGS = -g -Wall -Wextra -DDEBUG
@@ -33,7 +33,6 @@ level.o: level.cpp level.h Makefile_debug
 #area.o: area.cpp area.h Makefile_debug
 #undead.o: undead.cpp undead.h Makefile_debug
 #human.o: human.cpp human.h Makefile_debug
-#hero.o: hero.cpp hero.h Makefile_debug
 #character.o: character.cpp character.h Makefile_debug
 
 clean:

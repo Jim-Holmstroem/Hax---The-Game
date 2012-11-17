@@ -8,12 +8,13 @@ namespace hax{
     class Level;
     class Character;
 
-    class Operation{
+    class Operation
+    {
       public:
         virtual void call(const std::string arg, Character* curChar, Level* curLevel) = 0;
     };
-
-    class LevelOpVoid : public Operation{
+    class LevelOpVoid : public Operation
+    {
       private:
         typedef void(Level::*FcnPtr)(void);
         FcnPtr op;
@@ -21,23 +22,31 @@ namespace hax{
       public:
 //      Level* curLevel;
         LevelOpVoid(){};
-        LevelOpVoid(FcnPtr op){
+        LevelOpVoid(FcnPtr op)
+        {
 //          this->curLevel = curLevel;
             this->op = op;
         };
-        virtual void call(const std::string arg, Character* curChar, Level* curLevel){
+        virtual void call(const std::string arg, Character* curChar, Level* curLevel)
+        {
+            UNUSED(arg);
+            UNUSED(curChar);
             (curLevel->*op)();
         };
     };
-    class LevelOpBool1String : public Operation{
+    class LevelOpBool1String : public Operation
+    {
       public:
         typedef bool(Level::*FcnPtr)(std::string);
         FcnPtr op;
-        LevelOpBool1String(FcnPtr op){
+        LevelOpBool1String(FcnPtr op)
+        {
 //          this->curLevel = curLevel;
             this->op = op;
         };
-        void call(const std::string arg, Character* curChar, Level* curLevel){
+        void call(const std::string arg, Character* curChar, Level* curLevel)
+        {
+            UNUSED(curChar);
             if(arg == ""){
                 std::cout <<"Specify a target"<< std::endl;
             }else{
@@ -45,21 +54,24 @@ namespace hax{
             }
         };
     };
-
-
-
-    class CharOp : public Operation{
+    class CharOp : public Operation
+    {
       public:
         virtual void call(const std::string arg, Character* curChar, Level* curLevel) = 0;
     };
-    class CharOpVoid : public CharOp{
+    class CharOpVoid : public CharOp
+    {
       public:
         typedef void(Character::*FcnPtr)(void);
         FcnPtr op;
-        CharOpVoid(FcnPtr op){
+        CharOpVoid(FcnPtr op)
+        {
             this->op = op;
         };
-        void call(const std::string arg, Character* curChar, Level* curLevel){
+        void call(const std::string arg, Character* curChar, Level* curLevel)
+        {
+            UNUSED(arg);
+            UNUSED(curLevel);
             if(curChar != NULL){
                 (curChar->*op)();
             }else{
@@ -67,14 +79,19 @@ namespace hax{
             };
         };
     };
-    class CharOpVoidConst : public CharOp{
+    class CharOpVoidConst : public CharOp
+    {
       public:
         typedef void(Character::*FcnPtr)(void) const;
         FcnPtr op;
-        CharOpVoidConst(FcnPtr op){
+        CharOpVoidConst(FcnPtr op)
+        {
             this->op = op;
         };
-        void call(const std::string arg, Character* curChar, Level* curLevel){
+        void call(const std::string arg, Character* curChar, Level* curLevel)
+        {
+            UNUSED(arg);
+            UNUSED(curLevel);
             if(curChar != NULL){
                 (curChar->*op)();
             }else{
@@ -82,14 +99,19 @@ namespace hax{
             };
         };
     };
-    class CharOpBoolVoid : public CharOp{
+    class CharOpBoolVoid : public CharOp
+    {
       public:
         typedef bool(Character::*FcnPtr)(void);
         FcnPtr op;
-        CharOpBoolVoid(FcnPtr op){
+        CharOpBoolVoid(FcnPtr op)
+        {
             this->op = op;
         };
-        void call(const std::string arg, Character* curChar, Level* curLevel){
+        void call(const std::string arg, Character* curChar, Level* curLevel)
+        {
+            UNUSED(arg);
+            UNUSED(curLevel);
             if(curChar != NULL){
                 (curChar->*op)();
             }else{
@@ -97,14 +119,18 @@ namespace hax{
             };
         };
     };
-    class CharOpBool1String : public CharOp{
+    class CharOpBool1String : public CharOp
+    {
       public:
         typedef bool(Character::*FcnPtr)(std::string);
         FcnPtr op;
-        CharOpBool1String(FcnPtr op){
+        CharOpBool1String(FcnPtr op)
+        {
             this->op = op;
         };
-        void call(const std::string arg, Character* curChar, Level* curLevel){
+        void call(const std::string arg, Character* curChar, Level* curLevel)
+        {
+            UNUSED(curLevel);
             if(curChar != NULL){
                 if(arg == ""){
                     std::cout <<"Specify a target"<< std::endl;
@@ -116,14 +142,18 @@ namespace hax{
             }
         };
     };
-    class CharOpBool3String : public CharOp{
+    class CharOpBool3String : public CharOp
+    {
       public:
         typedef bool(Character::*FcnPtr)(std::string, std::string, std::string);
         FcnPtr op;
-        CharOpBool3String(FcnPtr op){
+        CharOpBool3String(FcnPtr op)
+        {
             this->op = op;
         };
-        void call(const std::string arg, Character* curChar, Level* curLevel){
+        void call(const std::string arg, Character* curChar, Level* curLevel)
+        {
+            UNUSED(curLevel);
             if(curChar != NULL){
                 std::vector<std::string> words = split(arg,'|');
                 for(size_t i=0; i<words.size(); i++){

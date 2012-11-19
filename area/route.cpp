@@ -28,10 +28,11 @@ std::string hax::Route::passMessage() const
 {
     return "You pass through the chosen route.";
 }
-void hax::Route::ToString(std::ostream&) const
+void hax::Route::ToString(std::ostream& out) const
 {
-} //TODO
-void hax::Route::FromString(std::istream&)
+    out << this <<":"<< getType() <<":"<< name <<":"<< view <<":"<< thisArea <<":"<< nextArea << std::endl;
+}
+void hax::Route::FromString(std::istream& in)
 {
 } //TODO
 std::string hax::Route::getType() const

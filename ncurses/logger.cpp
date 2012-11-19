@@ -1,9 +1,5 @@
 #include "logger.h"
 
-namespace hax{
-    Logger log;
-}
-
 std::vector<std::string> hax::Logger::wordWrap(std::string str,size_t width){
     std::vector<std::string> lines;
 

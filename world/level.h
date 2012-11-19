@@ -3,23 +3,29 @@
 #include<iostream>
 #include<vector>
 #include<map>
+#include<queue>
 #include "operation.h"
 #include "../serialize/serializablevector.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif
 
-namespace hax{
+namespace hax
+{
 #ifndef DEBUG
     extern Logger log;
 #endif
+    extern std::queue<ISerializable*> serializeQueue;
+    extern std::map<std::string,ISerializable*> pointerTable;
 
+    /*forward declarations*/
     class Area;
     class Character;
     class Container;
     class OperationVoid;
 
-    class Level : public ISerializable{
+    class Level : public ISerializable
+    {
       public:
         Level();
         Level(int); //specify number of areas
@@ -60,6 +66,5 @@ namespace hax{
 	Character* curChar;
 	std::string curCharName;
     };
-
 }
 #endif

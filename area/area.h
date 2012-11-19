@@ -9,17 +9,20 @@
 #include "../ncurses/logger.h"
 #endif
 
-namespace hax{
+namespace hax
+{
 #ifndef DEBUG
     extern Logger log;
 #endif
+    extern std::queue<ISerializable*> serializeQueue;
+    extern std::map<std::string,ISerializable*> pointerTable;
 
     typedef SerializableMap<SerializableString, Route*> MapRoute;
-
     class Character; //forward declaration
 //    class Object;
 
-    class Area : public ISerializable{
+    class Area : public ISerializable
+    {
       public:
         Area();
         Area(std::string);
@@ -62,7 +65,8 @@ namespace hax{
         std::string descr; //description
 
         //definition of Ground put in protected because class Shop needs it
-        class Ground : public Container{ //like a big reservoir
+        class Ground : public Container //like a big reservoir
+        {
           public:
             Ground();
             Ground(std::string);

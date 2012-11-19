@@ -9,7 +9,15 @@
 #include "../area/road.h"
 #include "../helper.h"
 
-int main(int argc, const char* argv[]){
+namespace hax
+{
+    /*Global variables*/
+    std::queue<ISerializable*> serializeQueue; //used for saving game state to file
+    std::map<std::string,ISerializable*> pointerTable; //used for loading game state from file
+}
+
+int main(int argc, const char* argv[])
+{
     srand(time(NULL)); //initialize random seed to a value based on the time the program is executed
 
     std::ofstream dbg;
@@ -23,7 +31,7 @@ int main(int argc, const char* argv[]){
 
     std::string input = "";
     while(input != "quit"){
-        getline(std::cin, input);
+        std::getline(std::cin, input);
         if(input != ""){
             test->parse(hax::split(input));
 
@@ -39,7 +47,8 @@ int main(int argc, const char* argv[]){
     return 0;
 };
 
-hax::Level* hax::initNewGame(){
+hax::Level* hax::initNewGame()
+{
     //create objects
     Level* test = new Level();
     Area* borg = new Castle("Hogwarts");

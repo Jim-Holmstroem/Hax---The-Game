@@ -17,7 +17,16 @@
 */
 #include "../ncurses/cat1.asciiart"
 
-void msleep(unsigned long milisec){
+namespace hax
+{
+    /*Global variables*/
+    Logger log;
+    std::queue<ISerializable*> serializeQueue; //used for saving game state to file
+    std::map<std::string,ISerializable*> pointerTable; //used for loading game state from file
+}
+
+void msleep(unsigned long milisec)
+{
     struct timespec req={0};
     time_t sec=(int)(milisec/1000);
     milisec=milisec-(sec*1000);
@@ -29,10 +38,9 @@ void msleep(unsigned long milisec){
     return;
 };
 
-int main(int argc, const char* argv[]){
-
+int main(int argc, const char* argv[])
+{
     //DEBUGGING
-
     initscr();
     cbreak();
     curs_set(0);
@@ -69,11 +77,12 @@ int main(int argc, const char* argv[]){
     return 0;
 }; //end of main
 
-void hax::options(){
-
+void hax::options()
+{
 };
 
-hax::Level* hax::initNewGame(){ //use auto pointer?
+hax::Level* hax::initNewGame() //use auto pointer?
+{
     //create objects
     Level* test = new Level();
     Area* borg = new Castle("Hogwarts");
@@ -117,7 +126,8 @@ hax::Level* hax::initNewGame(){ //use auto pointer?
     return test;
 };
 
-void hax::newGame(){
+void hax::newGame()
+{
     std::auto_ptr<Level> myGame( initNewGame() ); //I want a fixed pointer that cannot change to another object but can manipulate its object!!!!!
 //    std::for_each(myGame->allChars().begin(), myGame->allChars().end(), std::mem_fun(&Character::action)); //REMEMBER very bad to use iterator on two copies of same vector
 
@@ -251,12 +261,14 @@ void hax::newGame(){
 
 }; //end of newGame
 
-void hax::loadGame(){
+void hax::loadGame()
+{
     mvprintw( 2, 0, "loadGame()");
     refresh();
 };
 
-void hax::credits(){
+void hax::credits()
+{
     mvprintw( 2, 2, "CREDITS");
     mvprintw( 5, 2, "Jim Holmström, F-08");
     refresh();
@@ -266,7 +278,8 @@ void hax::credits(){
     sleep(2);
 };
 
-int hax::welcome_menu(){
+int hax::welcome_menu()
+{
 
     char *choices[] = {
         "New Game",

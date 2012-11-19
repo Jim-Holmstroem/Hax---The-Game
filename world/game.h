@@ -17,6 +17,7 @@
 #include<memory> //for auto_ptr
 
 #include "../ncurses/logger.h"
+#include "../serialize/iserializable.h"
 
 int main(int argc, const char* argv[]);
 
@@ -25,8 +26,10 @@ int main(int argc, const char* argv[]);
 //haxx to make ncurses init properly else weird segfaults, TODO varför funkar inte dethär ??
 #define INIT_NCURSES (initscr();cbreak();noecho();keypad(stdscr,TRUE);)
 
-namespace hax{
+namespace hax
+{
     extern Logger log;
+    extern std::map<std::string,ISerializable*> pointerTable;
 
     class Level; //forward declaration
     bool commandMode;
@@ -37,6 +40,5 @@ namespace hax{
     Level* initNewGame();
     void loadGame();
     void options();
-
 }
 #endif

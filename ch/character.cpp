@@ -5,13 +5,15 @@
 #include "../obj/coin.h"
 #include "../area/route.h"
 
-hax::Character::Character(){
+hax::Character::Character()
+{
     name = "defaultName";
     curArea = NULL;
     inventory = new Pocket();
     curContainer = inventory;
 }
-hax::Character::Character(std::string n){
+hax::Character::Character(std::string n)
+{
     name = n;
     curArea = NULL;
     inventory = new Pocket(name, 5);
@@ -28,7 +30,8 @@ myWallet.add(new Coin( values[rand()%len(values)] ));
 }
 */
 }
-hax::Character::Character(const Character& ch){
+hax::Character::Character(const Character& ch)
+{
 #ifdef DEBUG
     std::cout <<"Character::copy constructor"<< std::endl;
 #endif
@@ -41,7 +44,8 @@ hax::Character::Character(const Character& ch){
     strength = ch.strength;
 //    inventory = new Pocket(ch.inventory); //TODO ok?
 }
-hax::Character::~Character(){
+hax::Character::~Character()
+{
     std::ostringstream oss;
     oss <<"~Character: "<< name <<" died"<< std::endl;
 #ifdef DEBUG
@@ -67,31 +71,25 @@ hax::Character::~Character(){
   return *this;
   };*/
 
-bool hax::Character::alignment() const{
-    return align;
-}
-std::string hax::Character::getName() const{
-    return name;
-}
-int hax::Character::getcurHp() const{
-    return curHp;
-}
-int hax::Character::getmaxHp() const{
-    return maxHp;
-}
-int hax::Character::getStr() const{
-    return strength;
-}
-int hax::Character::totWeight() const{
+bool hax::Character::alignment() const{return align;}
+std::string hax::Character::getName() const{return name;}
+int hax::Character::getcurHp() const{return curHp;}
+int hax::Character::getmaxHp() const{return maxHp;}
+int hax::Character::getStr() const{return strength;}
+int hax::Character::totWeight() const
+{
     return(this->weight + inventory->getWeight());
 }
-bool hax::Character::hasObject(Object* const ob) const{
+bool hax::Character::hasObject(Object* const ob) const
+{
     return inventory->hasObject(ob);
 }
-void hax::Character::action(){
+void hax::Character::action()
+{
 //TODO
 }
-void hax::Character::view_stats() const{
+void hax::Character::view_stats() const
+{
 #ifdef DEBUG
     std::cout << name <<" the "<< getType() << std::endl;
     std::cout <<"HP: "<< curHp <<"/"<< maxHp << std::endl;
@@ -114,7 +112,8 @@ void hax::Character::view_stats() const{
     hax::log.write(oss.str());
 #endif
 }
-void hax::Character::view_area() const{
+void hax::Character::view_area() const
+{
 #ifdef DEBUG
     std::cout << curArea->description() << std::endl;
 #else
@@ -129,7 +128,8 @@ bool hax::Character::move_obj(std::string objName, std::string destination){
     return move_obj(objName, curContainer->description(), destination);
 }
 */
-bool hax::Character::move_obj(std::string objName, std::string source, std::string destination){
+bool hax::Character::move_obj(std::string objName, std::string source, std::string destination)
+{
     //move something from somewhere to somewhere
     std::map<std::string, Container*> allFolders = inventory->get_subContainers();
     if(allFolders.find(source) == allFolders.end()){
@@ -150,7 +150,8 @@ bool hax::Character::move_obj(std::string objName, std::string source, std::stri
 	return true;
     }
 }
-void hax::Character::view_inventory() const{ //print objects in all containers
+void hax::Character::view_inventory() const //print objects in all containers
+{
     std::ostringstream oss;
     oss << *inventory;
 #ifdef DEBUG
@@ -159,10 +160,12 @@ void hax::Character::view_inventory() const{ //print objects in all containers
     hax::log.write(oss.str());
 #endif
 }
-void hax::Character::view_curContainer() const{
+void hax::Character::view_curContainer() const
+{
     std::cout << curContainer->description() <<" (maxW"<< curContainer->hold_weight() <<"/maxV"<< curContainer->hold_volume() <<"): "<< curContainer->contents() << std::endl;
 }
-bool hax::Character::change_curContainer(std::string objName){ //similar to linux command "cd", simple version
+bool hax::Character::change_curContainer(std::string objName)
+{ //similar to linux command "cd", simple version
     if(objName == "#"){ //go to root (class Pocket)
         curContainer = inventory;
         while(!folderStack.empty()){ //clear stack
@@ -190,7 +193,8 @@ bool hax::Character::change_curContainer(std::string objName){ //similar to linu
         }
     }
 }
-bool hax::Character::go(std::string routeName){
+bool hax::Character::go(std::string routeName)
+{
     if(curArea != NULL){
         if( curArea->exits.find(routeName) != curArea->exits.end() ){
             return go( *(curArea->exits[routeName]) );
@@ -203,7 +207,8 @@ bool hax::Character::go(std::string routeName){
         return false;
     }
 }
-bool hax::Character::go(const Route& ro){ //TODO Route is passed by reference, what is the difference with pass by pointer? will virtual calls work?
+bool hax::Character::go(const Route& ro) //TODO Route is passed by reference, what is the difference with pass by pointer? will virtual calls work?
+{
     if(ro.isBlocked(this)){
         std::cout << this->name <<" is blocked when trying to go to "<< ro.nextArea->getName() <<" through a "<< ro.getType() <<". "<< ro.blockMessage() << std::endl;
         return false;
@@ -214,7 +219,8 @@ bool hax::Character::go(const Route& ro){ //TODO Route is passed by reference, w
         return true;
     }
 }
-bool hax::Character::go_random(){
+bool hax::Character::go_random()
+{
     unsigned int routeNr = rand() % curArea->exits.size();
     MapRoute::const_iterator it = curArea->exits.begin();
     for(unsigned int i=0; i<routeNr; i++){
@@ -222,7 +228,8 @@ bool hax::Character::go_random(){
     }
     return(this->go( *(it->second) ));
 }
-bool hax::Character::fight(std::string name){
+bool hax::Character::fight(std::string name)
+{
     Character* enemy = curArea->getChar(name); //is NULL if not found
     if(enemy == NULL){
         std::cout <<"No character called "<< name <<" in this area."<< std::endl;
@@ -235,7 +242,8 @@ bool hax::Character::fight(std::string name){
         return true;
     }
 }
-void hax::Character::fight(Character* ch){
+void hax::Character::fight(Character* ch)
+{
     attack(ch);
 //TODO
 /*        char msg[512];
@@ -251,7 +259,8 @@ void hax::Character::fight(Character* ch){
         ch->fight(this); //continue if other character is not killed
     }
 }
-bool hax::Character::fight_random(){
+bool hax::Character::fight_random()
+{
     const SerializableVector<Character*> charsInArea = curArea->chars();
     unsigned int totChars = charsInArea.size();
     if(totChars == 1){ //no one to fight
@@ -264,13 +273,16 @@ bool hax::Character::fight_random(){
     fight(enemy);
     return true;
 }
-void hax::Character::attack(Character* enemy){
+void hax::Character::attack(Character* enemy)
+{
 //TODO
 }
-void hax::Character::talk_to(Character* npc){
+void hax::Character::talk_to(Character* npc)
+{
 //TODO
 }
-bool hax::Character::pick_up(std::string objName){
+bool hax::Character::pick_up(std::string objName)
+{
     Object* ob = curArea->getObject(objName);
     if(ob != NULL){ //object found in curArea
         if(ob->getWeight() < 0){ //Obstacle should not be picked up and has weight = -1
@@ -293,7 +305,8 @@ bool hax::Character::pick_up(std::string objName){
         return false;
     }
 }
-bool hax::Character::drop(std::string objName){
+bool hax::Character::drop(std::string objName)
+{
     Object* ob = curContainer->getObject(objName);
     if(ob != NULL){ //object found in curContainer
         if( curArea->pick_up(ob) ){ //object dropped (added to curArea), now remove from container
@@ -309,7 +322,8 @@ bool hax::Character::drop(std::string objName){
         return false;
     }
 }
-bool hax::Character::buy(std::string objName){
+bool hax::Character::buy(std::string objName)
+{
     Shop* shopArea = dynamic_cast<Shop*>(curArea);
     if(shopArea != NULL){
         Object* purchase = shopArea->sell(myWallet.getPrice(), objName);
@@ -327,7 +341,8 @@ bool hax::Character::buy(std::string objName){
         return false;
     }
 }
-bool hax::Character::sell(std::string objName){
+bool hax::Character::sell(std::string objName)
+{
     Shop* shopArea = dynamic_cast<Shop*>(curArea);
     if(shopArea != NULL){
         Object* sale = curContainer->getObject(objName);
@@ -346,17 +361,26 @@ bool hax::Character::sell(std::string objName){
         return false;
     }
 }
-bool hax::Character::rest(){
+bool hax::Character::rest()
+{
     return(curArea->rest(this));
 }
-void hax::Character::ToString(std::ostream& out) const{
-    out << getType() <<" "<< name <<" "<< curHp <<" "<< maxHp <<" "<< strength <<" "<< weight;
-    out << *inventory << std::endl;
-    out << myWallet << std::endl;
+void hax::Character::ToString(std::ostream& out) const
+{
+    out << this <<":"<< getType() <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":";
+    for(size_t i=0; i < inventory->size(); i++)
+    {
+        Object* ob = (*inventory)[i];
+        out << ob << ":";
+        serializeQueue.push(ob);
+    }
+//    out << myWallet << ":";
 //    out << curContainer << std::endl; //not important
+
     out << curArea << std::endl; //OBS the address of curArea is written to the stream, TODO maybe this does not need to be saved since the information can be obtained by iterating through vec_char in each Area instance
 }
-void hax::Character::FromString(std::istream& in){
+void hax::Character::FromString(std::istream& in)
+{
 } //TODO
 std::string hax::Character::getType() const{return "character";}
 /*
@@ -367,7 +391,8 @@ std::string hax::Character::getType() const{return "character";}
   }
   }
 */
-void hax::Character::initStats(int curHp, int maxHp, int strength, int weight){
+void hax::Character::initStats(int curHp, int maxHp, int strength, int weight)
+{
     this->curHp = curHp;
     this->maxHp = maxHp;
     this->strength = strength;
@@ -375,18 +400,21 @@ void hax::Character::initStats(int curHp, int maxHp, int strength, int weight){
 }
 
 
-hax::Character::Wallet::Wallet(){
+hax::Character::Wallet::Wallet()
+{
     name = "wallet";
     descr = "";
     weight = 1;
     volume = 1;
     price = 0;
 }
-hax::Character::Wallet& hax::Character::Wallet::operator+=(const int profit){ //add Coins equal to int value
+hax::Character::Wallet& hax::Character::Wallet::operator+=(const int profit) //add Coins equal to int value
+{
     *this -= (-profit);
     return *this;
 }
-hax::Character::Wallet& hax::Character::Wallet::operator-=(const int cost){ //TODO return NULL first if cost > this->getPrice() ???
+hax::Character::Wallet& hax::Character::Wallet::operator-=(const int cost) //TODO return NULL first if cost > this->getPrice()???
+{
 //pop coins until amount is larger than cost then add new Coins for the change (växel) from shop
     int payment = 0;
     while(payment < cost){
@@ -414,35 +442,25 @@ hax::Character::Wallet& hax::Character::Wallet::operator-=(const int cost){ //TO
     }
     return *this;
 }
-int hax::Character::Wallet::hold_weight() const{
-    return 1;
-}
-int hax::Character::Wallet::hold_volume() const{
-    return 1000;
-}
-std::string hax::Character::Wallet::getType() const{
-    return "wallet";
-}
+int hax::Character::Wallet::hold_weight() const{return 1;}
+int hax::Character::Wallet::hold_volume() const{return 1000;}
+std::string hax::Character::Wallet::getType() const{return "wallet";}
 
 
-
-hax::Character::Pocket::Pocket(){
+hax::Character::Pocket::Pocket()
+{
     name = "pocket";
     descr = "nobody's";
 }
-hax::Character::Pocket::Pocket(std::string owner, unsigned int maxSize){
+hax::Character::Pocket::Pocket(std::string owner, unsigned int maxSize)
+{
     name = "pocket";
     descr = owner +"'s";
     weight = 1;
     volume = 1;
     this->maxSize = maxSize;
 }
-int hax::Character::Pocket::hold_weight() const{ //TODO hold_size() instead
-    return 100;
-}
-int hax::Character::Pocket::hold_volume() const{
-    return 100;
-}
-std::string hax::Character::Pocket::getType() const{
-    return "pocket";
-}
+//TODO hold_size() instead
+int hax::Character::Pocket::hold_weight() const{return 100;}
+int hax::Character::Pocket::hold_volume() const{return 100;}
+std::string hax::Character::Pocket::getType() const{return "pocket";}

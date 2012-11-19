@@ -1,14 +1,18 @@
 #include "area.h"
 #include "../ch/character.h"
+#include "../helper.h"
 
-hax::Area::Area(){
+hax::Area::Area()
+{
     gnd = new Ground(name);
 }
-hax::Area::Area(std::string n){
+hax::Area::Area(std::string n)
+{
     name = n;
     gnd = new Ground(name);
 }
-hax::Area::Area(const Area& ar){
+hax::Area::Area(const Area& ar)
+{
     std::cout << "Area::copy constructor" << std::endl;
     exits = ar.exits; //TODO cannot copy map like this
     vec_char = ar.vec_char;
@@ -16,7 +20,8 @@ hax::Area::Area(const Area& ar){
     name = ar.name;
     descr = ar.descr; //when no copy constructor here the descr set in the derived class will not be known by base class?
 }
-hax::Area::~Area(){
+hax::Area::~Area()
+{
     std::cout << "~Area: deleting " << name << "..." << std::endl;
     //delete Characters first since they could drop Objects that will be added to vec_obj
     while(!vec_char.empty()){
@@ -33,19 +38,24 @@ hax::Area::~Area(){
 
     std::cout << name << " deleted" << std::endl;
 }
-
-std::string hax::Area::getName() const{
+std::string hax::Area::getName() const
+{
     return name;
 }
-hax::SerializableVector<hax::Character*> hax::Area::chars() const{
+hax::SerializableVector<hax::Character*> hax::Area::chars() const
+{
     return vec_char;
 }
-hax::Area& hax::Area::neighbor(const Route& ro) const{ //TODO a command look north, return view and "this route leads to Hogwarts."
+hax::Area& hax::Area::neighbor(const Route& ro) const
+{
+//TODO a command look north, return view and "this route leads to Hogwarts."
     return *(ro.nextArea);
 }
-std::string hax::Area::directions() const{
+std::string hax::Area::directions() const
+{
     std::string myRoutes;
-    MapRoute::const_iterator it; //REMEMBER must use const_iterator in const function
+    //REMEMBER must use const_iterator in const function
+    MapRoute::const_iterator it;
     for(it = exits.begin(); it != exits.end(); it++){
         myRoutes.append(it->second->getName() +" to "+ neighbor(*(it->second)).getName() +", ");
     }
@@ -53,7 +63,8 @@ std::string hax::Area::directions() const{
 
     return myRoutes;
 }
-std::string hax::Area::description() const{
+std::string hax::Area::description() const
+{
     std::ostringstream oss;
     oss <<"You are in "<< name <<". "<< descr << std::endl;
 
@@ -67,7 +78,8 @@ std::string hax::Area::description() const{
     oss <<"Routes: "<< directions() << std::endl;
     return (oss.str());
 }
-void hax::Area::addRoute(Route* ro){
+void hax::Area::addRoute(Route* ro)
+{
     std::pair< MapRoute::iterator, bool > ret; //MapRoute is typedef
     ret = exits.insert( std::pair<std::string, Route*>(ro->getName(), ro) ); //will automatically check for key collisions
     if(ret.second == false){
@@ -75,27 +87,32 @@ void hax::Area::addRoute(Route* ro){
         delete ro; //delete it since it will not be added to an Area, what will happen to the new Obstacle? TODO
     }
 }
-void hax::Area::enter(Character* ch){
+void hax::Area::enter(Character* ch)
+{
 //update current area, IGNORE currently this is done in Character so that the pointer can be protected
     ch->curArea = this;
     vec_char.push_back(ch);
 }
-void hax::Area::leave(Character* const ch){
+void hax::Area::leave(Character* const ch)
+{
     if(findChar(ch) != vec_char.end()){
         vec_char.erase( findChar(ch) );
     }
 //TODO should set curArea = NULL?
 }
 //when a Character drops ob this Area will pick it up
-bool hax::Area::pick_up(Object* const ob){
+bool hax::Area::pick_up(Object* const ob)
+{
     gnd->add(ob);
     return true; //TODO derived classes can return false with virtual
 }
 //when a Character picks up ob this Area will drop it, i.e. giving ob to the Character
-bool hax::Area::drop(Object* const ob){
+bool hax::Area::drop(Object* const ob)
+{
     return gnd->remove(ob);
 }
-bool hax::Area::rest(Character* latmask){
+bool hax::Area::rest(Character* latmask)
+{
     std::ostringstream oss;
     oss << latmask->getName()+" rests in "+name+"." << std::endl;
 #ifdef DEBUG
@@ -104,71 +121,139 @@ bool hax::Area::rest(Character* latmask){
     hax::log.write(oss.str());
 #endif
 }
-hax::Character* hax::Area::spawn(){
+hax::Character* hax::Area::spawn()
+{
     return NULL; //TODO
 }
-hax::Character* hax::Area::getChar(std::string name){
+hax::Character* hax::Area::getChar(std::string name)
+{
+    //"it" is a pointer to a Character pointer
     SerializableVector<Character*>::iterator it;
     for(it = vec_char.begin(); it != vec_char.end(); it++){
-        if((*it)->getName() == name){ //"it" is a pointer to a Character pointer
-            return *it;
-        }
+        if((*it)->getName() == name){return *it;}
     }
     return NULL; //not found, return NULL
 }
-hax::SerializableVector<hax::Character*>::iterator hax::Area::findChar(Character* ch){
+hax::SerializableVector<hax::Character*>::iterator hax::Area::findChar(Character* ch)
+{
     SerializableVector<Character*>::iterator it;
     for(it = vec_char.begin(); it != vec_char.end(); it++){
-        if(*it == ch){ //"it" is a pointer to a Character pointer
-            return it;
-        }
+        if(*it == ch){return it;}
     }
     return it; //not found, return vec_char.end()
 }
-bool hax::Area::hasChar(Character* const ch) const{
+bool hax::Area::hasChar(Character* const ch) const
+{
     SerializableVector<Character*>::const_iterator it;
     for(it = vec_char.begin(); it != vec_char.end(); it++){
-        if(*it == ch){
-            return true;
-        }
+        if(*it == ch){return true;}
     }
     return false;
 }
-hax::Object* hax::Area::getObject(std::string name){
+hax::Object* hax::Area::getObject(std::string name)
+{
     return gnd->getObject(name);
 }
-hax::SerializableVector<hax::Object*>::iterator hax::Area::findObject(Object* ob){
+hax::SerializableVector<hax::Object*>::iterator hax::Area::findObject(Object* ob)
+{
     return gnd->findObject(ob);
 }
-bool hax::Area::hasObject(Object* const ob) const{
+bool hax::Area::hasObject(Object* const ob) const
+{
     return gnd->hasObject(ob);
 }
-void hax::Area::ToString(std::ostream& out) const{
-    out << name <<" "<< descr <<" "<< std::endl;
-    out << vec_char << std::endl;
-    out << exits << std::endl;
-    out << gnd << std::endl;
+void hax::Area::ToString(std::ostream& out) const
+{
+    out << this <<":"<< getType() <<":"<< name <<":"<< descr <<":";
+    for(size_t i=0; i<vec_char.size(); i++)
+    {
+        out << vec_char[i] << ":";
+        serializeQueue.push(vec_char[i]); //we can do this because we know that the Characters are only owned by this Area
+    }
+    out << "end:";
+    //REMEMBER must use const_iterator in const function
+    MapRoute::const_iterator it;
+    for(it = exits.begin(); it != exits.end(); it++)
+    {
+        out << it->second << ":";
+        serializeQueue.push(it->second);
+    }
+    out << "end:" << std::endl;
+//    out << gnd << std::endl; TODO
 }
-void hax::Area::FromString(std::istream& in){
-} //TODO
-std::string hax::Area::getType() const{
-    return "area";
-}
+void hax::Area::FromString(std::istream& in)
+{
+    std::string data;
+    std::vector<std::string> parsedObj = split(data,':');
+    std::queue<std::string> pQ;
+    for(int i=0; i<parsedObj.size(); i++)
+    {
+        pQ.push(parsedObj[i]);
+    }
+    pQ.pop();
+    pQ.pop();
+    name = pQ.front();
+    std::cout << name << std::endl;
+    pQ.pop();
+    descr = pQ.front();
+    std::cout << descr << std::endl;
+    pQ.pop();
+    while(pQ.front()!="end")
+    {
+        data = pQ.front();
+        pQ.pop();
+        vec_char.push_back(dynamic_cast<Character*>(pointerTable[data]));
+    }
+    while(pQ.front()!="end")
+    {
+        data = pQ.front();
+        pQ.pop();
+        Route* ro = dynamic_cast<Route*>(pointerTable[data]);
+        exits.insert(std::pair<SerializableString,Route*>(ro->getName(), ro)); //TODO need to call constructor Route(name) when allocating Routes otherwise name = ""
+    }
 
-hax::Area::Ground::Ground() : Container(){
+/*
+    std::getline(in,data,':'); //read type
+    if(data != getType()){std::cerr << "Type mismatch!" << std::endl;}
+    std::getline(in,data,':');
+    std::cout << data << std::endl;
+    name = data;
+    std::getline(in,data,':');
+    std::cout << data << std::endl;
+    descr = data;
+
+    std::getline(in,data,':');
+    std::cout << data << std::endl;
+    while(data != "end")
+    {
+        vec_char.push_back(dynamic_cast<Character*>(pointerTable[data]));
+    std::getline(in,data,':');
+    std::cout << data << std::endl;
+    }
+
+    std::getline(in,data,':');
+    std::cout << data << std::endl;
+    while(data != "end")
+    {
+        Route* ro = dynamic_cast<Route*>(pointerTable[data]);
+        exits.insert(std::pair<SerializableString,Route*>(ro->getName(), ro)); //TODO need to call constructor Route(name) when allocating Routes otherwise name = ""
+        std::getline(in,data,':');
+        std::cout << data << std::endl;
+    }
+*/
+}
+std::string hax::Area::getType() const{return "area";}
+
+hax::Area::Ground::Ground() : Container()
+{
     name = "ground";
     descr = "some area's";
 }
-hax::Area::Ground::Ground(std::string areaName){
+hax::Area::Ground::Ground(std::string areaName)
+{
     name = "ground";
     descr = areaName;
 }
-int hax::Area::Ground::hold_weight() const{
-    return 10000;
-}
-int hax::Area::Ground::hold_volume() const{
-    return 10000;
-}
-std::string hax::Area::Ground::getType() const{
-    return "ground";
-}
+int hax::Area::Ground::hold_weight() const{return 10000;}
+int hax::Area::Ground::hold_volume() const{return 10000;}
+std::string hax::Area::Ground::getType() const{return "ground";}

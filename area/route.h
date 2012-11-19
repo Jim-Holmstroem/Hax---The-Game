@@ -3,10 +3,12 @@
 #include<iostream>
 #include "../serialize/iserializable.h"
 
-namespace hax{
+namespace hax
+{
+    //using forward declaration!!!! otherwise circular inclusion, this is possible when we only have pointers
     class Character;
-    class Area; //using forward declaration!!!! otherwise circular inclusion, this is possible when we only have pointers
-//http://www.codeguru.com/forum/showthread.php?t=383253
+    class Area;
+    //http://www.codeguru.com/forum/showthread.php?t=383253
 //    class Container;
     class Key;
 
@@ -26,6 +28,7 @@ namespace hax{
 	virtual void FromString(std::istream&);
         virtual std::string getType() const;
 
+        /*data*/
         Area* thisArea;
         Area* nextArea; //could make interesting maps by changing this during game
 

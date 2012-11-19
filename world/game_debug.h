@@ -18,7 +18,8 @@ int main(int argc, const char* argv[]);
 
 #define len(a) ( sizeof(a) / sizeof(a[0]) )
 
-namespace hax{
+namespace hax
+{
     class Level; //forward declaration
     Level* initNewGame();
 }

@@ -169,12 +169,40 @@ void hax::Level::parse(const std::vector<std::string> words)
 }
 void hax::Level::ToString(std::ostream& out) const
 {
-    out << vec_area;
-//    out<< curChar << curCharName; //not important
+    out << this <<":"<< getType() <<":";
+    for(size_t i=0; i<vec_area.size(); i++)
+    {
+        out << vec_area[i] << ":";
+        serializeQueue.push(vec_area[i]); //we can do this because we know that the Areas are only owned by Level, TODO use C++11 feature std::unique_ptr
+    }
+    out << "end:";
+    out << curChar <<":"<< curCharName << std::endl;
 }
 void hax::Level::FromString(std::istream& in)
 {
-} //TODO
+    std::cout << "Level::FromString" << std::endl;
+    std::string data;
+    std::getline(in,data,':');
+    std::cout << data << std::endl; //read type
+    std::getline(in,data,':');
+    std::cout << data << std::endl;
+    //first part is data for vec_area, we know this from Level::ToString
+    while(data != "end")
+    {
+        vec_area.push_back(dynamic_cast<Area*>(pointerTable[data]));
+        std::getline(in,data,':');
+        std::cout << data << std::endl;
+    }
+
+    std::getline(in,data,':');
+    std::cout << data << std::endl;
+    if(data == "0"){curChar = NULL;}
+    else{curChar = dynamic_cast<Character*>(pointerTable[data]);}
+
+    std::getline(in,data); //last column
+    std::cout << data << std::endl;
+    curCharName = data; //TODO safe to save even if curChar = NULL??
+}
 std::string hax::Level::getType() const{return "level";}
 void hax::Level::updatePlayers()
 {
@@ -287,22 +315,49 @@ bool hax::Level::kill(std::string name)
 }
 bool hax::Level::save(std::string filename)
 {
+//    serializeQueue.clear(); //TODO is this needed?
     std::ofstream outFile(("saved/"+filename+".dat").c_str());
-    outFile << *this;
+    serializeQueue.push(this);
+    while(!serializeQueue.empty())
+    {
+        outFile << *(serializeQueue.front());
+        serializeQueue.pop();
+    }
     outFile.close();
 }
 bool hax::Level::load(std::string filename)
 {
     deleteAreas();
+    pointerTable.clear();
     std::cout << "Current objects deleted. Starting to load from "+filename+"..." << std::endl;
 
     std::ifstream inFile(("saved/"+filename+".dat").c_str());
-    inFile >> *this;
+    std::string data;
+
+    //Step 1: Go through file and allocate every object (one line per object) with default constructor
+    while(std::getline(inFile,data))
+    {
+        std::cout << data << std::endl;
+        std::vector<std::string> parsedObject = split(data,':');
+        //Step 2: Generate a std::map with the UID of the object as key value and a pointer to the object as mapped value (this is done during step 1)
+        pointerTable.insert(std::pair<std::string,ISerializable*>(parsedObject[0], allocateData(parsedObject[1])));
+    }
+    std::cout << "All objects allocated and their pointers are stored in a lookup table." << std::endl;
+
+    //Step 3: Go through the file again (or the saved stream data) and read data into each object
+    inFile.clear();
+    inFile.seekg(0, std::ios::beg); //return to beginning of ifstream
+    std::cout << "Re-reading the file..." << std::endl;
+    while(!inFile.eof())
+    {
+        std::getline(inFile,data,':'); //read UID
+        std::cout << "Reading data into object " << data <<"..."<< std::endl;
+        inFile >> *(pointerTable[data]);
+//        std::getline(inFile,data); //throw away rest of line OBS segfault, inFile is a reference so the rest of the line is already being read!!!!!
+    }
     inFile.close();
 }
 void hax::Level::deleteAreas()
 {
-    for(size_t i=0; i<vec_area.size(); i++){
-        delete vec_area[i];
-    }
+    for(size_t i=0; i<vec_area.size(); i++){delete vec_area[i];}
 }

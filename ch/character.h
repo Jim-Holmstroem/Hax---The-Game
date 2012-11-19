@@ -14,17 +14,20 @@
 #include "../ncurses/logger.h"
 #endif
 
-namespace hax{
+namespace hax
+{
 #ifndef DEBUG
     extern Logger log;
 #endif
 
-    class Area; //forward declaration
+    /*forward declarations*/
+    class Area;
     class Object;
     class Route;
 //    template <typename T> class Container;
 
-    class Character : public ISerializable{
+    class Character : public ISerializable
+    {
       public:
         Character();
         Character(std::string);
@@ -79,7 +82,9 @@ namespace hax{
         virtual void initStats(int,int,int,int);
 
       private:
-        class Wallet : public Container{ //supposed to contain in-game currency
+        //supposed to contain in-game currency
+        class Wallet : public Container
+        {
           public:
             Wallet();
             Wallet& operator+=(const int);
@@ -90,7 +95,8 @@ namespace hax{
         };
 
 //OBS! Both Pocket and Ground are private in character.h resp area.h so they cannot be added to another container from outside
-        class Pocket : public Container{
+        class Pocket : public Container
+        {
           public:
             Pocket();
             Pocket(std::string, unsigned int);

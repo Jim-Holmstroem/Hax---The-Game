@@ -180,28 +180,36 @@ void hax::Level::ToString(std::ostream& out) const
 }
 void hax::Level::FromString(std::istream& in)
 {
-    std::cout << "Level::FromString" << std::endl;
+    std::ofstream dbg;
+    dbg.open("load_debug.dat", std::ios::out | std::ios::app); //append to file
+    dbg << "Level::FromString" << std::endl;
+
     std::string data;
+    std::getline(in,data,':'); //read type
+    if(data != getType())
+    {
+        dbg << "Type mismatch! Aborting load from file." << std::endl;
+        dbg.close();
+        return;
+    }
     std::getline(in,data,':');
-    std::cout << data << std::endl; //read type
-    std::getline(in,data,':');
-    std::cout << data << std::endl;
     //first part is data for vec_area, we know this from Level::ToString
-    while(data != "end")
+    while(data!="end")
     {
         vec_area.push_back(dynamic_cast<Area*>(pointerTable[data]));
+        dbg << "Area UID = " << data << " | Area new address = " << vec_area.back() << std::endl;
         std::getline(in,data,':');
-        std::cout << data << std::endl;
     }
 
     std::getline(in,data,':');
-    std::cout << data << std::endl;
     if(data == "0"){curChar = NULL;}
     else{curChar = dynamic_cast<Character*>(pointerTable[data]);}
+    dbg << "curChar = " << curChar << std::endl;
 
     std::getline(in,data); //last column
-    std::cout << data << std::endl;
     curCharName = data; //TODO safe to save even if curChar = NULL??
+    dbg << "curCharName = " << curCharName << std::endl;
+    dbg.close();
 }
 std::string hax::Level::getType() const{return "level";}
 void hax::Level::updatePlayers()
@@ -327,37 +335,67 @@ bool hax::Level::save(std::string filename)
 }
 bool hax::Level::load(std::string filename)
 {
+    std::ifstream inFile(("saved/"+filename+".dat").c_str());
+    if(!inFile)
+    {
+        std::cout << "File not found!" << std::endl;
+        return false;
+    }
+
     deleteAreas();
     pointerTable.clear();
     std::cout << "Current objects deleted. Starting to load from "+filename+"..." << std::endl;
 
-    std::ifstream inFile(("saved/"+filename+".dat").c_str());
-    std::string data;
+    std::ofstream dbg;
+    dbg.open("load_debug.dat", std::ios::out | std::ios::trunc); //if file existed before it will be overwritten
+    dbg << "**Load game**\n";
 
-    //Step 1: Go through file and allocate every object (one line per object) with default constructor
+    //first line is data for Level, this is a special case since Level does not need to be allocated
+    std::string data;
+    std::getline(inFile,data);
+    dbg << "Reading line: " << data << std::endl;
+    std::vector<std::string> parsedObj = split(data,':');
+    std::string UID = parsedObj[0];
+    std::string type = parsedObj[1];
+    pointerTable.insert(std::pair<std::string,ISerializable*>(UID,this));
+
+    //Step 1: Go through file and allocate every object (one line per object) with default(+name) constructor
     while(std::getline(inFile,data))
     {
-        std::cout << data << std::endl;
-        std::vector<std::string> parsedObject = split(data,':');
+        dbg << "Reading line: " << data << std::endl;
+        std::vector<std::string> parsedObj = split(data,':');
         //Step 2: Generate a std::map with the UID of the object as key value and a pointer to the object as mapped value (this is done during step 1)
-        pointerTable.insert(std::pair<std::string,ISerializable*>(parsedObject[0], allocateData(parsedObject[1])));
+        std::string UID = parsedObj[0];
+        std::string type = parsedObj[1];
+        std::string name = parsedObj[2];
+        pointerTable.insert(std::pair<std::string,ISerializable*>(UID, allocateData(type,name)));
+        dbg << "Allocated " << type <<"@"<< UID << std::endl;
     }
-    std::cout << "All objects allocated and their pointers are stored in a lookup table." << std::endl;
+    dbg << std::endl << "All objects are allocated and their pointers are stored in a lookup table." << std::endl;
 
     //Step 3: Go through the file again (or the saved stream data) and read data into each object
     inFile.clear();
-    inFile.seekg(0, std::ios::beg); //return to beginning of ifstream
-    std::cout << "Re-reading the file..." << std::endl;
+    inFile.seekg(0, std::ios::beg);
+    dbg << std::endl << "Re-reading the file..." << std::endl;
+    std::getline(inFile,data,':'); //read UID
     while(!inFile.eof())
     {
-        std::getline(inFile,data,':'); //read UID
-        std::cout << "Reading data into object " << data <<"..."<< std::endl;
+        dbg << std::endl << "Reading data into object..." << std::endl;
+        dbg << "UID = " << data << " | New address = " << pointerTable[data] << std::endl;
+        dbg.close();
         inFile >> *(pointerTable[data]);
-//        std::getline(inFile,data); //throw away rest of line OBS segfault, inFile is a reference so the rest of the line is already being read!!!!!
+//        std::getline(inFile,data); //throw away rest of line OBS segfault, inFile is a reference so the rest of the line has already being read!!!!!
+        dbg.open("load_debug.dat", std::ios::out | std::ios::app); //append to file
+        dbg << "Finished reading data into object." << std::endl;
+        std::getline(inFile,data,':'); //read UID (or EOF)
     }
+    dbg << std::endl << "Finished loading game state. GLHF!" << std::endl;
     inFile.close();
+    dbg.close();
+    return true;
 }
 void hax::Level::deleteAreas()
 {
     for(size_t i=0; i<vec_area.size(); i++){delete vec_area[i];}
+    vec_area.clear();
 }

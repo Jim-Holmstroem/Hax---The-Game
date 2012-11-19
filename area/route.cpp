@@ -1,16 +1,24 @@
+#include<cstdio>
+#include<cstdlib>
+#include<fstream>
 #include "route.h"
 #include "../ch/character.h"
 #include "../area/area.h"
 //#include "../obj/container.h" //needed for inventory
+#include "../helper.h"
 
 hax::Route::Route()
 {
     thisArea = NULL;
     nextArea = NULL;
 }
-hax::Route::Route(std::string n, Area* from, Area* to)
+hax::Route::Route(std::string name)
 {
-    name = n;
+    this->name = name;
+}
+hax::Route::Route(std::string name, Area* from, Area* to)
+{
+    this->name = name;
     thisArea = from;
     nextArea = to;
 }
@@ -34,15 +42,52 @@ void hax::Route::ToString(std::ostream& out) const
 }
 void hax::Route::FromString(std::istream& in)
 {
-} //TODO
-std::string hax::Route::getType() const
-{
-    return "Route";
-}
+    std::ofstream dbg;
+    dbg.open("load_debug.dat", std::ios::out | std::ios::app);
+    dbg << "Route::FromString" << std::endl;
 
-hax::Door::Door() : Route(){
+    std::string data;
+    std::getline(in,data); //read rest of line
+    std::vector<std::string> parsedObj = split(data,':');
+    std::queue<std::string> pQ;
+    for(int i=0; i<parsedObj.size(); i++)
+    {
+        pQ.push(parsedObj[i]);
+    }
+    std::string type = pQ.front();
+    pQ.pop();
+    if(type != getType())
+    {
+        dbg << "Type mismatch! Aborting load from file." << std::endl;
+        dbg.close();
+        return;
+    }
+    name = pQ.front();
+    pQ.pop();
+    dbg << "Name = " << name << std::endl;
+
+    view = pQ.front();
+    pQ.pop();
+    dbg << "View = " << view << std::endl;
+
+    std::string thisAreaUID = pQ.front();
+    thisArea = dynamic_cast<Area*>(pointerTable[thisAreaUID]);
+    pQ.pop();
+    dbg << "thisArea UID = " << thisAreaUID << " | thisArea new address = " << thisArea << std::endl;
+
+    std::string nextAreaUID = pQ.front();
+    nextArea = dynamic_cast<Area*>(pointerTable[nextAreaUID]);
+    pQ.pop();
+    dbg << "nextArea UID = " << nextAreaUID << " | nextArea new address = " << nextArea << std::endl;
+    dbg.close();
+}
+std::string hax::Route::getType() const{return "Route";}
+
+hax::Door::Door() : Route()
+{
     match_key = NULL;
 }
+hax::Door::Door(std::string name) : Route(name){}
 hax::Door::Door(std::string name, Area* from, Area* to) : Route(name, from, to)
 {
     match_key = NULL;
@@ -81,7 +126,9 @@ std::string hax::Door::passMessage() const
 }
 
 hax::Hatch::Hatch() : Route(){}
-hax::Hatch::Hatch(std::string name, Area* from, Area* to) : Route(name, from, to){
+hax::Hatch::Hatch(std::string name) : Route(name){}
+hax::Hatch::Hatch(std::string name, Area* from, Area* to) : Route(name, from, to)
+{
 //    type = "hatch";
 }
 std::string hax::Hatch::getType() const{return "hatch";}

@@ -8,7 +8,7 @@
 #include "../obj/obstacle.h"
 #include "../area/road.h"
 
-hax::ISerializable* hax::allocateData(std::string type)
+hax::ISerializable* hax::allocateData(std::string type, std::string name)
 {
     if(type == "level"){return new Level();}
     else if(type == "wizard"){return new Wizard();}
@@ -21,8 +21,9 @@ hax::ISerializable* hax::allocateData(std::string type)
     else if(type == "shop"){return new Shop();}
     else if(type == "backpack"){return new Backpack();}
     else if(type == "key"){return new Key();}
-    else if(type == "road"){return new Road();}
-    else if(type == "door"){return new Door();}
+    else if(type == "road"){return new Road(name);}
+    else if(type == "door"){return new Door(name);}
+    else if(type == "hatch"){return new Hatch(name);}
     else{return NULL;}
 }
 hax::Character* hax::getAllocatedCharacter(std::string type)

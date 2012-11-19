@@ -1,16 +1,20 @@
+#include<cstdio>
+#include<cstdlib>
+#include<fstream>
 #include "character.h"
 #include "../area/area.h" //included here since there are only Area pointers
 #include "../area/indoor.h"
 #include "../obj/object.h" //same reason as above
 #include "../obj/coin.h"
 #include "../area/route.h"
+#include "../helper.h"
 
 hax::Character::Character()
 {
     name = "defaultName";
     curArea = NULL;
-    inventory = new Pocket();
-    curContainer = inventory;
+//    inventory = new Pocket();
+//    curContainer = inventory;
 }
 hax::Character::Character(std::string n)
 {
@@ -25,6 +29,7 @@ hax::Character::Character(std::string n)
 //works perfectly, just too many debug prints
 Coin values[] = {PtCoin(), AuCoin(), AgCoin(), CuCoin(), FeCoin(), NiCoin()};
 //coin worth: 100, 50, 20, 10, 5, 1 kr
+
 while(myWallet.getPrice() < 200){
 myWallet.add(new Coin( values[rand()%len(values)] ));
 }
@@ -368,20 +373,82 @@ bool hax::Character::rest()
 void hax::Character::ToString(std::ostream& out) const
 {
     out << this <<":"<< getType() <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":";
+
+    out << curArea << std::endl; //OBS the address of curArea is written to the stream, TODO maybe this does not need to be saved since the information can be obtained by iterating through vec_char in each Area instance
+/*
     for(size_t i=0; i < inventory->size(); i++)
     {
         Object* ob = (*inventory)[i];
         out << ob << ":";
         serializeQueue.push(ob);
     }
+
+    out << "end:";
+*/
+
 //    out << myWallet << ":";
 //    out << curContainer << std::endl; //not important
 
-    out << curArea << std::endl; //OBS the address of curArea is written to the stream, TODO maybe this does not need to be saved since the information can be obtained by iterating through vec_char in each Area instance
+
 }
 void hax::Character::FromString(std::istream& in)
 {
-} //TODO
+    std::ofstream dbg;
+    dbg.open("load_debug.dat", std::ios::out | std::ios::app);
+    dbg << "Character::FromString" << std::endl;
+
+    std::string data;
+    std::getline(in,data); //read rest of line
+    std::vector<std::string> parsedObj = split(data,':');
+    std::queue<std::string> pQ;
+    for(int i=0; i<parsedObj.size(); i++)
+    {
+        pQ.push(parsedObj[i]);
+    }
+    std::string type = pQ.front();
+    pQ.pop();
+    if(type != getType())
+    {
+        dbg << "Type mismatch! Aborting load from file." << std::endl;
+        dbg.close();
+        return;
+    }
+    name = pQ.front();
+    pQ.pop();
+    dbg << "Name = " << name << std::endl;
+
+    curHp = std::atoi(pQ.front().c_str());
+    pQ.pop();
+    dbg << "Current HP = " << curHp << std::endl;
+
+    maxHp = std::atoi(pQ.front().c_str());
+    pQ.pop();
+    dbg << "Max HP = " << maxHp << std::endl;
+
+    strength = std::atoi(pQ.front().c_str());
+    pQ.pop();
+    dbg << "Strength = " << strength << std::endl;
+
+    weight = std::atoi(pQ.front().c_str());
+    pQ.pop();
+    dbg << "Weight = " << weight << std::endl;
+
+    std::string curAreaUID = pQ.front();
+    curArea = dynamic_cast<Area*>(pointerTable[curAreaUID]);
+    pQ.pop();
+    dbg << "curArea UID = " << curAreaUID << " | curArea new address = " << curArea << std::endl;
+/*
+    while(pQ.front()!="end")
+    {
+        data = pQ.front();
+        pQ.pop();
+        dbg << "Object = " << data << std::endl;
+        vec_obj.push_back(dynamic_cast<Object*>(pointerTable[data]));
+    }
+    pQ.pop();
+*/
+    dbg.close();
+}
 std::string hax::Character::getType() const{return "character";}
 /*
   void hax::Character::check(Object* ob){ //TODO

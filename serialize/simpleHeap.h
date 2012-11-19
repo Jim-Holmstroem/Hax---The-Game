@@ -12,7 +12,7 @@ namespace hax
     class Object;
     class Route;
 
-    ISerializable* allocateData(std::string);
+    ISerializable* allocateData(std::string, std::string);
     Character* getAllocatedCharacter(std::string);
     Area* getAllocatedArea(std::string);
     Object* getAllocatedObject(std::string);

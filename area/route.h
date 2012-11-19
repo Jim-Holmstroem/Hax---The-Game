@@ -16,6 +16,7 @@ namespace hax
     {
       public:
         Route();
+        Route(std::string);
         Route(std::string, Area*, Area*);
         ~Route();
 
@@ -44,6 +45,7 @@ namespace hax
     {
       public:
         Door();
+        Door(std::string);
 	Door(std::string, Area*, Area*);
 	Door(std::string, Area*, Area*, Key*);
 	virtual bool isBlocked(Character*) const;
@@ -59,6 +61,7 @@ namespace hax
     {
       public:
         Hatch();
+        Hatch(std::string);
 	Hatch(std::string, Area*, Area*);
 	virtual bool isBlocked(Character*) const;
 	virtual std::string blockMessage() const;

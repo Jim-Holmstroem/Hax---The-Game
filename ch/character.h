@@ -9,6 +9,7 @@
 #include<stack>
 #include<queue>
 #include<cmath>
+#include "../serialize/iserializable.h"
 #include "../obj/container.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"

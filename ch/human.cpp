@@ -1,3 +1,6 @@
+#include<cstdio>
+#include<cstdlib>
+#include<fstream>
 #include "human.h"
 
 hax::Human::Human() : Character()
@@ -34,6 +37,7 @@ void hax::Human::ToString(std::ostream& out) const
 }; //TODO
 void hax::Human::FromString(std::istream& in)
 {
+    Character::FromString(in);
 }; //TODO
 std::string hax::Human::getType() const{return "human";}
 void hax::Human::initStats(int curHp, int maxHp, int strength, int weight)
@@ -91,8 +95,14 @@ void hax::Wizard::ToString(std::ostream& out) const
 } //TODO
 void hax::Wizard::FromString(std::istream& in)
 {
+    Human::FromString(in);
+    std::ofstream dbg;
+    dbg.open("load_debug.dat", std::ios::out | std::ios::app);
+    dbg << "Wizard::FromString" << std::endl;
+    dbg.close();
+
 } //TODO
-std::string hax::Wizard::getType() const{return ("wizard");}
+std::string hax::Wizard::getType() const{return "wizard";}
 
 
 hax::Barbarian::Barbarian() : Human()

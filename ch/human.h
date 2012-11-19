@@ -3,7 +3,8 @@
 #include "character.h"
 #include<iostream>
 
-namespace hax{
+namespace hax
+{
     class Human : public Character
     {
       public:
@@ -43,10 +44,10 @@ namespace hax{
         int curMp; //magic points
         int maxMp;
         virtual void initStats(int,int,int,int);
-
     };
 
-    class Barbarian : public Human{
+    class Barbarian : public Human
+    {
       public:
 	Barbarian();
 	Barbarian(std::string);

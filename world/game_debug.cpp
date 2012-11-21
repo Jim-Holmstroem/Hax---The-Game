@@ -30,18 +30,18 @@ int main(int argc, const char* argv[])
     std::cout << "Pay attention to case sensitivity!" << std::endl;
 
     std::string input = "";
-    while(input != "quit"){
+    while(input != "quit")
+    {
         std::getline(std::cin, input);
-        if(input != ""){
-            test->parse(hax::split(input));
-
+        if(input != "")
+        {
             std::ofstream dbg;
             dbg.open("parse_debug.dat", std::ios::out | std::ios::app); //append to EOF
-            dbg << input << "\n"; //write to parse_debug.dat
+            dbg << input << std::endl; //write to parse_debug.dat
             dbg.close();
+            test->parse(hax::split(input));
         }
     }
-
     delete test;
 
     return 0;

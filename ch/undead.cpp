@@ -55,7 +55,7 @@ hax::Necromancer::Necromancer(std::string name) : Undead(name)
 void hax::Necromancer::attack(Character* ch) //TODO
 {
     Undead::attack(ch);
-    Skeleton* minion = new Skeleton();
+    Skeleton* minion = new Skeleton("Skelly");
     std::cout << getName() << " raised a " << minion->getType() << " from the dead!" << std::endl;
     curArea->enter(minion);
     minion->attack(ch);

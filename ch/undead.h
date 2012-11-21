@@ -2,7 +2,8 @@
 #define UNDEAD_H
 #include "character.h"
 
-namespace hax{
+namespace hax
+{
     class Undead : public Character
     {
       public:

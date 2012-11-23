@@ -1,19 +1,22 @@
 #include "obstacle.h"
 
-hax::Obstacle::Obstacle(){
+hax::Obstacle::Obstacle()
+{
     weight = -1; //TODO
     volume = 0;
     price = 0;
 }
-hax::Obstacle::Obstacle(void* vo){
+hax::Obstacle::Obstacle(void* vo)
+{
 //    criteria = vo;
 }
-hax::Obstacle::~Obstacle(){
+hax::Obstacle::~Obstacle()
+{
     std::cout << "~Obstacle()" << std::endl;
 }
 
-hax::Tree::Tree(){
-    name = "tree";
+hax::Tree::Tree()
+{
     const char* attr[] = { //attributes
         "oak",
         "willow",
@@ -21,6 +24,4 @@ hax::Tree::Tree(){
     };
     descr = attr[rand() % len(attr)];
 }
-std::string hax::Tree::getType() const{
-    return "tree";
-}
+std::string hax::Tree::getType() const{return "tree";}

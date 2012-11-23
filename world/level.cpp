@@ -181,7 +181,7 @@ void hax::Level::ToString(std::ostream& out) const
 void hax::Level::FromString(std::istream& in)
 {
     std::ofstream dbg;
-    dbg.open("load_debug.dat", std::ios::out | std::ios::app); //append to file
+    dbg.open("load_debug.dat", std::ios::out | std::ios::app);
     dbg << "Level::FromString" << std::endl;
 
     std::string data;

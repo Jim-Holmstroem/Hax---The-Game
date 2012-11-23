@@ -43,6 +43,7 @@ bool hax::Container::remove(Object* const ob)
 }
 size_t hax::Container::size() const{return vec_obj.size();}
 bool hax::Container::empty() const{return vec_obj.empty();}
+hax::Object* hax::Container::back(){return vec_obj.back();}
 std::string hax::Container::contents() const
 {
     std::ostringstream oss;
@@ -123,7 +124,6 @@ std::string hax::Container::getType() const{return "container";}
 
 hax::Backpack::Backpack()
 {
-    name = "backpack";
     const char* attr[] = { //attributes
         "gangsta",
         "old",

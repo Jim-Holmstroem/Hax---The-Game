@@ -1,7 +1,9 @@
 #include "object.h"
 
-namespace hax{
-    class Coin : public Object{
+namespace hax
+{
+    class Coin : public Object
+    {
       public:
         Coin();
         Coin(const Coin&);

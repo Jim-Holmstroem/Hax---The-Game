@@ -22,8 +22,8 @@ namespace hax{
         bool add(Object* const); //TODO hur används dessa 2 fkner via Character?
         bool remove(Object* const);
         size_t size() const;
-        Object* pop();
         bool empty() const;
+        Object* back();
 	std::string contents() const;
 	std::map<std::string, Container*> get_subContainers();
         SerializableVector<hax::Object*>::iterator findObject(Object* const);

@@ -294,7 +294,7 @@ bool hax::Character::pick_up(std::string objName)
             std::cout <<"Only Chuck Norris can pick up Obstacles!"<< std::endl;
             return false;
         }else if(curArea->drop(ob)){ //object picked up (removed from curArea), now add to correct container (no need to consider this in drop since cannot drop money)
-            if(ob->getName() == "coin"){
+            if(ob->getType() == "coin"){
                 myWallet.add(ob);
             }else{
                 curContainer->add(ob);
@@ -372,23 +372,19 @@ bool hax::Character::rest()
 }
 void hax::Character::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":";
+    out << this <<":"<< getType() <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":"<< curArea <<":";
 
-    out << curArea << std::endl; //OBS the address of curArea is written to the stream, TODO maybe this does not need to be saved since the information can be obtained by iterating through vec_char in each Area instance
-/*
     for(size_t i=0; i < inventory->size(); i++)
     {
         Object* ob = (*inventory)[i];
         out << ob << ":";
         serializeQueue.push(ob);
     }
-
-    out << "end:";
-*/
+    out << "end";
 
 //    out << myWallet << ":";
 //    out << curContainer << std::endl; //not important
-
+    out << std::endl;
 
 }
 void hax::Character::FromString(std::istream& in)
@@ -437,16 +433,17 @@ void hax::Character::FromString(std::istream& in)
     curArea = dynamic_cast<Area*>(pointerTable[curAreaUID]);
     pQ.pop();
     dbg << "curArea UID = " << curAreaUID << " | curArea new address = " << curArea << std::endl;
-/*
+
+    inventory = new Pocket(name,5);
     while(pQ.front()!="end")
     {
         data = pQ.front();
         pQ.pop();
-        dbg << "Object = " << data << std::endl;
-        vec_obj.push_back(dynamic_cast<Object*>(pointerTable[data]));
+        inventory->add(dynamic_cast<Object*>(pointerTable[data]));
+        dbg << "Object UID = " << data << " | Object new address = " << inventory->back() << std::endl;
     }
     pQ.pop();
-*/
+
     dbg.close();
 }
 std::string hax::Character::getType() const{return "character";}
@@ -469,7 +466,6 @@ void hax::Character::initStats(int curHp, int maxHp, int strength, int weight)
 
 hax::Character::Wallet::Wallet()
 {
-    name = "wallet";
     descr = "";
     weight = 1;
     volume = 1;
@@ -516,12 +512,10 @@ std::string hax::Character::Wallet::getType() const{return "wallet";}
 
 hax::Character::Pocket::Pocket()
 {
-    name = "pocket";
     descr = "nobody's";
 }
 hax::Character::Pocket::Pocket(std::string owner, unsigned int maxSize)
 {
-    name = "pocket";
     descr = owner +"'s";
     weight = 1;
     volume = 1;

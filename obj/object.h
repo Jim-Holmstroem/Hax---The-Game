@@ -7,7 +7,8 @@
 
 #define len(a) ( sizeof(a) / sizeof(a[0]) )
 
-namespace hax{
+namespace hax
+{
     class Object : public ISerializable
     {
       public:
@@ -25,7 +26,6 @@ namespace hax{
         delete con1;
         delete con2;
 */
-        std::string getName() const;
         std::string description() const;
         int getWeight() const;
         int getVolume() const;
@@ -38,7 +38,6 @@ namespace hax{
 
       protected:
         /*data*/
-        std::string name;
         std::string descr;
         int weight; //unit is kg
         int volume; //unit is liter

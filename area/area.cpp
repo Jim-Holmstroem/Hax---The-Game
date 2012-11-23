@@ -181,8 +181,9 @@ void hax::Area::ToString(std::ostream& out) const
         out << it->second << ":";
         serializeQueue.push(it->second);
     }
-    out << "end:" << std::endl;
+    out << "end:";
 //    out << gnd << std::endl; TODO
+    out << std::endl;
 }
 void hax::Area::FromString(std::istream& in)
 {
@@ -220,7 +221,6 @@ void hax::Area::FromString(std::istream& in)
         pQ.pop();
         vec_char.push_back(dynamic_cast<Character*>(pointerTable[data]));
         dbg << "Character UID = " << data << " | Character new address = " << vec_char.back() << std::endl;
-
     }
     pQ.pop();
     while(pQ.front()!="end")
@@ -262,20 +262,17 @@ void hax::Area::FromString(std::istream& in)
         dbg << data << std::endl;
     }
 */
-
     dbg.close();
 }
 std::string hax::Area::getType() const{return "area";}
 
 hax::Area::Ground::Ground() : Container()
 {
-    name = "ground";
     descr = "some area's";
 }
-hax::Area::Ground::Ground(std::string areaName)
+hax::Area::Ground::Ground(std::string ownedByArea)
 {
-    name = "ground";
-    descr = areaName;
+    descr = ownedByArea.append(" 's");
 }
 int hax::Area::Ground::hold_weight() const{return 10000;}
 int hax::Area::Ground::hold_volume() const{return 10000;}

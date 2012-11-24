@@ -38,4 +38,4 @@ level.o: level.cpp level.h Makefile_debug
 clean:
 	rm -f $(OBJ) $(PRGM)
 run:
-	valgrind --leak-check=full ./$(PRGM)
+	valgrind --leak-check=full --show-reachable=yes --track-origins=yes ./$(PRGM)

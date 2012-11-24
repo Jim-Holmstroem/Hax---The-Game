@@ -10,7 +10,6 @@
 #include<queue>
 #include<cmath>
 #include "../serialize/iserializable.h"
-#include "../obj/container.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif
@@ -25,6 +24,9 @@ namespace hax
     class Area;
     class Object;
     class Route;
+    class Container;
+    class Pocket;
+    class Wallet;
 //    template <typename T> class Container;
 
     class Character : public ISerializable
@@ -83,35 +85,10 @@ namespace hax
         virtual void initStats(int,int,int,int);
 
       private:
-        //supposed to contain in-game currency
-        class Wallet : public Container
-        {
-          public:
-            Wallet();
-            Wallet& operator+=(const int);
-            Wallet& operator-=(const int);
-            virtual int hold_weight() const;
-            virtual int hold_volume() const;
-	    virtual std::string getType() const;
-        };
-
-//OBS! Both Pocket and Ground are private in character.h resp area.h so they cannot be added to another container from outside
-        class Pocket : public Container
-        {
-          public:
-            Pocket();
-            Pocket(std::string, unsigned int);
-            virtual int hold_weight() const;
-            virtual int hold_volume() const;
-	    virtual std::string getType() const;
-          private:
-            unsigned int maxSize;
-        };
-
 	/*private data*/
         std::string name;
         Pocket* inventory;
-        Wallet myWallet;
+        Wallet* myWallet;
 	Container* curContainer; //command "cd" and "ls" uses this
 	std::stack<Container*> folderStack;
     };

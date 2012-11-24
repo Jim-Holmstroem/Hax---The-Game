@@ -5,6 +5,7 @@
 #include "../area/area.h" //included here since there are only Area pointers
 #include "../area/indoor.h"
 #include "../obj/object.h" //same reason as above
+#include "../obj/container.h"
 #include "../obj/coin.h"
 #include "../area/route.h"
 #include "../helper.h"
@@ -13,8 +14,7 @@ hax::Character::Character()
 {
     name = "defaultName";
     curArea = NULL;
-//    inventory = new Pocket();
-//    curContainer = inventory;
+    myWallet = NULL;
 }
 hax::Character::Character(std::string n)
 {
@@ -22,8 +22,8 @@ hax::Character::Character(std::string n)
     curArea = NULL;
     inventory = new Pocket(name, 5);
     curContainer = inventory;
-
-    myWallet.add(new NdCoin()); //1000 kr
+    myWallet = new Wallet();
+    myWallet->add(new NdCoin()); //1000 kr
 
 /*
 //works perfectly, just too many debug prints
@@ -68,6 +68,7 @@ hax::Character::~Character()
             }
         }
         delete inventory; //the objects not dropped will be deleted in ~Container()
+        delete myWallet;
         curArea->leave(this); //remove the pointer to this from Area::vector<Character*>
     }
 }
@@ -100,7 +101,7 @@ void hax::Character::view_stats() const
     std::cout <<"HP: "<< curHp <<"/"<< maxHp << std::endl;
     std::cout <<"Strength: "<< strength << std::endl;
     std::cout <<"Weight: "<< totWeight() << std::endl;
-    std::cout <<"Total money: "<< myWallet.getPrice() <<" h@x"<< std::endl;
+    std::cout <<"Total money: "<< myWallet->getPrice() <<" h@x"<< std::endl;
 #else
     hax::log.write(name +" the "+ getType());
     std::ostringstream oss;
@@ -113,7 +114,7 @@ void hax::Character::view_stats() const
     oss <<"Weight: "<< totWeight();
     hax::log.write(oss.str());
     oss.str("");
-    oss <<"Total money: "<< myWallet.getPrice() <<" h@x"<< std::endl;
+    oss <<"Total money: "<< myWallet->getPrice() <<" h@x"<< std::endl;
     hax::log.write(oss.str());
 #endif
 }
@@ -295,7 +296,7 @@ bool hax::Character::pick_up(std::string objName)
             return false;
         }else if(curArea->drop(ob)){ //object picked up (removed from curArea), now add to correct container (no need to consider this in drop since cannot drop money)
             if(ob->getType() == "coin"){
-                myWallet.add(ob);
+                myWallet->add(ob);
             }else{
                 curContainer->add(ob);
             }
@@ -331,10 +332,10 @@ bool hax::Character::buy(std::string objName)
 {
     Shop* shopArea = dynamic_cast<Shop*>(curArea);
     if(shopArea != NULL){
-        Object* purchase = shopArea->sell(myWallet.getPrice(), objName);
+        Object* purchase = shopArea->sell(myWallet->getPrice(), objName);
         if(purchase != NULL){
             curContainer->add(purchase);
-            myWallet -= purchase->getPrice();
+            *myWallet -= purchase->getPrice();
             std::cout <<"You bought "<< objName <<" for "<< purchase->getPrice() <<" h@x and it was put in "<< curContainer->description() <<"."<< std::endl;
             return true;
         }else{
@@ -354,7 +355,7 @@ bool hax::Character::sell(std::string objName)
         if(sale != NULL){
             shopArea->buy(sale);
             curContainer->remove(sale);
-            myWallet += sale->getPrice();
+            *myWallet += sale->getPrice();
             std::cout <<"You sold "<< objName <<" for "<< sale->getPrice() <<" h@x and it was taken from "<< curContainer->description() <<"."<< std::endl;
             return true;
         }else{
@@ -462,66 +463,3 @@ void hax::Character::initStats(int curHp, int maxHp, int strength, int weight)
     this->strength = strength;
     this->weight = weight;
 }
-
-
-hax::Character::Wallet::Wallet()
-{
-    descr = "";
-    weight = 1;
-    volume = 1;
-    price = 0;
-}
-hax::Character::Wallet& hax::Character::Wallet::operator+=(const int profit) //add Coins equal to int value
-{
-    *this -= (-profit);
-    return *this;
-}
-hax::Character::Wallet& hax::Character::Wallet::operator-=(const int cost) //TODO return NULL first if cost > this->getPrice()???
-{
-//pop coins until amount is larger than cost then add new Coins for the change (växel) from shop
-    int payment = 0;
-    while(payment < cost){
-        Object* mynt = vec_obj.front(); //TODO change to Coin* when implement template
-        this->remove(mynt);
-#ifdef DEBUG
-        std::cout <<"Removed "<< mynt->description() << std::endl;
-#endif
-        payment += mynt->getPrice();
-        delete mynt; //give to shopkeeper, gone forever
-    }
-    int change = payment - cost;
-
-    Coin moneyValue[] = {NdCoin(), CsCoin(), PtCoin(), AuCoin(), AgCoin(), CuCoin(), FeCoin(), NiCoin()};
-    for(size_t i=0; i < len(moneyValue); i++){
-        int numCoin = change / moneyValue[i].getPrice(); //truncated division
-        std::cout <<"numCoin = "<< numCoin << std::endl;
-        change -= numCoin * moneyValue[i].getPrice();
-        for(int j=0; j<numCoin; j++){
-            this->add(new Coin(moneyValue[i]));
-#ifdef DEBUG
-            std::cout <<"Added "<< moneyValue[i].description() << std::endl;
-#endif
-        }
-    }
-    return *this;
-}
-int hax::Character::Wallet::hold_weight() const{return 1;}
-int hax::Character::Wallet::hold_volume() const{return 1000;}
-std::string hax::Character::Wallet::getType() const{return "wallet";}
-
-
-hax::Character::Pocket::Pocket()
-{
-    descr = "nobody's";
-}
-hax::Character::Pocket::Pocket(std::string owner, unsigned int maxSize)
-{
-    descr = owner +"'s";
-    weight = 1;
-    volume = 1;
-    this->maxSize = maxSize;
-}
-//TODO hold_size() instead
-int hax::Character::Pocket::hold_weight() const{return 100;}
-int hax::Character::Pocket::hold_volume() const{return 100;}
-std::string hax::Character::Pocket::getType() const{return "pocket";}

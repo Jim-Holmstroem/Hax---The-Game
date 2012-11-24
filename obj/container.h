@@ -6,8 +6,8 @@
 #include "object.h"
 #include "../serialize/serializablevector.h"
 
-namespace hax{
-
+namespace hax
+{
     class Container : public Object
     {
       public:
@@ -35,21 +35,35 @@ namespace hax{
 	virtual void FromString(std::istream&);
         virtual std::string getType() const;
 
-/*
-        friend std::ostream& operator<<(std::ostream& out, const Container& c){
-            SerializableVector<Object*>::const_iterator it = c.vec_obj.begin();
-            while(it != c.vec_obj.end()){
-                out << (*it)->description() << ", ";
-                it++;
-            }
-            return out;
-        };
-*/
       protected:
         /*data*/
         SerializableVector<Object*> vec_obj;
     };
 
+    //used by class Character, picked up items are put here
+    class Pocket : public Container
+    {
+      public:
+        Pocket();
+        Pocket(std::string, unsigned int);
+        virtual int hold_weight() const;
+        virtual int hold_volume() const;
+        virtual std::string getType() const;
+      private:
+        unsigned int maxSize;
+    };
+
+    //used by class Character, contains in-game currency
+    class Wallet : public Container
+    {
+      public:
+        Wallet();
+        Wallet& operator+=(const int);
+        Wallet& operator-=(const int);
+        virtual int hold_weight() const;
+        virtual int hold_volume() const;
+        virtual std::string getType() const;
+    };
 
     class Backpack : public Container
     {

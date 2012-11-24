@@ -1,4 +1,5 @@
 #include "container.h"
+#include "../obj/coin.h"
 #include "../serialize/simpleHeap.h"
 
 hax::Container::Container(){}
@@ -120,6 +121,69 @@ void hax::Container::FromString(std::istream& in)
 {
 }//TODO
 std::string hax::Container::getType() const{return "container";}
+
+
+hax::Wallet::Wallet()
+{
+    descr = "";
+    weight = 1;
+    volume = 1;
+    price = 0;
+}
+hax::Wallet& hax::Wallet::operator+=(const int profit) //add Coins equal to int value
+{
+    *this -= (-profit);
+    return *this;
+}
+hax::Wallet& hax::Wallet::operator-=(const int cost) //TODO return NULL first if cost > this->getPrice()???
+{
+//pop coins until amount is larger than cost then add new Coins for the change (växel) from shop
+    int payment = 0;
+    while(payment < cost){
+        Object* mynt = vec_obj.front(); //TODO change to Coin* when implement template
+        this->remove(mynt);
+#ifdef DEBUG
+        std::cout <<"Removed "<< mynt->description() << std::endl;
+#endif
+        payment += mynt->getPrice();
+        delete mynt; //give to shopkeeper, gone forever
+    }
+    int change = payment - cost;
+
+    Coin moneyValue[] = {NdCoin(), CsCoin(), PtCoin(), AuCoin(), AgCoin(), CuCoin(), FeCoin(), NiCoin()};
+    for(size_t i=0; i < len(moneyValue); i++){
+        int numCoin = change / moneyValue[i].getPrice(); //truncated division
+        std::cout <<"numCoin = "<< numCoin << std::endl;
+        change -= numCoin * moneyValue[i].getPrice();
+        for(int j=0; j<numCoin; j++){
+            this->add(new Coin(moneyValue[i]));
+#ifdef DEBUG
+            std::cout <<"Added "<< moneyValue[i].description() << std::endl;
+#endif
+        }
+    }
+    return *this;
+}
+int hax::Wallet::hold_weight() const{return 1;}
+int hax::Wallet::hold_volume() const{return 1000;}
+std::string hax::Wallet::getType() const{return "wallet";}
+
+
+hax::Pocket::Pocket()
+{
+    descr = "nobody's";
+}
+hax::Pocket::Pocket(std::string owner, unsigned int maxSize)
+{
+    descr = owner +"'s";
+    weight = 1;
+    volume = 1;
+    this->maxSize = maxSize;
+}
+//TODO hold_size() instead
+int hax::Pocket::hold_weight() const{return 100;}
+int hax::Pocket::hold_volume() const{return 100;}
+std::string hax::Pocket::getType() const{return "pocket";}
 
 
 hax::Backpack::Backpack()

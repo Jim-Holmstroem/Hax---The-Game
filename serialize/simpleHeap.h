@@ -1,21 +1,12 @@
 #ifndef SIMPLEHEAP_H
 #define SIMPLEHEAP_H
-#include "serializablevector.h"
-#include "serializablemap.h"
-#include "serializablestring.h"
+#include<string>
 
 namespace hax
 {
     /*forward declarations*/
-    class Character;
-    class Area;
-    class Object;
-    class Route;
+    class ISerializable;
 
     ISerializable* allocateData(std::string, std::string);
-    Character* getAllocatedCharacter(std::string);
-    Area* getAllocatedArea(std::string);
-    Object* getAllocatedObject(std::string);
-    Route* getAllocatedRoute(std::string);
 }
 #endif

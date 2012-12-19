@@ -18,7 +18,7 @@ namespace hax
     extern std::queue<ISerializable*> serializeQueue;
     extern std::map<std::string,ISerializable*> pointerTable;
 
-    typedef SerializableMap<SerializableString, Route*> MapRoute;
+    typedef std::map<std::string,Route*> MapRoute;
     class Character; //forward declaration
 //    class Object;
 

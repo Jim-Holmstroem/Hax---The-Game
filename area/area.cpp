@@ -183,7 +183,6 @@ void hax::Area::ToString(std::ostream& out) const
     }
     out << "end:";
 //    out << gnd << std::endl; TODO
-    out << std::endl;
 }
 void hax::Area::FromString(std::istream& in)
 {
@@ -195,7 +194,7 @@ void hax::Area::FromString(std::istream& in)
     std::getline(in,data); //read rest of line
     std::vector<std::string> parsedObj = split(data,':');
     std::queue<std::string> pQ;
-    for(int i=0; i<parsedObj.size(); i++)
+    for(size_t i=0; i<parsedObj.size(); i++)
     {
         pQ.push(parsedObj[i]);
     }
@@ -228,7 +227,7 @@ void hax::Area::FromString(std::istream& in)
         data = pQ.front();
         pQ.pop();
         Route* ro = dynamic_cast<Route*>(pointerTable[data]);
-        exits.insert(std::pair<SerializableString,Route*>(ro->getName(), ro)); //OBS the Routes were allocated with constructor Route(std::string) so name is defined => OK to call getName()
+        exits.insert(std::pair<std::string,Route*>(ro->getName(), ro)); //OBS the Routes were allocated with constructor Route(std::string) so name is defined => OK to call getName()
         dbg << "Route UID = " << data << " | Route new address = " << ro << std::endl;
     }
     pQ.pop();

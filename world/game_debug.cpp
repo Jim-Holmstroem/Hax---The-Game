@@ -56,14 +56,15 @@ hax::Level* hax::initNewGame()
     Area* skog = new Forest("FoReSt Of DoOm");
     Area* tysk = new Shop("IKEA");
 
-    Character* albus = new Wizard("Albus");
-    Character* voldy = new Wizard("Voldy");
-    Character* conan = new Barbarian("Conan");
-    Character* snape = new Wizard("Snape");
-    Character* necro = new Necromancer("Sauron");
+    Character* albus = new Wizard("Albus",1);
+    Character* voldy = new Wizard("Voldy",1);
+    Character* conan = new Barbarian("Conan",1);
+    Character* snape = new Wizard("Snape",0);
+    Character* necro = new Necromancer("Sauron",1);
 
     Key* nyckel = new Key();
     Container* sack = new Backpack();
+    Key* alohomora = new Key();
 
     //build level
     test->add(borg);
@@ -94,6 +95,7 @@ hax::Level* hax::initNewGame()
     borg->pick_up(sack);
 
     //add Object to Character
+    albus->give(alohomora);
 
     return test;
 };

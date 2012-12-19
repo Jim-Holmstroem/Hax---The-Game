@@ -8,6 +8,9 @@
 
 namespace hax
 {
+    extern std::queue<ISerializable*> serializeQueue;
+    extern std::map<std::string,ISerializable*> pointerTable;
+
     class Container : public Object
     {
       public:
@@ -23,7 +26,6 @@ namespace hax
         bool remove(Object* const);
         size_t size() const;
         bool empty() const;
-        Object* back();
 	std::string contents() const;
 	std::map<std::string, Container*> get_subContainers();
         SerializableVector<hax::Object*>::iterator findObject(Object* const);

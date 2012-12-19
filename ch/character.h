@@ -2,8 +2,6 @@
 #define CHARACTER_H
 #include<iostream>
 #include<sstream>
-#include<cstdio>
-#include<cstdlib>
 #include<vector>
 #include<map>
 #include<stack>
@@ -19,6 +17,8 @@ namespace hax
 #ifndef DEBUG
     extern Logger log;
 #endif
+    extern std::queue<ISerializable*> serializeQueue;
+    extern std::map<std::string,ISerializable*> pointerTable;
 
     /*forward declarations*/
     class Area;
@@ -33,12 +33,12 @@ namespace hax
     {
       public:
         Character();
-        Character(std::string);
+        Character(std::string, bool);
         Character(const Character&);
         virtual ~Character();
 
 //        Character& operator=(const Character&);
-        bool alignment() const;
+        bool isControllable() const;
         std::string getName() const;
         int getcurHp() const;
         int getmaxHp() const;
@@ -67,6 +67,7 @@ namespace hax
         bool buy(std::string);
         bool sell(std::string);
         bool rest();
+        void give(Object* const);
 
 	/*serialization*/
 	virtual void ToString(std::ostream&) const;
@@ -78,7 +79,7 @@ namespace hax
         int curHp; //if health<0 then sleeping with the fishes TODO this should be protected, but then ch->curHp is protected in derived classes
 
       protected:
-        bool align; //use dynamic_cast instead? move to hero/foe? pokemon convert
+        bool controllable;
         int maxHp;
         int strength;
         int weight; //unit is kg

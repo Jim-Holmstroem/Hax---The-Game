@@ -4,7 +4,6 @@
 #include<iostream>
 #include<string>
 #include<sstream>
-#include"parsehelper.h"
 
 namespace hax
 {
@@ -25,17 +24,14 @@ namespace hax
 
         friend std::ostream& operator<<(std::ostream& out, ISerializable const& s)
         {
-//            out << "{ ";
             s.ToString(out);
-//            out << "}";
+            out << std::endl;
             return out;
         };
 
         friend std::istream& operator>>(std::istream& in,ISerializable& s)
         {
-//            checkToken(in,"{");
             s.FromString(in);
-//            checkToken(in,"}");
             return in;
         };
     };

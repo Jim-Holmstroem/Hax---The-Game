@@ -176,7 +176,7 @@ void hax::Level::ToString(std::ostream& out) const
         serializeQueue.push(vec_area[i]); //we can do this because we know that the Areas are only owned by Level, TODO use C++11 feature std::unique_ptr
     }
     out << "end:";
-    out << curChar <<":"<< curCharName << std::endl;
+    out << curChar <<":"<< curCharName;
 }
 void hax::Level::FromString(std::istream& in)
 {
@@ -214,15 +214,21 @@ void hax::Level::FromString(std::istream& in)
 std::string hax::Level::getType() const{return "level";}
 void hax::Level::updatePlayers()
 {
-    for(size_t i=0; i<vec_area.size(); i++){
+    players.clear();
+    //re-add all controllable characters
+    for(size_t i=0; i<vec_area.size(); i++)
+    {
         const SerializableVector<Character*> charsInArea = vec_area[i]->chars();
-
-        for(size_t k=0; k<charsInArea.size(); k++){
+        for(size_t k=0; k<charsInArea.size(); k++)
+        {
             Character* ch = charsInArea[k]; //this Character could have died
+            if(ch->isControllable()){add(ch);}
+/*
             if(ch->getcurHp() <= 0){
                 players.erase(ch->getName()); //does not matter if name is not in players, erase just returns NULL
                 delete ch; //character was killed
             }
+*/
         }
     }
 
@@ -234,8 +240,9 @@ void hax::Level::action()
 {
     std::map<std::string, Character*>::iterator it = players.begin();
     while(it != players.end()){
-        Character* ch = it->second;
-        if(ch->getcurHp() > 0){ //still alive, will perform random action
+        //ch could have died and been deleted, so check first
+        Character* ch = dynamic_cast<Character*>(it->second);
+        if(ch != NULL){
             unsigned int actionNr = rand() % randomActions.size();
             while( !(ch->*randomActions[actionNr])()){ //if action not possible then try again until an action is performed
                 actionNr = rand() % randomActions.size(); //TODO someone can attack a char with HP<0 that was in another fight just before, not desired behaviour
@@ -243,6 +250,7 @@ void hax::Level::action()
         }
         it++;
     }
+    updatePlayers();
 }
 bool hax::Level::focus(std::string selectChar) //select a Character for executing character specific commands, no need to input name each time
 {
@@ -343,6 +351,7 @@ bool hax::Level::load(std::string filename)
     }
 
     deleteAreas();
+    players.clear();
     pointerTable.clear();
     std::cout << "Current objects deleted. Starting to load from "+filename+"..." << std::endl;
 
@@ -389,6 +398,8 @@ bool hax::Level::load(std::string filename)
         dbg << "Finished reading data into object." << std::endl;
         std::getline(inFile,data,':'); //read UID (or EOF)
     }
+    dbg << std::endl << "All data read. Checking and adding controllable players..." << std::endl;
+    updatePlayers();
     dbg << std::endl << "Finished loading game state. GLHF!" << std::endl;
     inFile.close();
     dbg.close();

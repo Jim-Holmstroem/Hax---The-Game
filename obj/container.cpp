@@ -1,6 +1,10 @@
+#include<cstdio>
+#include<cstdlib>
+#include<fstream>
 #include "container.h"
 #include "../obj/coin.h"
 #include "../serialize/simpleHeap.h"
+#include "../helper.h"
 
 hax::Container::Container(){}
 /*hax::Container::Container(const Container& co) : Object(co){
@@ -44,7 +48,6 @@ bool hax::Container::remove(Object* const ob)
 }
 size_t hax::Container::size() const{return vec_obj.size();}
 bool hax::Container::empty() const{return vec_obj.empty();}
-hax::Object* hax::Container::back(){return vec_obj.back();}
 std::string hax::Container::contents() const
 {
     std::ostringstream oss;
@@ -115,11 +118,41 @@ bool hax::Container::hasObject(Object* const ob) const
 }
 void hax::Container::ToString(std::ostream& out) const
 {
-    out << vec_obj;
+    Object::ToString(out);
+    for(size_t i=0; i<vec_obj.size(); i++)
+    {
+        Object* ob = vec_obj[i];
+        out <<":"<< ob;
+        serializeQueue.push(ob);
+    }
+    out << ":end";
 }
 void hax::Container::FromString(std::istream& in)
 {
-}//TODO
+    Object::FromString(in);
+    std::ofstream dbg;
+    dbg.open("load_debug.dat", std::ios::out | std::ios::app);
+    dbg << "Container::FromString" << std::endl;
+
+    std::string data;
+    std::getline(in,data); //read rest of line
+    std::vector<std::string> parsedObj = split(data,':');
+    std::queue<std::string> pQ;
+    for(size_t i=0; i<parsedObj.size(); i++)
+    {
+        pQ.push(parsedObj[i]);
+    }
+    while(pQ.front()!="end")
+    {
+        data = pQ.front();
+        pQ.pop();
+        vec_obj.push_back(dynamic_cast<Object*>(pointerTable[data]));
+        dbg << "Object UID = " << data << " | Object new address = " << vec_obj.back() << std::endl;
+    }
+    pQ.pop();
+
+    dbg.close();    
+}
 std::string hax::Container::getType() const{return "container";}
 
 
@@ -172,6 +205,8 @@ std::string hax::Wallet::getType() const{return "wallet";}
 hax::Pocket::Pocket()
 {
     descr = "nobody's";
+    weight = 1;
+    volume = 1;
 }
 hax::Pocket::Pocket(std::string owner, unsigned int maxSize)
 {

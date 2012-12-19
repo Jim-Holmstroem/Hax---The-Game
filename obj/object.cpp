@@ -36,7 +36,7 @@ std::string hax::Object::description() const
 }
 void hax::Object::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< descr <<":"<< weight <<":"<< volume <<":"<< price << std::endl;
+    out << this <<":"<< getType() <<":"<< descr <<":"<< weight <<":"<< volume <<":"<< price;
 }
 void hax::Object::FromString(std::istream& in)
 {
@@ -45,35 +45,27 @@ void hax::Object::FromString(std::istream& in)
     dbg << "Object::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data); //read rest of line
-    std::vector<std::string> parsedObj = split(data,':');
-    std::queue<std::string> pQ;
-    for(int i=0; i<parsedObj.size(); i++)
-    {
-        pQ.push(parsedObj[i]);
-    }
-    std::string type = pQ.front();
-    pQ.pop();
-    if(type != getType())
+    std::getline(in,data,':');
+    if(data != getType())
     {
         dbg << "Type mismatch! Aborting load from file." << std::endl;
         dbg.close();
         return;
     }
-    descr = pQ.front();
-    pQ.pop();
+    std::getline(in,data,':');
+    descr = data;
     dbg << "Description = " << descr << std::endl;
 
-    weight = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    std::getline(in,data,':');
+    weight = std::atoi(data.c_str());
     dbg << "Weight = " << weight << std::endl;
 
-    volume = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    std::getline(in,data,':');
+    volume = std::atoi(data.c_str());
     dbg << "Volume = " << volume << std::endl;
 
-    price = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    std::getline(in,data,':');
+    price = std::atoi(data.c_str());
     dbg << "Price = " << price << std::endl;
 
     dbg.close();

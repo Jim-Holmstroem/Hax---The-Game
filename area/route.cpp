@@ -38,7 +38,7 @@ std::string hax::Route::passMessage() const
 }
 void hax::Route::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< name <<":"<< view <<":"<< thisArea <<":"<< nextArea << std::endl;
+    out << this <<":"<< getType() <<":"<< name <<":"<< view <<":"<< thisArea <<":"<< nextArea;
 }
 void hax::Route::FromString(std::istream& in)
 {
@@ -50,7 +50,7 @@ void hax::Route::FromString(std::istream& in)
     std::getline(in,data); //read rest of line
     std::vector<std::string> parsedObj = split(data,':');
     std::queue<std::string> pQ;
-    for(int i=0; i<parsedObj.size(); i++)
+    for(size_t i=0; i<parsedObj.size(); i++)
     {
         pQ.push(parsedObj[i]);
     }

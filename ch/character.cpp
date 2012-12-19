@@ -16,9 +16,10 @@ hax::Character::Character()
     curArea = NULL;
     myWallet = NULL;
 }
-hax::Character::Character(std::string n)
+hax::Character::Character(std::string name, bool control)
 {
-    name = n;
+    this->name = name;
+    controllable = control;
     curArea = NULL;
     inventory = new Pocket(name, 5);
     curContainer = inventory;
@@ -41,7 +42,7 @@ hax::Character::Character(const Character& ch)
     std::cout <<"Character::copy constructor"<< std::endl;
 #endif
     curArea = ch.curArea;
-    align = ch.align;
+    controllable = ch.controllable;
     //race = ch.getType();
     name = ch.name;
     curHp = ch.curHp;
@@ -77,7 +78,7 @@ hax::Character::~Character()
   return *this;
   };*/
 
-bool hax::Character::alignment() const{return align;}
+bool hax::Character::isControllable() const{return controllable;}
 std::string hax::Character::getName() const{return name;}
 int hax::Character::getcurHp() const{return curHp;}
 int hax::Character::getmaxHp() const{return maxHp;}
@@ -258,9 +259,8 @@ void hax::Character::fight(Character* ch)
 */
     std::cout<< ch->name <<" has " << ch->curHp <<" HP left."<< std::endl << std::endl;
     if(ch->curHp <= 0){
+        delete ch; //character is killed
         return;
-//        delete ch; //character is killed
-//        ch = NULL;
     }else{
         ch->fight(this); //continue if other character is not killed
     }
@@ -371,22 +371,15 @@ bool hax::Character::rest()
 {
     return(curArea->rest(this));
 }
+void hax::Character::give(Object* const obj)
+{
+    inventory->add(obj);
+}
 void hax::Character::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":"<< curArea <<":";
-
-    for(size_t i=0; i < inventory->size(); i++)
-    {
-        Object* ob = (*inventory)[i];
-        out << ob << ":";
-        serializeQueue.push(ob);
-    }
-    out << "end";
-
-//    out << myWallet << ":";
-//    out << curContainer << std::endl; //not important
-    out << std::endl;
-
+    out << this <<":"<< getType() <<":"<< controllable <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":"<< curArea <<":"<< inventory <<":"<< curContainer;// <<":"<< myWallet;
+    serializeQueue.push(inventory);
+//    serializeQueue.push(myWallet);
 }
 void hax::Character::FromString(std::istream& in)
 {
@@ -398,7 +391,7 @@ void hax::Character::FromString(std::istream& in)
     std::getline(in,data); //read rest of line
     std::vector<std::string> parsedObj = split(data,':');
     std::queue<std::string> pQ;
-    for(int i=0; i<parsedObj.size(); i++)
+    for(size_t i=0; i<parsedObj.size(); i++)
     {
         pQ.push(parsedObj[i]);
     }
@@ -410,6 +403,10 @@ void hax::Character::FromString(std::istream& in)
         dbg.close();
         return;
     }
+    controllable = std::atoi(pQ.front().c_str());
+    pQ.pop();
+    dbg << "Controllable = " << controllable << std::endl;
+
     name = pQ.front();
     pQ.pop();
     dbg << "Name = " << name << std::endl;
@@ -435,15 +432,15 @@ void hax::Character::FromString(std::istream& in)
     pQ.pop();
     dbg << "curArea UID = " << curAreaUID << " | curArea new address = " << curArea << std::endl;
 
-    inventory = new Pocket(name,5);
-    while(pQ.front()!="end")
-    {
-        data = pQ.front();
-        pQ.pop();
-        inventory->add(dynamic_cast<Object*>(pointerTable[data]));
-        dbg << "Object UID = " << data << " | Object new address = " << inventory->back() << std::endl;
-    }
+    std::string inventoryUID = pQ.front();
+    inventory = dynamic_cast<Pocket*>(pointerTable[inventoryUID]);
     pQ.pop();
+    dbg << "inventory UID = " << inventoryUID << " | inventory new address = " << inventory << std::endl;
+
+    std::string curContainerUID = pQ.front();
+    curContainer = dynamic_cast<Container*>(pointerTable[curContainerUID]);
+    pQ.pop();
+    dbg << "curContainer UID = " << curContainerUID << " | curContainer new address = " << curContainer << std::endl;
 
     dbg.close();
 }

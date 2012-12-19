@@ -62,7 +62,7 @@ namespace hax
 	std::vector<bool(Character::*)(void)> randomActions;
 	std::map<std::string, std::string> levelHelp;
 	std::map<std::string, std::string> charHelp;
-        std::map<std::string, Character*> players; //global map with all characters, iterate over this and use action(), string is Character name
+        std::map<std::string, Character*> players; //global map with controlled characters, iterate over this and use action(), string is Character name
 	Character* curChar;
 	std::string curCharName;
     };

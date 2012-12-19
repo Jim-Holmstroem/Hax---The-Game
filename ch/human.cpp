@@ -3,14 +3,8 @@
 #include<fstream>
 #include "human.h"
 
-hax::Human::Human() : Character()
-{
-    align = true;
-}
-hax::Human::Human(std::string name) : Character(name)
-{
-    align = true;
-}
+hax::Human::Human() : Character(){}
+hax::Human::Human(std::string name, bool control) : Character(name, control){}
 hax::Human::Human(const Human& hu) : Character(hu){}
 hax::Human::~Human(){}
 
@@ -50,7 +44,7 @@ hax::Wizard::Wizard() : Human()
 {
     initStats(30,30,5,60);
 }
-hax::Wizard::Wizard(std::string name) : Human(name)
+hax::Wizard::Wizard(std::string name, bool control) : Human(name, control)
 {
     initStats(30,30,5,60);
 }
@@ -109,7 +103,7 @@ hax::Barbarian::Barbarian() : Human()
 {
     initStats(50,50,10,80);
 }
-hax::Barbarian::Barbarian(std::string name) : Human(name)
+hax::Barbarian::Barbarian(std::string name, bool control) : Human(name, control)
 {
     initStats(50,50,10,80);
 }

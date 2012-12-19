@@ -9,7 +9,7 @@ namespace hax
     {
       public:
         Human();
-        Human(std::string);
+        Human(std::string, bool);
         Human(const Human&);
         ~Human();
 
@@ -30,7 +30,7 @@ namespace hax
     {
       public:
         Wizard();
-        Wizard(std::string);
+        Wizard(std::string, bool);
 	Wizard(const Wizard&);
 	virtual void view_stats() const;
 	virtual void attack(Character*);
@@ -50,7 +50,7 @@ namespace hax
     {
       public:
 	Barbarian();
-	Barbarian(std::string);
+	Barbarian(std::string, bool);
 	Barbarian(const Barbarian&);
 	virtual void attack(Character*);
         virtual void talk_to(Character*);

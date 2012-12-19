@@ -8,7 +8,7 @@ namespace hax
     {
       public:
         Undead();
-        Undead(std::string);
+        Undead(std::string, bool);
         ~Undead();
 
 	virtual void action();
@@ -26,7 +26,7 @@ namespace hax
     {
       public:
 	Skeleton();
-	Skeleton(std::string);
+	Skeleton(std::string, bool);
 	std::string getType() const;
 //no definition of attack here so will automatically use Undead::attack(ch)
     };
@@ -35,7 +35,7 @@ namespace hax
     {
       public:
 	Necromancer();
-	Necromancer(std::string);
+	Necromancer(std::string, bool);
 	void attack(Character*);
 	std::string getType() const;
 

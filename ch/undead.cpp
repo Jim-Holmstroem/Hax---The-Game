@@ -2,7 +2,7 @@
 #include "../area/area.h"
 
 hax::Undead::Undead() : Character(){}
-hax::Undead::Undead(std::string name) : Character(name){}
+hax::Undead::Undead(std::string name, bool control) : Character(name, control){}
 hax::Undead::~Undead(){}
 void hax::Undead::action() //TODO
 {
@@ -37,7 +37,7 @@ hax::Skeleton::Skeleton() : Undead()
 {
     initStats(30,30,2,5);
 }
-hax::Skeleton::Skeleton(std::string name) : Undead(name)
+hax::Skeleton::Skeleton(std::string name, bool control) : Undead(name, control)
 {
     initStats(30,30,2,5);
 }
@@ -48,14 +48,14 @@ hax::Necromancer::Necromancer() : Undead()
 {
     initStats(50,50,7,40);
 }
-hax::Necromancer::Necromancer(std::string name) : Undead(name)
+hax::Necromancer::Necromancer(std::string name, bool control) : Undead(name, control)
 {
     initStats(50,50,7,40);
 }
 void hax::Necromancer::attack(Character* ch) //TODO
 {
     Undead::attack(ch);
-    Skeleton* minion = new Skeleton("Skelly");
+    Skeleton* minion = new Skeleton("Skelly",0);
     std::cout << getName() << " raised a " << minion->getType() << " from the dead!" << std::endl;
     curArea->enter(minion);
     minion->attack(ch);

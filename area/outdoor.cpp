@@ -41,7 +41,7 @@ bool hax::Forest::rest(Character* ch)
       }
 */
     std::cout <<"You are attacked by a robber when sleeping!"<< std::endl;
-    Character* robber = new Barbarian("Robber"); //TODO slumpa chans att bli anfallen
+    Character* robber = new Barbarian("Robber",0); //TODO slumpa chans att bli anfallen
     enter(robber);
     robber->fight(ch);
     return true;
@@ -49,7 +49,7 @@ bool hax::Forest::rest(Character* ch)
 hax::Character* hax::Forest::spawn()
 {
 //list of random names
-    Character* creep = new Barbarian("spawnedBarb");
+    Character* creep = new Barbarian("spawnedBarb",0);
     enter(creep);
     return(creep);
 }

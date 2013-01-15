@@ -421,7 +421,14 @@ bool hax::Level::load(std::string filename)
         std::string type = parsedObj[1];
         std::string name = parsedObj[2];
         pointerTable.insert( std::pair<std::string,ISerializable*>(UID, allocateData(type,name)) );
-        dbg << "Allocated " << type <<"@"<< UID << std::endl;
+        if(pointerTable[UID] != NULL)
+        {
+            dbg <<"Allocated "<< type <<"@"<< UID << std::endl;
+        }
+        else
+        {
+            dbg <<"The object type "<< type <<" is unknown, cannot allocate data!" << std::endl;
+        }
     }
     dbg << std::endl << "All objects are allocated and their pointers are stored in a lookup table." << std::endl;
 

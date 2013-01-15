@@ -390,57 +390,49 @@ void hax::Character::FromString(std::istream& in)
     std::string data;
     std::getline(in,data); //read rest of line
     std::vector<std::string> parsedObj = split(data,':');
-    std::queue<std::string> pQ;
-    for(size_t i=0; i<parsedObj.size(); i++)
-    {
-        pQ.push(parsedObj[i]);
-    }
-    std::string type = pQ.front();
-    pQ.pop();
+
+    int i=0;
+    std::string type = parsedObj[i++];
     if(type != getType())
     {
         dbg << "Type mismatch! Aborting load from file." << std::endl;
         dbg.close();
         return;
     }
-    controllable = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    controllable = std::atoi(parsedObj[i++].c_str());
     dbg << "Controllable = " << controllable << std::endl;
 
-    name = pQ.front();
-    pQ.pop();
+    name = parsedObj[i++];
     dbg << "Name = " << name << std::endl;
 
-    curHp = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    curHp = std::atoi(parsedObj[i++].c_str());
     dbg << "Current HP = " << curHp << std::endl;
 
-    maxHp = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    maxHp = std::atoi(parsedObj[i++].c_str());
     dbg << "Max HP = " << maxHp << std::endl;
 
-    strength = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    strength = std::atoi(parsedObj[i++].c_str());
     dbg << "Strength = " << strength << std::endl;
 
-    weight = std::atoi(pQ.front().c_str());
-    pQ.pop();
+    weight = std::atoi(parsedObj[i++].c_str());
     dbg << "Weight = " << weight << std::endl;
 
-    std::string curAreaUID = pQ.front();
+    std::string curAreaUID = parsedObj[i++];
     curArea = dynamic_cast<Area*>(pointerTable[curAreaUID]);
-    pQ.pop();
     dbg << "curArea UID = " << curAreaUID << " | curArea new address = " << curArea << std::endl;
 
-    std::string inventoryUID = pQ.front();
+    std::string inventoryUID = parsedObj[i++];
     inventory = dynamic_cast<Pocket*>(pointerTable[inventoryUID]);
-    pQ.pop();
     dbg << "inventory UID = " << inventoryUID << " | inventory new address = " << inventory << std::endl;
 
-    std::string curContainerUID = pQ.front();
+    std::string curContainerUID = parsedObj[i++];
     curContainer = dynamic_cast<Container*>(pointerTable[curContainerUID]);
-    pQ.pop();
     dbg << "curContainer UID = " << curContainerUID << " | curContainer new address = " << curContainer << std::endl;
+/*
+    std::string myWalletUID = parsedObj[i++];
+    myWallet = dynamic_cast<Wallet*>(pointerTable[myWalletUID]);
+    dbg << "myWallet UID = " << myWalletUID << " | myWallet new address = " << myWallet << std::endl;
+*/
 
     dbg.close();
 }

@@ -238,19 +238,62 @@ void hax::Level::updatePlayers()
 }
 void hax::Level::action()
 {
+    std::map<std::string, Character*> playerHasPerformedAction;
+    bool foundPlayerWaitingToAct = false;
     std::map<std::string, Character*>::iterator it = players.begin();
-    while(it != players.end()){
-        //ch could have died and been deleted, so check first
-        Character* ch = dynamic_cast<Character*>(it->second);
-        if(ch != NULL){
-            unsigned int actionNr = rand() % randomActions.size();
-            while( !(ch->*randomActions[actionNr])()){ //if action not possible then try again until an action is performed
-                actionNr = rand() % randomActions.size(); //TODO someone can attack a char with HP<0 that was in another fight just before, not desired behaviour
+    while(true)
+    {
+        it = players.begin();
+        while(!foundPlayerWaitingToAct && it!=players.end())
+        {
+            Character* ch = it->second;
+            if(playerHasPerformedAction.count(ch->getName()) == 0)
+            {
+                foundPlayerWaitingToAct = true;
+                playerHasPerformedAction.insert( std::pair<std::string,Character*>(ch->getName(),ch) );
+                std::cout << ch->getName() << " is performing action..." << std::endl;
+                unsigned int actionNr = rand() % randomActions.size();
+                //if action not possible then try again until an action is performed
+                while( !(ch->*randomActions[actionNr])() )
+                {
+                    actionNr = rand() % randomActions.size();
+                }
             }
+            it++;
         }
+        foundPlayerWaitingToAct = false;
+        if(it == players.end()){break;}
+        updatePlayers();
+    }
+
+/*
+    std::queue<Character*> actionQ;
+    std::map<std::string, Character*>::iterator it = players.begin();
+    while(it != players.end())
+    {
+        actionQ.push(it->second);
         it++;
     }
-    updatePlayers();
+    std::cout << "Action queue filled with " << actionQ.size() << " controllable characters." << std::endl;
+    //queue contains all controllable characters, now let them perform random action
+    while(!actionQ.empty())
+    {
+        std::weak_ptr<Character> ch = actionQ.front();
+        actionQ.pop();
+        //ch could have died and been deleted, so check first
+        if(!ch.expired())
+        {
+            std::cout << ch->getName() << " is performing action..." << std::endl;
+            unsigned int actionNr = rand() % randomActions.size();
+            //if action not possible then try again until an action is performed
+            while( !(ch->*randomActions[actionNr])() )
+            {
+                actionNr = rand() % randomActions.size();
+            }
+            updatePlayers();
+        }
+    }
+*/
 }
 bool hax::Level::focus(std::string selectChar) //select a Character for executing character specific commands, no need to input name each time
 {
@@ -366,7 +409,7 @@ bool hax::Level::load(std::string filename)
     std::vector<std::string> parsedObj = split(data,':');
     std::string UID = parsedObj[0];
     std::string type = parsedObj[1];
-    pointerTable.insert(std::pair<std::string,ISerializable*>(UID,this));
+    pointerTable.insert( std::pair<std::string,ISerializable*>(UID,this) );
 
     //Step 1: Go through file and allocate every object (one line per object) with default(+name) constructor
     while(std::getline(inFile,data))
@@ -377,7 +420,7 @@ bool hax::Level::load(std::string filename)
         std::string UID = parsedObj[0];
         std::string type = parsedObj[1];
         std::string name = parsedObj[2];
-        pointerTable.insert(std::pair<std::string,ISerializable*>(UID, allocateData(type,name)));
+        pointerTable.insert( std::pair<std::string,ISerializable*>(UID, allocateData(type,name)) );
         dbg << "Allocated " << type <<"@"<< UID << std::endl;
     }
     dbg << std::endl << "All objects are allocated and their pointers are stored in a lookup table." << std::endl;

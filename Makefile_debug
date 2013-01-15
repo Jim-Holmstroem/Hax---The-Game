@@ -10,7 +10,7 @@ PRGM = hax_debug
 VPATH = world:ch:area:obj:serialize:ncurses
 
 # built-in variable for g++ compiler flags
-CXXFLAGS = -g -Wall -Wextra -DDEBUG
+CXXFLAGS = -g -Wall -Wextra -DDEBUG -std=c++0x
 
 all:
 	make -f Makefile_debug $(PRGM)

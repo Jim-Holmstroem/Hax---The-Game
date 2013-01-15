@@ -10,7 +10,7 @@ PRGM = hax
 VPATH = world:ch:area:obj:serialize:ncurses
 
 # built-in variable for g++ compiler flags
-CXXFLAGS = -g -Wall -Wextra
+CXXFLAGS = -g -Wall -Wextra -std=c++0x
 LFLAGS = -lncurses -lmenu
 
 all:

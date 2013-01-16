@@ -52,6 +52,8 @@ void hax::Object::FromString(std::istream& in)
         dbg.close();
         return;
     }
+    dbg << "Type = " << data << std::endl;
+
     std::getline(in,data,':');
     descr = data;
     dbg << "Description = " << descr << std::endl;
@@ -67,6 +69,8 @@ void hax::Object::FromString(std::istream& in)
     std::getline(in,data,':');
     price = std::atoi(data.c_str());
     dbg << "Price = " << price << std::endl;
+
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (here the class Object), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (here the class Container), then the line of data continues
 
     dbg.close();
 }

@@ -191,76 +191,42 @@ void hax::Area::FromString(std::istream& in)
     dbg << "Area::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data); //read rest of line
-    std::vector<std::string> parsedObj = split(data,':');
-    std::queue<std::string> pQ;
-    for(size_t i=0; i<parsedObj.size(); i++)
+    std::getline(in,data,':'); //read type
+    if(data != getType())
     {
-        pQ.push(parsedObj[i]);
-    }
-    std::string type = pQ.front();
-    pQ.pop();
-    if(type != getType())
-    {
-        dbg << "Type mismatch! Aborting load from file." << std::endl;
+        std::cerr << "Type mismatch! Aborting load from file." << std::endl;
         dbg.close();
         return;
     }
-    name = pQ.front();
-    pQ.pop();
+    dbg << "Type = " << data << std::endl;
+
+    std::getline(in,data,':');
+    name = data;
     dbg << "Name = " << name << std::endl;
 
-    descr = pQ.front();
-    pQ.pop();
+    std::getline(in,data,':');
+    descr = data;
     dbg << "Description = " << descr << std::endl;
 
-    while(pQ.front()!="end")
+    std::getline(in,data,':');
+    while(data != "end")
     {
-        data = pQ.front();
-        pQ.pop();
         vec_char.push_back(dynamic_cast<Character*>(pointerTable[data]));
         dbg << "Character UID = " << data << " | Character new address = " << vec_char.back() << std::endl;
+        std::getline(in,data,':');
     }
-    pQ.pop();
-    while(pQ.front()!="end")
+
+    std::getline(in,data,':');
+    while(data != "end")
     {
-        data = pQ.front();
-        pQ.pop();
         Route* ro = dynamic_cast<Route*>(pointerTable[data]);
         exits.insert(std::pair<std::string,Route*>(ro->getName(), ro)); //OBS the Routes were allocated with constructor Route(std::string) so name is defined => OK to call getName()
         dbg << "Route UID = " << data << " | Route new address = " << ro << std::endl;
-    }
-    pQ.pop();
-
-/*
-    std::getline(in,data,':'); //read type
-    if(data != getType()){std::cerr << "Type mismatch!" << std::endl;}
-    std::getline(in,data,':');
-    dbg << data << std::endl;
-    name = data;
-    std::getline(in,data,':');
-    dbg << data << std::endl;
-    descr = data;
-
-    std::getline(in,data,':');
-    dbg << data << std::endl;
-    while(data != "end")
-    {
-        vec_char.push_back(dynamic_cast<Character*>(pointerTable[data]));
-    std::getline(in,data,':');
-    dbg << data << std::endl;
-    }
-
-    std::getline(in,data,':');
-    dbg << data << std::endl;
-    while(data != "end")
-    {
-        Route* ro = dynamic_cast<Route*>(pointerTable[data]);
-        exits.insert(std::pair<SerializableString,Route*>(ro->getName(), ro)); //TODO need to call constructor Route(name) when allocating Routes otherwise name = ""
         std::getline(in,data,':');
-        dbg << data << std::endl;
     }
-*/
+
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (here the class Area), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (here the class Indoor/Outdoor), then the line of data continues
+
     dbg.close();
 }
 std::string hax::Area::getType() const{return "area";}

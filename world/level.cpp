@@ -84,6 +84,7 @@ hax::Level::~Level()
         it++;
     }
     std::cout<<"Level deleted"<<std::endl;
+    std::cout<<"WORD! I'M OUT!!"<<std::endl;
 }
 
 void hax::Level::add(Area* ar)

@@ -32,6 +32,7 @@ int main(int argc, const char* argv[])
     std::string input = "";
     while(input != "quit")
     {
+        std::cout << ">> ";
         std::getline(std::cin, input);
         if(input != "")
         {

@@ -15,6 +15,7 @@ LFLAGS = -lncurses -lmenu
 
 all:
 	make $(PRGM)
+
 debug:
 	make -f Makefile_debug
 debug_clean:

@@ -122,10 +122,10 @@ void hax::Container::ToString(std::ostream& out) const
     for(size_t i=0; i<vec_obj.size(); i++)
     {
         Object* ob = vec_obj[i];
-        out <<":"<< ob;
+        out << ob <<":";
         serializeQueue.push(ob);
     }
-    out << ":end";
+    out << "end:";
 }
 void hax::Container::FromString(std::istream& in)
 {

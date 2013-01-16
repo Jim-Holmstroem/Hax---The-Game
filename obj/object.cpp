@@ -36,7 +36,7 @@ std::string hax::Object::description() const
 }
 void hax::Object::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< descr <<":"<< weight <<":"<< volume <<":"<< price;
+    out << this <<":"<< getType() <<":"<< descr <<":"<< weight <<":"<< volume <<":"<< price <<":";
 }
 void hax::Object::FromString(std::istream& in)
 {

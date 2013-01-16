@@ -67,6 +67,18 @@ namespace hax
         virtual std::string getType() const;
     };
 
+    //used by class Area, like a big reservoir, the commands pick up and drop interacts with this
+    //previously: definition of Ground put in class Area under protected because class Shop needs it
+    class Ground : public Container
+    {
+      public:
+        Ground();
+        Ground(std::string);
+        virtual int hold_weight() const;
+        virtual int hold_volume() const;
+        virtual std::string getType() const;
+    };
+
     class Backpack : public Container
     {
       public:

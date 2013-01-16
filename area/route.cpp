@@ -4,7 +4,7 @@
 #include "route.h"
 #include "../ch/character.h"
 #include "../area/area.h"
-//#include "../obj/container.h" //needed for inventory
+#include "../obj/container.h" //needed for inventory
 #include "../helper.h"
 
 hax::Route::Route()

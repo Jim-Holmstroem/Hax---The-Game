@@ -221,6 +221,19 @@ int hax::Pocket::hold_volume() const{return 100;}
 std::string hax::Pocket::getType() const{return "pocket";}
 
 
+hax::Ground::Ground() : Container()
+{
+    descr = "nobody's";
+}
+hax::Ground::Ground(std::string ownedByArea)
+{
+    descr = ownedByArea.append("'s");
+}
+int hax::Ground::hold_weight() const{return 10000;}
+int hax::Ground::hold_volume() const{return 10000;}
+std::string hax::Ground::getType() const{return "ground";}
+
+
 hax::Backpack::Backpack()
 {
     const char* attr[] = { //attributes

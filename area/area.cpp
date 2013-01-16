@@ -3,6 +3,7 @@
 #include<fstream>
 #include "area.h"
 #include "../ch/character.h"
+#include "../obj/container.h"
 #include "../helper.h"
 
 hax::Area::Area()
@@ -182,7 +183,8 @@ void hax::Area::ToString(std::ostream& out) const
         serializeQueue.push(it->second);
     }
     out << "end:";
-//    out << gnd << std::endl; TODO
+    out << gnd <<":";
+    serializeQueue.push(gnd);
 }
 void hax::Area::FromString(std::istream& in)
 {
@@ -225,20 +227,13 @@ void hax::Area::FromString(std::istream& in)
         std::getline(in,data,':');
     }
 
+    std::getline(in,data,':');
+    std::string gndUID = data;
+    gnd = dynamic_cast<Ground*>(pointerTable[gndUID]);
+    dbg << "Ground UID = " << gndUID << " | Ground new address = " << gnd << std::endl;
+
     if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (here the class Area), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (here the class Indoor/Outdoor), then the line of data continues
 
     dbg.close();
 }
 std::string hax::Area::getType() const{return "area";}
-
-hax::Area::Ground::Ground() : Container()
-{
-    descr = "some area's";
-}
-hax::Area::Ground::Ground(std::string ownedByArea)
-{
-    descr = ownedByArea.append(" 's");
-}
-int hax::Area::Ground::hold_weight() const{return 10000;}
-int hax::Area::Ground::hold_volume() const{return 10000;}
-std::string hax::Area::Ground::getType() const{return "ground";}

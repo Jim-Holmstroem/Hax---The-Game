@@ -377,9 +377,9 @@ void hax::Character::give(Object* const obj)
 }
 void hax::Character::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< controllable <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":"<< curArea <<":"<< inventory <<":"<< curContainer;// <<":"<< myWallet;
+    out << this <<":"<< getType() <<":"<< controllable <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":"<< curArea <<":"<< inventory <<":"<< curContainer <<":"<< myWallet;
     serializeQueue.push(inventory);
-//    serializeQueue.push(myWallet);
+    serializeQueue.push(myWallet);
 }
 void hax::Character::FromString(std::istream& in)
 {
@@ -428,11 +428,10 @@ void hax::Character::FromString(std::istream& in)
     std::string curContainerUID = parsedObj[i++];
     curContainer = dynamic_cast<Container*>(pointerTable[curContainerUID]);
     dbg << "curContainer UID = " << curContainerUID << " | curContainer new address = " << curContainer << std::endl;
-/*
+
     std::string myWalletUID = parsedObj[i++];
     myWallet = dynamic_cast<Wallet*>(pointerTable[myWalletUID]);
     dbg << "myWallet UID = " << myWalletUID << " | myWallet new address = " << myWallet << std::endl;
-*/
 
     dbg.close();
 }

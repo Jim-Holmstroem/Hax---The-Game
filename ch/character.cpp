@@ -23,7 +23,7 @@ hax::Character::Character(std::string name, bool control)
     curArea = NULL;
     inventory = new Pocket(name, 5);
     curContainer = inventory;
-    myWallet = new Wallet();
+    myWallet = new Wallet(name);
     myWallet->add(new NdCoin()); //1000 kr
 
 /*

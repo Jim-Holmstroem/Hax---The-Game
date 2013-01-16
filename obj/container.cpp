@@ -150,9 +150,35 @@ void hax::Container::FromString(std::istream& in)
 std::string hax::Container::getType() const{return "container";}
 
 
+hax::Pocket::Pocket()
+{
+    descr = "nobody's";
+    weight = 1;
+    volume = 1;
+}
+hax::Pocket::Pocket(std::string owner, unsigned int maxSize)
+{
+    descr = owner +"'s";
+    weight = 1;
+    volume = 1;
+    this->maxSize = maxSize;
+}
+//TODO hold_size() instead
+int hax::Pocket::hold_weight() const{return 100;}
+int hax::Pocket::hold_volume() const{return 100;}
+std::string hax::Pocket::getType() const{return "pocket";}
+
+
 hax::Wallet::Wallet()
 {
-    descr = "";
+    descr = "nobody's";
+    weight = 1;
+    volume = 1;
+    price = 0;
+}
+hax::Wallet::Wallet(std::string owner)
+{
+    descr = owner +"'s";
     weight = 1;
     volume = 1;
     price = 0;
@@ -196,26 +222,7 @@ int hax::Wallet::hold_volume() const{return 1000;}
 std::string hax::Wallet::getType() const{return "wallet";}
 
 
-hax::Pocket::Pocket()
-{
-    descr = "nobody's";
-    weight = 1;
-    volume = 1;
-}
-hax::Pocket::Pocket(std::string owner, unsigned int maxSize)
-{
-    descr = owner +"'s";
-    weight = 1;
-    volume = 1;
-    this->maxSize = maxSize;
-}
-//TODO hold_size() instead
-int hax::Pocket::hold_weight() const{return 100;}
-int hax::Pocket::hold_volume() const{return 100;}
-std::string hax::Pocket::getType() const{return "pocket";}
-
-
-hax::Ground::Ground() : Container()
+hax::Ground::Ground()
 {
     descr = "nobody's";
 }

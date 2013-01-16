@@ -60,6 +60,7 @@ namespace hax
     {
       public:
         Wallet();
+        Wallet(std::string);
         Wallet& operator+=(const int);
         Wallet& operator-=(const int);
         virtual int hold_weight() const;

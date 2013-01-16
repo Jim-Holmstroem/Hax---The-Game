@@ -38,7 +38,7 @@ std::string hax::Route::passMessage() const
 }
 void hax::Route::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< name <<":"<< view <<":"<< thisArea <<":"<< nextArea;
+    out << this <<":"<< getType() <<":"<< name <<":"<< view <<":"<< thisArea <<":"<< nextArea <<":";
 }
 void hax::Route::FromString(std::istream& in)
 {
@@ -47,38 +47,35 @@ void hax::Route::FromString(std::istream& in)
     dbg << "Route::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data); //read rest of line
-    std::vector<std::string> parsedObj = split(data,':');
-    std::queue<std::string> pQ;
-    for(size_t i=0; i<parsedObj.size(); i++)
-    {
-        pQ.push(parsedObj[i]);
-    }
-    std::string type = pQ.front();
-    pQ.pop();
-    if(type != getType())
+    std::getline(in,data,':'); //read type
+    if(data != getType())
     {
         dbg << "Type mismatch! Aborting load from file." << std::endl;
         dbg.close();
         return;
     }
-    name = pQ.front();
-    pQ.pop();
+    dbg << "Type = " << data << std::endl;
+
+    std::getline(in,data,':');
+    name = data;
     dbg << "Name = " << name << std::endl;
 
-    view = pQ.front();
-    pQ.pop();
+    std::getline(in,data,':');
+    view = data;
     dbg << "View = " << view << std::endl;
 
-    std::string thisAreaUID = pQ.front();
+    std::getline(in,data,':');
+    std::string thisAreaUID = data;
     thisArea = dynamic_cast<Area*>(pointerTable[thisAreaUID]);
-    pQ.pop();
     dbg << "thisArea UID = " << thisAreaUID << " | thisArea new address = " << thisArea << std::endl;
 
-    std::string nextAreaUID = pQ.front();
+    std::getline(in,data,':');
+    std::string nextAreaUID = data;
     nextArea = dynamic_cast<Area*>(pointerTable[nextAreaUID]);
-    pQ.pop();
     dbg << "nextArea UID = " << nextAreaUID << " | nextArea new address = " << nextArea << std::endl;
+
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (ex. the class Route), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (ex. the class Door), then the line of data continues
+
     dbg.close();
 }
 std::string hax::Route::getType() const{return "Route";}

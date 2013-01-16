@@ -135,23 +135,17 @@ void hax::Container::FromString(std::istream& in)
     dbg << "Container::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data); //read rest of line
-    std::vector<std::string> parsedObj = split(data,':');
-    std::queue<std::string> pQ;
-    for(size_t i=0; i<parsedObj.size(); i++)
+    std::getline(in,data,':'); //continue reading data belonging to Container
+    while(data != "end")
     {
-        pQ.push(parsedObj[i]);
-    }
-    while(pQ.front()!="end")
-    {
-        data = pQ.front();
-        pQ.pop();
         vec_obj.push_back(dynamic_cast<Object*>(pointerTable[data]));
         dbg << "Object UID = " << data << " | Object new address = " << vec_obj.back() << std::endl;
+        std::getline(in,data,':');
     }
-    pQ.pop();
 
-    dbg.close();    
+    if(in.peek() == '\n'){in.get();}
+
+    dbg.close();
 }
 std::string hax::Container::getType() const{return "container";}
 

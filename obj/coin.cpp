@@ -13,6 +13,16 @@ hax::Coin::Coin(const Coin& copy)
     price = copy.price;
 }
 std::string hax::Coin::getType() const{return "coin";}
+void hax::Coin::ToString(std::ostream& out) const
+{
+    Object::ToString(out);
+
+}
+void hax::Coin::FromString(std::istream& in)
+{
+    Object::FromString(in);
+    
+}
 hax::NdCoin::NdCoin() : Coin()
 {
     descr = "neodymium";

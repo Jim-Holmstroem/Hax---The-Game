@@ -7,8 +7,11 @@ namespace hax
       public:
         Coin();
         Coin(const Coin&);
+        virtual void ToString(std::ostream&) const;
+        virtual void FromString(std::istream&);
 	virtual std::string getType() const;
     };
+
     class NdCoin : public Coin{ //Nd = neodymium
       public:
         NdCoin();

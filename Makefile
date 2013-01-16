@@ -15,6 +15,13 @@ LFLAGS = -lncurses -lmenu
 
 all:
 	make $(PRGM)
+debug:
+	make -f Makefile_debug
+debug_clean:
+	make -f Makefile_debug clean
+debug_run:
+	make -f Makefile_debug run
+
 
 $(PRGM): $(OBJ) Makefile
 	$(CXX) $(OBJ) $(LFLAGS) -o $(PRGM)

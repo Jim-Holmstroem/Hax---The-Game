@@ -14,7 +14,7 @@ namespace hax
 	virtual void action();
         virtual std::string getType() const;
         virtual void attack(Character*);
-	virtual void talk_to(Character*); //TODO
+	virtual void talk_to(Character*);
 
       protected:
         virtual void initStats(int,int,int,int);

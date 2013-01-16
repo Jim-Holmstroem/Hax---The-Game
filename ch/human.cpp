@@ -2,6 +2,7 @@
 #include<cstdlib>
 #include<fstream>
 #include "human.h"
+#include "undead.h"
 
 hax::Human::Human() : Character(){}
 hax::Human::Human(std::string name, bool control) : Character(name, control){}
@@ -24,7 +25,22 @@ void hax::Human::attack(Character* ch)
 }
 void hax::Human::talk_to(Character* ch)
 {
-} //TODO
+    std::cout << getName() << ": ";
+    std::cout << "What kinda' freak are you?!" << std::endl;
+} 
+
+void hax::Human::talk_to(Human* ch)
+{
+    std::cout << getName() << ": ";
+    std::cout << "What kinda' freak are you?!" << std::endl;
+} 
+void hax::Human::talk_to(Undead* ch)
+{
+    std::cout << getName() << ": ";
+    std::cout << "What kinda' freak are you?!" << std::endl;
+} 
+
+
 void hax::Human::ToString(std::ostream& out) const
 {
     Character::ToString(out);

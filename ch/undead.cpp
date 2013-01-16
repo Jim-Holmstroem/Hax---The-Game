@@ -1,6 +1,7 @@
 #include "undead.h"
 #include "../area/area.h"
 
+
 hax::Undead::Undead() : Character(){}
 hax::Undead::Undead(std::string name, bool control) : Character(name, control){}
 hax::Undead::~Undead(){}
@@ -9,6 +10,15 @@ void hax::Undead::action() //TODO
 }
 void hax::Undead::talk_to(Character* ch)
 {
+    const std::string sounds[] = {
+        "THRRPTT! ",
+        "BLEH HEH HEH HEE ",
+        "GURGLE BLEPT THIPT THPT HICK GRTSTHPT",
+        "JUSTIN BIEBER?",
+        "crunch..munch..crunch..",
+    };
+    std::cout << getName() << ":" << sounds[rand()%len(sounds)] << std::endl;
+
 }
 void hax::Undead::attack(Character* ch)
 {

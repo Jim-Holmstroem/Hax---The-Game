@@ -441,7 +441,7 @@ void hax::Character::FromString(std::istream& in)
     myWallet = dynamic_cast<Wallet*>(pointerTable[myWalletUID]);
     dbg << "myWallet UID = " << myWalletUID << " | myWallet new address = " << myWallet << std::endl;
 
-    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (here the class Character), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (here the class Human/Undead), then the line of data continues
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (ex. the class Character), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (ex. the class Human/Undead), then the line of data continues
 
     dbg.close();
 }

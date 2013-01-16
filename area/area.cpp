@@ -232,7 +232,7 @@ void hax::Area::FromString(std::istream& in)
     gnd = dynamic_cast<Ground*>(pointerTable[gndUID]);
     dbg << "Ground UID = " << gndUID << " | Ground new address = " << gnd << std::endl;
 
-    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (here the class Area), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (here the class Indoor/Outdoor), then the line of data continues
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (ex. the class Area), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (ex. the class Indoor/Outdoor), then the line of data continues
 
     dbg.close();
 }

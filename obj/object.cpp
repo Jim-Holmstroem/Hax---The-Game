@@ -45,7 +45,7 @@ void hax::Object::FromString(std::istream& in)
     dbg << "Object::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data,':');
+    std::getline(in,data,':'); //read type
     if(data != getType())
     {
         dbg << "Type mismatch! Aborting load from file." << std::endl;
@@ -70,7 +70,7 @@ void hax::Object::FromString(std::istream& in)
     price = std::atoi(data.c_str());
     dbg << "Price = " << price << std::endl;
 
-    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (here the class Object), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (here the class Container), then the line of data continues
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (ex. the class Object), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (ex. the class Container), then the line of data continues
 
     dbg.close();
 }

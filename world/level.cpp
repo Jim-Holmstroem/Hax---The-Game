@@ -427,7 +427,7 @@ bool hax::Level::load(std::string filename)
         }
         else
         {
-            dbg <<"The object type "<< type <<" is unknown, cannot allocate data!" << std::endl;
+            dbg <<"ERROR: The object type "<< type <<" is unknown, cannot allocate data!" << std::endl;
         }
     }
     dbg << std::endl << "All objects are allocated and their pointers are stored in a lookup table." << std::endl;

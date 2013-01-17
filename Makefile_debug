@@ -13,7 +13,7 @@ VPATH = world:ch:area:obj:serialize:ncurses
 CXXFLAGS = -g -Wall -Wextra -DDEBUG -std=c++0x
 
 all:
-	make -f Makefile_debug $(PRGM)
+	make -j -f Makefile_debug $(PRGM)
 
 $(PRGM): $(OBJ) Makefile_debug
 	$(CXX) $(OBJ) -o $(PRGM)

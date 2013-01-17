@@ -17,7 +17,7 @@ all:
 	make $(PRGM)
 
 debug:
-	make -f Makefile_debug
+	make -j -f Makefile_debug
 debug_clean:
 	make -f Makefile_debug clean
 debug_run:

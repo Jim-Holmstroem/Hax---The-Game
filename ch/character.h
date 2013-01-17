@@ -64,8 +64,9 @@ namespace hax
         void fight(Character*);
         bool fight_random();
         virtual void attack(Character*);
-        virtual void talk_to(Character*);
         bool talk_to(std::string);
+        virtual void talk_to(Character*);
+        bool talk_to_random();
         bool pick_up(std::string);
         bool drop(std::string);
         bool buy(std::string);

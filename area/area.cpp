@@ -138,6 +138,18 @@ hax::Character* hax::Area::getChar(std::string name)
     }
     return NULL; //not found, return NULL
 }
+hax::Character* hax::Area::getAnotherRandomCharForInteraction()
+{
+    unsigned int totChars = vec_char.size();
+    if(totChars == 1) //no one to interact with
+    {
+        std::ostringstream oss;
+        oss << "You are the only one here, stop imagining things..." << std::endl;
+        std::cout << oss.str();
+        return NULL;
+    }
+    return vec_char[rand() % totChars];
+}
 hax::SerializableVector<hax::Character*>::iterator hax::Area::findChar(Character* ch)
 {
     SerializableVector<Character*>::iterator it;

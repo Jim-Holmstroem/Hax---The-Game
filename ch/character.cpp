@@ -268,16 +268,13 @@ void hax::Character::fight(Character* ch)
 }
 bool hax::Character::fight_random()
 {
-    const SerializableVector<Character*> charsInArea = curArea->chars();
-    unsigned int totChars = charsInArea.size();
-    if(totChars == 1){ //no one to fight
-        return false;
+    Character* target = this;
+    while(target == this) //protection against fighting myself
+    {
+        target = curArea->getAnotherRandomCharForInteraction();
+        if(target == NULL){return false;}
     }
-    Character* enemy = charsInArea[rand() % totChars];
-    while(this == enemy){ //protection against fighting myself
-        enemy = charsInArea[rand() % totChars];
-    }
-    fight(enemy);
+    fight(target);
     return true;
 }
 void hax::Character::attack(Character* enemy) //TODO
@@ -304,7 +301,7 @@ void hax::Character::talk_to(Character* target)
 bool hax::Character::talk_to_random()
 {
     Character* target = this;
-    while(target == this) //protection against interacting with myself
+    while(target == this) //protection against talking to myself
     {
         target = curArea->getAnotherRandomCharForInteraction();
         if(target == NULL){return false;}

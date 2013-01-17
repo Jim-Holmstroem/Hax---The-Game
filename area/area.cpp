@@ -141,13 +141,7 @@ hax::Character* hax::Area::getChar(std::string name)
 hax::Character* hax::Area::getAnotherRandomCharForInteraction()
 {
     unsigned int totChars = vec_char.size();
-    if(totChars == 1) //no one to interact with
-    {
-        std::ostringstream oss;
-        oss << "You are the only one here, stop imagining things..." << std::endl;
-        std::cout << oss.str();
-        return NULL;
-    }
+    if(totChars == 1){return NULL;} //no one to interact with
     return vec_char[rand() % totChars];
 }
 hax::SerializableVector<hax::Character*>::iterator hax::Area::findChar(Character* ch)

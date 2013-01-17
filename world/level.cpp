@@ -28,7 +28,7 @@ hax::Level::Level()
     opmap["info"] = new LevelOpVoid(&Level::info);
     opmap["spawn"] = new LevelOpVoid(&Level::spawn);
     opmap["action"] = new LevelOpVoid(&Level::action);
-    opmap["a"] = new LevelOpVoid(&Level::action); //TODO remove later, only for easy testing
+    opmap["a"] = new LevelOpVoid(&Level::action); //NOTE remove later, only for easy testing
     /*Character specific commands*/
     opmap["go"] = new CharOpBool1String(&Character::go);
     opmap["fight"] = new CharOpBool1String(&Character::fight);
@@ -169,7 +169,6 @@ void hax::Level::parse(const std::vector<std::string> words)
 
         opmap[op]->call(arg, myChar, this); //TODO should use dynamic_cast to check if CharOp or LevelOp
         updatePlayers(); //if a Character died then remove from std::map players otherwise info() will give segfault
-
     }
 }
 void hax::Level::ToString(std::ostream& out) const
@@ -178,7 +177,7 @@ void hax::Level::ToString(std::ostream& out) const
     for(size_t i=0; i<vec_area.size(); i++)
     {
         out << vec_area[i] << ":";
-        serializeQueue.push(vec_area[i]); //we can do this because we know that the Areas are only owned by Level, TODO use C++11 feature std::unique_ptr
+        serializeQueue.push(vec_area[i]); //we can do this because we know that the Areas are owned by Level
     }
     out << "end:";
     out << curChar <<":"<< curCharName;
@@ -212,7 +211,7 @@ void hax::Level::FromString(std::istream& in)
     dbg << "curChar = " << curChar << std::endl;
 
     std::getline(in,data); //last column
-    curCharName = data; //TODO safe to save even if curChar = NULL??
+    curCharName = data;
     dbg << "curCharName = " << curCharName << std::endl;
     dbg.close();
 }
@@ -379,7 +378,7 @@ bool hax::Level::kill(std::string name)
 }
 bool hax::Level::save(std::string filename)
 {
-//    serializeQueue.clear(); //TODO is this needed?
+    serializeQueue.clear(); //not really needed, just to be on the safe side since serializeQueue is a global variable
     std::ofstream outFile(("saved/"+filename+".dat").c_str());
     serializeQueue.push(this);
     while(!serializeQueue.empty())

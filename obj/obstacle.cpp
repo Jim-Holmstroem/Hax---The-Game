@@ -2,20 +2,17 @@
 
 hax::Obstacle::Obstacle()
 {
-    weight = -1; //TODO
+    weight = -1; //weight is negative so that the Obstacle cannot be picked up
     volume = 0;
     price = 0;
-}
-hax::Obstacle::Obstacle(void* vo)
-{
-//    criteria = vo;
 }
 hax::Obstacle::~Obstacle()
 {
     std::cout << "~Obstacle()" << std::endl;
 }
 
-hax::Tree::Tree()
+
+hax::Tree::Tree() : Obstacle()
 {
     const char* attr[] = { //attributes
         "oak",

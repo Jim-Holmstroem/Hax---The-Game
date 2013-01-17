@@ -8,7 +8,6 @@ namespace hax
     {
       public:
         Obstacle();
-        Obstacle(void*); //TODO remove?
         ~Obstacle();
     };
 

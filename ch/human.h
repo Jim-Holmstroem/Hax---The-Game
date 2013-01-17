@@ -18,11 +18,9 @@ namespace hax
         virtual void view_stats() const;
         virtual void attack(Character*);
         virtual void talk_to(Character*);
-        virtual void talk_to(Human*);
-        virtual void talk_to(Undead*);
 
-	virtual void ToString(std::ostream&) const;
-	virtual void FromString(std::istream&);
+        virtual void ToString(std::ostream&) const;
+        virtual void FromString(std::istream&);
         virtual std::string getType() const;
 
       protected:
@@ -34,14 +32,13 @@ namespace hax
       public:
         Wizard();
         Wizard(std::string, bool);
-	Wizard(const Wizard&);
-	virtual void view_stats() const;
-	virtual void attack(Character*);
-        virtual void talk_to(Character*);
+        Wizard(const Wizard&);
+        virtual void view_stats() const;
+        virtual void attack(Character*);
 
-	virtual void ToString(std::ostream&) const;
-	virtual void FromString(std::istream&);
-	virtual std::string getType() const;
+        virtual void ToString(std::ostream&) const;
+        virtual void FromString(std::istream&);
+        virtual std::string getType() const;
 
       protected:
         int curMp; //magic points
@@ -56,7 +53,6 @@ namespace hax
 	Barbarian(std::string, bool);
 	Barbarian(const Barbarian&);
 	virtual void attack(Character*);
-        virtual void talk_to(Character*);
 
 	virtual std::string getType() const;
     };

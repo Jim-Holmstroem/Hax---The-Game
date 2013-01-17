@@ -52,11 +52,11 @@ namespace hax
         virtual void action(); //TODO return type? depends on current situation, for Hero let it be input from getch, for Foe let it be random
         virtual void view_stats() const;
         void view_area() const;
-	void view_inventory() const;
-	void view_curContainer() const;
-	bool change_curContainer(std::string);
-//	bool move_obj(std::string, std::string); //arg is objName, destination
-	bool move_obj(std::string, std::string, std::string); //arg is objName, source, destination
+        void view_inventory() const;
+        void view_curContainer() const;
+        bool change_curContainer(std::string);
+    //	bool move_obj(std::string, std::string); //arg is objName, destination
+        bool move_obj(std::string, std::string, std::string); //arg is objName, source, destination
         bool go(std::string);
         bool go(const Route&);
         bool go_random();
@@ -64,7 +64,8 @@ namespace hax
         void fight(Character*);
         bool fight_random();
         virtual void attack(Character*);
-        virtual void talk_to(Character*); //TODO return type?
+        virtual void talk_to(Character*);
+        bool talk_to(std::string);
         bool pick_up(std::string);
         bool drop(std::string);
         bool buy(std::string);

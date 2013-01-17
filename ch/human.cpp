@@ -26,18 +26,18 @@ void hax::Human::attack(Character* ch)
 void hax::Human::talk_to(Character* ch)
 {
     std::cout << getName() << ": ";
-    std::cout << "What kinda' freak are you?!" << std::endl;
-} 
-
-void hax::Human::talk_to(Human* ch)
-{
-    std::cout << getName() << ": ";
-    std::cout << "What kinda' freak are you?!" << std::endl;
-} 
-void hax::Human::talk_to(Undead* ch)
-{
-    std::cout << getName() << ": ";
-    std::cout << "What kinda' freak are you?!" << std::endl;
+    bool human = dynamic_cast<Human*>(ch);
+    bool undead= dynamic_cast<Undead*>(ch);
+    if(human)
+    {
+    }
+    else if(undead)
+    {
+    }
+    else
+    {
+        std::cout << "What kinda' freak are you?!" << std::endl;
+    }
 } 
 
 
@@ -91,9 +91,6 @@ void hax::Wizard::attack(Character* ch)
         Human::attack(ch);
     }
 }
-void hax::Wizard::talk_to(Character* ch)
-{
-} //TODO
 void hax::Wizard::initStats(int curHp, int maxHp, int strength, int weight)
 {
     Human::initStats(curHp, maxHp, strength, weight);
@@ -142,7 +139,4 @@ void hax::Barbarian::attack(Character* ch)
     std::cout << this->getName() << " attacks again!" << std::endl;
     Human::attack(ch);
 }
-void hax::Barbarian::talk_to(Character* ch)
-{
-} //TODO
 std::string hax::Barbarian::getType() const{return "barbarian";}

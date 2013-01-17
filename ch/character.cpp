@@ -235,6 +235,7 @@ bool hax::Character::go_random()
     }
     return(this->go( *(it->second) ));
 }
+
 bool hax::Character::fight(std::string name)
 {
     Character* enemy = curArea->getChar(name); //is NULL if not found

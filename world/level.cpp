@@ -31,6 +31,7 @@ hax::Level::Level()
     /*Character specific commands*/
     opmap["go"] = new CharOpBool1String(&Character::go);
     opmap["fight"] = new CharOpBool1String(&Character::fight);
+    opmap["talk"] = new CharOpBool1String(&Character::talk_to);
     opmap["rest"] = new CharOpBoolVoid(&Character::rest);
     opmap["pu"] = new CharOpBool1String(&Character::pick_up);
     opmap["drop"] = new CharOpBool1String(&Character::drop);
@@ -52,6 +53,7 @@ hax::Level::Level()
     levelHelp["action"] ="Each character performs a random action";
     charHelp["go"] = "Go to another area: go <direction>";
     charHelp["fight"] = "Fight another character to the death: fight <character>";
+    charHelp["talk"] = "Talk to another character to the death: talk <character>";
     charHelp["rest"] = "Rest to regain HP, MP and stamina";
     charHelp["pu"] = "Pick up an object: pick up <object>";
     charHelp["drop"] = "Drop an object: drop <object>";

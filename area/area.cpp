@@ -8,7 +8,8 @@
 
 hax::Area::Area()
 {
-//    gnd = new Ground(name);
+    name = "default";
+    gnd = NULL;
 }
 hax::Area::Area(std::string n)
 {

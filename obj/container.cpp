@@ -9,7 +9,7 @@
 hax::Container::Container(){}
 hax::Container::Container(const Container& co) : Object(co)
 {
-    vec_obj = co.vec_obj;
+    vec_obj = co.vec_obj; //NOTE should use smart pointers instead
 }
 hax::Container::~Container()
 {
@@ -164,6 +164,10 @@ hax::Pocket::Pocket(std::string owner, unsigned int maxSize)
     volume = 1;
     this->maxSize = maxSize;
 }
+hax::Pocket::Pocket(const Pocket& po) : Container(po)
+{
+    this->maxSize = po.maxSize;
+}
 //TODO hold_size() instead
 int hax::Pocket::hold_weight() const{return 100;}
 int hax::Pocket::hold_volume() const{return 100;}
@@ -184,6 +188,7 @@ hax::Wallet::Wallet(std::string owner)
     volume = 1;
     price = 0;
 }
+hax::Wallet::Wallet(const Wallet& wa) : Container(wa){}
 hax::Wallet& hax::Wallet::operator+=(const int profit) //add Coins equal to int value
 {
     *this -= (-profit);

@@ -48,8 +48,8 @@ hax::Character::Character(const Character& ch)
     curHp = ch.curHp;
     maxHp = ch.maxHp;
     strength = ch.strength;
-    inventory = new Pocket(ch.inventory);
-    myWallet = new Wallet(ch.myWallet);
+    inventory = new Pocket(*(ch.inventory));
+    myWallet = new Wallet(*(ch.myWallet));
 }
 hax::Character::~Character()
 {

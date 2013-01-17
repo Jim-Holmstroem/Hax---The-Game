@@ -13,7 +13,7 @@ namespace hax
     {
       public:
         Object();
-//        Object(const Object&);
+        Object(const Object&);
         virtual ~Object(); //is virtual because when adding a Container to a Container and deleting will give segfault
 
 // EXAMPLE
@@ -48,6 +48,7 @@ namespace hax
     {
       public:
         Key();
+        Key(std::string);
 	virtual std::string getType() const;
     };
 }

@@ -15,7 +15,7 @@ namespace hax
     {
       public:
         Container();
-//        Container(const Container&);
+        Container(const Container&);
         ~Container(); //virtual by default since ~Object() is virtual
 
         Object* operator[](size_t i);
@@ -48,6 +48,7 @@ namespace hax
       public:
         Pocket();
         Pocket(std::string, unsigned int);
+        Pocket(const Pocket&);
         virtual int hold_weight() const;
         virtual int hold_volume() const;
         virtual std::string getType() const;
@@ -61,6 +62,7 @@ namespace hax
       public:
         Wallet();
         Wallet(std::string);
+        Wallet(const Wallet&);
         Wallet& operator+=(const int);
         Wallet& operator-=(const int);
         virtual int hold_weight() const;
@@ -97,7 +99,6 @@ namespace hax
 //      Pokemon poke; //derived from Character
 };
 */
-
 }
 
 #endif

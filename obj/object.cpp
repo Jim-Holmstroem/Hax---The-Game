@@ -12,12 +12,12 @@ hax::Object::Object()
     volume = 0;
     price = 0;
 }
-/*hax::Object::Object(const Object& ob){
-  weight = ob.weight;
-  volume = ob.volume;
-  price = ob.price;
-   descr = ob.descr;
-  }*/
+hax::Object::Object(const Object& ob){
+    weight = ob.weight;
+    volume = ob.volume;
+    price = ob.price;
+    descr = ob.descr;
+}
 hax::Object::~Object()
 {
     std::cout << "~Object: " << description() << " deleted" << std::endl;
@@ -88,6 +88,13 @@ hax::Key::Key()
 	"silver",
     };
     descr = attr[rand() % len(attr)];
+    weight = 0;
+    volume = 0;
+    price = 0;
+}
+hax::Key::Key(std::string descr)
+{
+    this->descr = descr;
     weight = 0;
     volume = 0;
     price = 0;

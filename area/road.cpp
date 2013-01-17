@@ -22,11 +22,11 @@ hax::Road::Road(std::string name, Area* from, Area* to) : Route(name, from, to)
     enemy = NULL;
     p_obs = NULL;
 }
-hax::Road::Road(std::string name, Area* from, Area* to, Character* ch) : Route(name, from, to) //TODO change to Foe*
+hax::Road::Road(std::string name, Area* from, Area* to, Character* ch) : Route(name, from, to)
 {
     enemy = ch;
     p_obs = NULL;
-    thisArea->enter(ch); //this Character is not added to global map so it will not perform random actions
+    thisArea->enter(ch); //NOTE this Character should not be controllable so it does not perform random actions, making sure it stays here and blocks the road
 }
 hax::Road::Road(std::string name, Area* from, Area* to, Obstacle* ob) : Route(name, from, to)
 {
@@ -40,14 +40,10 @@ hax::Road::Road(std::string name, Area* from, Area* to, Obstacle* ob) : Route(na
 }
 bool hax::Road::isBlocked(Character* const ch) const
 {
-/*    if(enemy == 0 && p_obs == 0){ //this check doesn't seem to know if object is deleted
-      return false;
-      }
-*/
     if(thisArea->hasChar(enemy)){
-        return true; //a Char is blocking the road
+        return true; //a character is blocking the road
     }else if(thisArea->hasObject(p_obs)){
-        return true; //TODO check for Obstacle
+        return true; //an obstacle is blocking the road
     }else{
         return false;
     }
@@ -59,7 +55,7 @@ std::string hax::Road::blockMessage() const
     }else if(thisArea->hasObject(p_obs)){
         return("There is a "+ p_obs->description() +" blocking the way!");
     }else{
-	return("Why am I blocked? DEBUG");
+        return("Why am I blocked? DEBUG");
     }
 }
 std::string hax::Road::passMessage() const

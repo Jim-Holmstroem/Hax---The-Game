@@ -36,7 +36,7 @@ namespace hax
 
 //        Area& operator=(const Area&);
         std::string getName() const;
-        SerializableVector<Character*> chars() const; //TODO remove? currently used by level.cpp
+        SerializableVector<Character*> chars() const;
         Area& neighbor(const Route&) const;
         std::string directions() const;
         virtual std::string description() const;

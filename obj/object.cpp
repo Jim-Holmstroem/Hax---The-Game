@@ -100,3 +100,13 @@ hax::Key::Key(std::string descr)
     price = 0;
 }
 std::string hax::Key::getType() const{return "key";}
+
+
+hax::Rock::Rock()
+{
+    descr="";
+    weight = 20;
+    volume = 5;
+    price = 0;
+}
+std::string hax::Rock::getType() const{return "rock";}

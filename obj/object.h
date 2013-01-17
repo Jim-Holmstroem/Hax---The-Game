@@ -51,5 +51,12 @@ namespace hax
         Key(std::string);
 	virtual std::string getType() const;
     };
+
+    class Rock : public Object
+    {
+      public:
+        Rock();
+	virtual std::string getType() const;
+    };
 }
 #endif

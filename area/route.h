@@ -6,10 +6,9 @@
 namespace hax
 {
     //using forward declaration!!!! otherwise circular inclusion, this is possible when we only have pointers
+    //http://www.codeguru.com/forum/showthread.php?t=383253
     class Character;
     class Area;
-    //http://www.codeguru.com/forum/showthread.php?t=383253
-//    class Container;
     class Key;
 
     class Route : public ISerializable
@@ -34,7 +33,6 @@ namespace hax
         Area* nextArea; //could make interesting maps by changing this during game
 
       protected:
-//	std::string type;
         std::string view; //what the character sees when looking in this direction TODO
 
       private:
@@ -60,7 +58,7 @@ namespace hax
         Key* match_key;
     };
 
-    class Hatch : public Route //fall-lucka #TODO check this class
+    class Hatch : public Route
     {
       public:
         Hatch();

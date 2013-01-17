@@ -7,10 +7,13 @@
 #include<stack>
 #include<queue>
 #include<cmath>
+#include<string>
 #include "../serialize/iserializable.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif
+
+#define len(a) ( sizeof(a) / sizeof(a[0]) )
 
 namespace hax
 {

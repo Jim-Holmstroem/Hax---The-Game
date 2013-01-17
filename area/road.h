@@ -17,10 +17,13 @@ namespace hax
         Road(std::string, Area*, Area*);
         Road(std::string, Area*, Area*, Character*);
         Road(std::string, Area*, Area*, Obstacle*);
-	std::string getType() const;
-        bool isBlocked(Character* const) const; //always send in "this" as arg
+        bool isBlocked(Character* const) const; //NOTE always send in "this" as arg
         std::string blockMessage() const;
 	std::string passMessage() const;
+
+	virtual void ToString(std::ostream&) const;
+	virtual void FromString(std::istream&);
+	virtual std::string getType() const;
 
       private:
         Character* enemy;

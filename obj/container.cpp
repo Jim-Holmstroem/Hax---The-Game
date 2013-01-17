@@ -122,10 +122,10 @@ void hax::Container::ToString(std::ostream& out) const
     for(size_t i=0; i<vec_obj.size(); i++)
     {
         Object* ob = vec_obj[i];
-        out <<":"<< ob;
+        out << ob <<":";
         serializeQueue.push(ob);
     }
-    out << ":end";
+    out << "end:";
 }
 void hax::Container::FromString(std::istream& in)
 {
@@ -135,30 +135,50 @@ void hax::Container::FromString(std::istream& in)
     dbg << "Container::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data); //read rest of line
-    std::vector<std::string> parsedObj = split(data,':');
-    std::queue<std::string> pQ;
-    for(size_t i=0; i<parsedObj.size(); i++)
+    std::getline(in,data,':'); //continue reading data belonging to Container
+    while(data != "end")
     {
-        pQ.push(parsedObj[i]);
-    }
-    while(pQ.front()!="end")
-    {
-        data = pQ.front();
-        pQ.pop();
         vec_obj.push_back(dynamic_cast<Object*>(pointerTable[data]));
         dbg << "Object UID = " << data << " | Object new address = " << vec_obj.back() << std::endl;
+        std::getline(in,data,':');
     }
-    pQ.pop();
 
-    dbg.close();    
+    if(in.peek() == '\n'){in.get();}
+
+    dbg.close();
 }
 std::string hax::Container::getType() const{return "container";}
 
 
+hax::Pocket::Pocket()
+{
+    descr = "nobody's";
+    weight = 1;
+    volume = 1;
+}
+hax::Pocket::Pocket(std::string owner, unsigned int maxSize)
+{
+    descr = owner +"'s";
+    weight = 1;
+    volume = 1;
+    this->maxSize = maxSize;
+}
+//TODO hold_size() instead
+int hax::Pocket::hold_weight() const{return 100;}
+int hax::Pocket::hold_volume() const{return 100;}
+std::string hax::Pocket::getType() const{return "pocket";}
+
+
 hax::Wallet::Wallet()
 {
-    descr = "";
+    descr = "nobody's";
+    weight = 1;
+    volume = 1;
+    price = 0;
+}
+hax::Wallet::Wallet(std::string owner)
+{
+    descr = owner +"'s";
     weight = 1;
     volume = 1;
     price = 0;
@@ -202,23 +222,17 @@ int hax::Wallet::hold_volume() const{return 1000;}
 std::string hax::Wallet::getType() const{return "wallet";}
 
 
-hax::Pocket::Pocket()
+hax::Ground::Ground()
 {
     descr = "nobody's";
-    weight = 1;
-    volume = 1;
 }
-hax::Pocket::Pocket(std::string owner, unsigned int maxSize)
+hax::Ground::Ground(std::string ownedByArea)
 {
-    descr = owner +"'s";
-    weight = 1;
-    volume = 1;
-    this->maxSize = maxSize;
+    descr = ownedByArea.append("'s");
 }
-//TODO hold_size() instead
-int hax::Pocket::hold_weight() const{return 100;}
-int hax::Pocket::hold_volume() const{return 100;}
-std::string hax::Pocket::getType() const{return "pocket";}
+int hax::Ground::hold_weight() const{return 10000;}
+int hax::Ground::hold_volume() const{return 10000;}
+std::string hax::Ground::getType() const{return "ground";}
 
 
 hax::Backpack::Backpack()

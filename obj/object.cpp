@@ -36,7 +36,7 @@ std::string hax::Object::description() const
 }
 void hax::Object::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< descr <<":"<< weight <<":"<< volume <<":"<< price;
+    out << this <<":"<< getType() <<":"<< descr <<":"<< weight <<":"<< volume <<":"<< price <<":";
 }
 void hax::Object::FromString(std::istream& in)
 {
@@ -45,13 +45,15 @@ void hax::Object::FromString(std::istream& in)
     dbg << "Object::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data,':');
+    std::getline(in,data,':'); //read type
     if(data != getType())
     {
         dbg << "Type mismatch! Aborting load from file." << std::endl;
         dbg.close();
         return;
     }
+    dbg << "Type = " << data << std::endl;
+
     std::getline(in,data,':');
     descr = data;
     dbg << "Description = " << descr << std::endl;
@@ -67,6 +69,8 @@ void hax::Object::FromString(std::istream& in)
     std::getline(in,data,':');
     price = std::atoi(data.c_str());
     dbg << "Price = " << price << std::endl;
+
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (ex. the class Object), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (ex. the class Container), then the line of data continues
 
     dbg.close();
 }

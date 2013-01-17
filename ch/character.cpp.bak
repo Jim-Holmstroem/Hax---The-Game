@@ -23,7 +23,7 @@ hax::Character::Character(std::string name, bool control)
     curArea = NULL;
     inventory = new Pocket(name, 5);
     curContainer = inventory;
-    myWallet = new Wallet();
+    myWallet = new Wallet(name);
     myWallet->add(new NdCoin()); //1000 kr
 
 /*
@@ -285,7 +285,7 @@ void hax::Character::attack(Character* enemy)
 }
 void hax::Character::talk_to(Character* npc)
 {
-//TODO
+    std::cout << getName() << ": I just don't know what to say man" << std::endl;
 }
 bool hax::Character::pick_up(std::string objName)
 {
@@ -377,9 +377,9 @@ void hax::Character::give(Object* const obj)
 }
 void hax::Character::ToString(std::ostream& out) const
 {
-    out << this <<":"<< getType() <<":"<< controllable <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":"<< curArea <<":"<< inventory <<":"<< curContainer;// <<":"<< myWallet;
+    out << this <<":"<< getType() <<":"<< controllable <<":"<< name <<":"<< curHp <<":"<< maxHp <<":"<< strength <<":"<< weight <<":"<< curArea <<":"<< inventory <<":"<< curContainer <<":"<< myWallet <<":";
     serializeQueue.push(inventory);
-//    serializeQueue.push(myWallet);
+    serializeQueue.push(myWallet);
 }
 void hax::Character::FromString(std::istream& in)
 {
@@ -388,51 +388,60 @@ void hax::Character::FromString(std::istream& in)
     dbg << "Character::FromString" << std::endl;
 
     std::string data;
-    std::getline(in,data); //read rest of line
-    std::vector<std::string> parsedObj = split(data,':');
-
-    int i=0;
-    std::string type = parsedObj[i++];
-    if(type != getType())
+    std::getline(in,data,':'); //read type
+    if(data != getType())
     {
         dbg << "Type mismatch! Aborting load from file." << std::endl;
         dbg.close();
         return;
     }
-    controllable = std::atoi(parsedObj[i++].c_str());
+    dbg << "Type = " << data << std::endl;
+
+    std::getline(in,data,':');
+    controllable = std::atoi(data.c_str());
     dbg << "Controllable = " << controllable << std::endl;
 
-    name = parsedObj[i++];
+    std::getline(in,data,':');
+    name = data;
     dbg << "Name = " << name << std::endl;
 
-    curHp = std::atoi(parsedObj[i++].c_str());
+    std::getline(in,data,':');
+    curHp = std::atoi(data.c_str());
     dbg << "Current HP = " << curHp << std::endl;
 
-    maxHp = std::atoi(parsedObj[i++].c_str());
+    std::getline(in,data,':');
+    maxHp = std::atoi(data.c_str());
     dbg << "Max HP = " << maxHp << std::endl;
 
-    strength = std::atoi(parsedObj[i++].c_str());
+    std::getline(in,data,':');
+    strength = std::atoi(data.c_str());
     dbg << "Strength = " << strength << std::endl;
 
-    weight = std::atoi(parsedObj[i++].c_str());
+    std::getline(in,data,':');
+    weight = std::atoi(data.c_str());
     dbg << "Weight = " << weight << std::endl;
 
-    std::string curAreaUID = parsedObj[i++];
+    std::getline(in,data,':');
+    std::string curAreaUID = data;
     curArea = dynamic_cast<Area*>(pointerTable[curAreaUID]);
     dbg << "curArea UID = " << curAreaUID << " | curArea new address = " << curArea << std::endl;
 
-    std::string inventoryUID = parsedObj[i++];
+    std::getline(in,data,':');
+    std::string inventoryUID = data;
     inventory = dynamic_cast<Pocket*>(pointerTable[inventoryUID]);
     dbg << "inventory UID = " << inventoryUID << " | inventory new address = " << inventory << std::endl;
 
-    std::string curContainerUID = parsedObj[i++];
+    std::getline(in,data,':');
+    std::string curContainerUID = data;
     curContainer = dynamic_cast<Container*>(pointerTable[curContainerUID]);
     dbg << "curContainer UID = " << curContainerUID << " | curContainer new address = " << curContainer << std::endl;
-/*
-    std::string myWalletUID = parsedObj[i++];
+
+    std::getline(in,data,':');
+    std::string myWalletUID = data;
     myWallet = dynamic_cast<Wallet*>(pointerTable[myWalletUID]);
     dbg << "myWallet UID = " << myWalletUID << " | myWallet new address = " << myWallet << std::endl;
-*/
+
+    if(in.peek() == '\n'){in.get();} //If the data being deserialized is a base class (ex. the class Character), then at this state the next char is a newline which has to be removed so the next lines are read properly. If an inherited class is being deserialized (ex. the class Human/Undead), then the line of data continues
 
     dbg.close();
 }

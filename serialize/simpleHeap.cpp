@@ -26,8 +26,10 @@ hax::ISerializable* hax::allocateData(std::string type, std::string name)
     else if(type == "hatch"){return new Hatch(name);}
     else if(type == "pocket"){return new Pocket();}
     else if(type == "wallet"){return new Wallet();}
+    else if(type == "ground"){return new Ground();}
     else if(type == "backpack"){return new Backpack();}
     else if(type == "key"){return new Key();}
     else if(type == "coin"){return new Coin();}
+    else if(type == "tree"){return new Tree();}
     else{return NULL;}
 }

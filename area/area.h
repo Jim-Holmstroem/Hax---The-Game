@@ -1,11 +1,12 @@
 #ifndef AREA_H
 #define AREA_H
 #include<vector>
+#include<queue>
 #include<map>
 #include "route.h"
 #include "../serialize/iserializable.h"
-#include "../obj/container.h"
 #include "../serialize/simpleHeap.h"
+#include "../serialize/serializablevector.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif
@@ -19,8 +20,11 @@ namespace hax
     extern std::map<std::string,ISerializable*> pointerTable;
 
     typedef std::map<std::string,Route*> MapRoute;
-    class Character; //forward declaration
-//    class Object;
+
+    //forward declarations
+    class Character;
+    class Object;
+    class Ground;
 
     class Area : public ISerializable
     {
@@ -64,17 +68,6 @@ namespace hax
 //      SerializableVector<Character*> vec_creep; //for characters blocking a road, or other static enemies
         std::string name;
         std::string descr; //description
-
-        //definition of Ground put in protected because class Shop needs it
-        class Ground : public Container //like a big reservoir
-        {
-          public:
-            Ground();
-            Ground(std::string);
-            virtual int hold_weight() const;
-            virtual int hold_volume() const;
-	    virtual std::string getType() const;
-        };
 
       private:
         Ground* gnd;

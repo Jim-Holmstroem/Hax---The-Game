@@ -72,17 +72,6 @@ hax::Level* hax::initNewGame()
     Key* white_key = new Key("White key");
     Key* toilet_key = new Key("Employee toilet key");
     Container* sack = new Backpack();
-    Key* alohomora = new Key();
-
-    //build level
-    test->add(borg);
-    test->add(kth);
-    test->add(skog);
-    test->add(ikea);
-    test->add(albus);
-    test->add(voldy);
-    test->add(conan);
-    test->add(necro);
     
     borg->addRoute(new Road("north", borg, kth));
     borg->addRoute(new Road("west", borg, skog));
@@ -117,10 +106,19 @@ hax::Level* hax::initNewGame()
     borg->pick_up(new Rock());
     kth->pick_up(new Rock());
     skog->pick_up(new Rock());
+    wc->pick_up(toilet_key);
 
     //add Object to Character
-    albus->give(alohomora);
     voldy->give(white_key);
+
+    //build level, controllable characters are added implicitly
+    test->add(borg);
+    test->add(kth);
+    test->add(skog);
+    test->add(ikea);
+    test->add(nowhere);
+    test->add(wc);
+    test->add(toilet);
 
     return test;
 };

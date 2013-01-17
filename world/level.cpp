@@ -93,6 +93,7 @@ hax::Level::~Level()
 void hax::Level::add(Area* ar)
 {
     vec_area.push_back(ar);
+    updatePlayers();
 }
 void hax::Level::add(Character* ch)
 {

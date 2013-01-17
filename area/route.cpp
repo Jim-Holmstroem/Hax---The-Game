@@ -80,6 +80,7 @@ void hax::Route::FromString(std::istream& in)
 }
 std::string hax::Route::getType() const{return "Route";}
 
+
 hax::Door::Door() : Route()
 {
     match_key = NULL;
@@ -121,14 +122,33 @@ std::string hax::Door::passMessage() const
         return(Route::passMessage()+" The door does not require any key and is opened without any trouble.");
     }
 }
+void hax::Door::ToString(std::ostream& out) const
+{
+    Route::ToString(out);
+    out << match_key <<":";
+    //NOTE we do not push the Key to serializeQueue because it is not owned by the class Door
+}
+void hax::Door::FromString(std::istream& in)
+{
+    Route::FromString(in);
+    std::ofstream dbg;
+    dbg.open("load_debug.dat", std::ios::out | std::ios::app);
+    dbg << "Door::FromString" << std::endl;
+
+    std::string data;
+    std::getline(in,data,':');
+    std::string match_keyUID = data;
+    match_key = dynamic_cast<Key*>(pointerTable[match_keyUID]);
+    dbg << "match_key UID = " << match_keyUID << " | match_key new address = " << match_key << std::endl;
+
+    if(in.peek() == '\n'){in.get();}
+    dbg.close();
+}
+
 
 hax::Hatch::Hatch() : Route(){}
 hax::Hatch::Hatch(std::string name) : Route(name){}
-hax::Hatch::Hatch(std::string name, Area* from, Area* to) : Route(name, from, to)
-{
-//    type = "hatch";
-}
-std::string hax::Hatch::getType() const{return "hatch";}
+hax::Hatch::Hatch(std::string name, Area* from, Area* to) : Route(name, from, to){}
 bool hax::Hatch::isBlocked(Character* const ch) const
 {
     if(ch->totWeight() > 100){
@@ -145,3 +165,4 @@ std::string hax::Hatch::passMessage() const
 {
     return(Route::passMessage()+" The hatch is released by your heavy weight.");
 }
+std::string hax::Hatch::getType() const{return "hatch";}

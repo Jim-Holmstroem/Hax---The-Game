@@ -28,11 +28,12 @@ void hax::Human::talk_to(Character* ch)
 void hax::Human::ToString(std::ostream& out) const
 {
     Character::ToString(out);
-}; //TODO
+}
 void hax::Human::FromString(std::istream& in)
 {
     Character::FromString(in);
-}; //TODO
+    if(in.peek() == '\n'){in.get();}
+}
 std::string hax::Human::getType() const{return "human";}
 void hax::Human::initStats(int curHp, int maxHp, int strength, int weight)
 {
@@ -86,16 +87,27 @@ void hax::Wizard::initStats(int curHp, int maxHp, int strength, int weight)
 void hax::Wizard::ToString(std::ostream& out) const
 {
     Human::ToString(out);
-} //TODO
+    out << curMp <<":"<< maxMp <<":";
+}
 void hax::Wizard::FromString(std::istream& in)
 {
     Human::FromString(in);
     std::ofstream dbg;
     dbg.open("load_debug.dat", std::ios::out | std::ios::app);
     dbg << "Wizard::FromString" << std::endl;
-    dbg.close();
 
-} //TODO
+    std::string data;
+    std::getline(in,data,':');
+    curMp = std::atoi(data.c_str());
+    dbg << "Current MP = " << curMp << std::endl;
+
+    std::getline(in,data,':');
+    maxMp = std::atoi(data.c_str());
+    dbg << "Max MP = " << maxMp << std::endl;
+
+    if(in.peek() == '\n'){in.get();}
+    dbg.close();
+}
 std::string hax::Wizard::getType() const{return "wizard";}
 
 

@@ -52,7 +52,10 @@ namespace hax
 	virtual std::string blockMessage() const;
 	virtual std::string passMessage() const;
 
+	virtual void ToString(std::ostream&) const;
+	virtual void FromString(std::istream&);
 	virtual std::string getType() const;
+
       private:
         Key* match_key;
     };

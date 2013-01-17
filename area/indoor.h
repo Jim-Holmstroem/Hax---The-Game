@@ -2,8 +2,8 @@
 #define INDOOR_H
 #include "area.h"
 
-namespace hax{
-
+namespace hax
+{
     class Ground; //forward declaration
 
     class Indoor : public Area
@@ -18,7 +18,11 @@ namespace hax{
         void enter(Character*);
         void leave(Character*);
         virtual bool rest(Character*);
-	virtual Character* spawn();
+        virtual Character* spawn();
+
+        virtual void ToString(std::ostream&) const;
+        virtual void FromString(std::istream&);
+        virtual std::string getType() const;
     };
 
     class Castle : public Indoor
@@ -26,7 +30,7 @@ namespace hax{
       public:
         Castle();
         Castle(std::string);
-	virtual std::string getType() const;
+        virtual std::string getType() const;
     };
 
     class School : public Indoor
@@ -34,22 +38,26 @@ namespace hax{
       public:
         School();
         School(std::string);
-	virtual std::string getType() const;
+        virtual std::string getType() const;
     };
 
     class Shop : public Indoor
     {
       public:
         Shop();
-	Shop(std::string);
-	~Shop();
-	virtual std::string getType() const;
-	bool buy(Object*); // buy/sell operates like pick_up/drop
-	Object* sell(const int, std::string);
-	virtual std::string description() const;
+        Shop(std::string);
+        ~Shop();
+
+        bool buy(Object*); // buy/sell operates like pick_up/drop
+        Object* sell(const int, std::string);
+        virtual std::string description() const;
+
+        virtual void ToString(std::ostream&) const;
+        virtual void FromString(std::istream&);
+        virtual std::string getType() const;
 
       private:
-	Ground* goods; //items for sale
+        Ground* goods; //items for sale
     };
 }
 #endif

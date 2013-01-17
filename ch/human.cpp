@@ -30,9 +30,32 @@ void hax::Human::talk_to(Character* ch)
     bool undead= dynamic_cast<Undead*>(ch);
     if(human)
     {
+        const std::string a[] = {"gangsta rap","instrumental rap", "westcoast rap","eastcoast rap"};
+        const std::string b[] = {"magnificent manatee","square squirrel","wanky wasp","jealous jellyfish","crunk crocodile"};
+        std::string ap = a[rand()%len(a)];
+        std::string bp = b[rand()%len(b)];
+        std::string bp2 = b[rand()%len(b)];
+        switch(rand()%3)
+        {
+            case 0:
+                std::cout << "Did you know " << ch->getName() << ", I mostly listen to " << ap << " music with my " << bp << " pet?"; 
+                break;
+            case 1:
+                std::cout << "My pet is a " << bp << " and I think yours is a " << bp2 << ", am I right or what?";
+                break;
+            case 2:
+                std::cout << "I think " << ch->getType() << "s is scary and thus so are you :)";  
+                break;
+            case 3:
+                std::cout << "Wanna see my " << bp << ch->getName() << "?";
+                break;
+        }
     }
     else if(undead)
     {
+        const std::string a[] = { "bag of chips","cup of tea","type of sausage","pet of choice"};
+        std::string ap = a[rand()%len(a)];
+        std::cout << "Get away from me you freak of nature." << ch->getType() << "s isn't really my " << ap;
     }
     else
     {

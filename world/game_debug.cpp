@@ -29,6 +29,8 @@ int main(int argc, const char* argv[])
     std::cout << "Type help for a list of available commands." << std::endl;
     std::cout << "Pay attention to case sensitivity!" << std::endl;
 
+    std::cout << "Dude: I could kill for a white castle burger right now man.." << std::endl;
+
     std::string input = "";
     while(input != "quit")
     {
@@ -55,7 +57,10 @@ hax::Level* hax::initNewGame()
     Area* borg = new Castle("Hogwarts");
     Area* kth = new School("KTH");
     Area* skog = new Forest("FoReSt Of DoOm");
-    Area* tysk = new Shop("IKEA");
+    Area* ikea = new Shop("IKEA");
+    Area* nowhere = new Area("nowhere");
+    Area* wc = new Shop("White Castle");
+    Area* toilet = new Area("Employee Toilet");
 
     Character* albus = new Wizard("Albus",1);
     Character* voldy = new Wizard("Voldy",1);
@@ -64,6 +69,8 @@ hax::Level* hax::initNewGame()
     Character* necro = new Necromancer("Sauron",1);
 
     Key* nyckel = new Key();
+    Key* white_key = new Key("White key");
+    Key* toilet_key = new Key("Employee toilet key");
     Container* sack = new Backpack();
     Key* alohomora = new Key();
 
@@ -71,20 +78,33 @@ hax::Level* hax::initNewGame()
     test->add(borg);
     test->add(kth);
     test->add(skog);
-    test->add(tysk);
+    test->add(ikea);
     test->add(albus);
     test->add(voldy);
     test->add(conan);
     test->add(necro);
+    
     borg->addRoute(new Road("north", borg, kth));
     borg->addRoute(new Road("west", borg, skog));
+    
     kth->addRoute(new Road("south", kth, borg));
     kth->addRoute(new Door("southwest", kth, skog, nyckel));
-    kth->addRoute(new Door("in", kth, tysk));
+    kth->addRoute(new Door("in", kth, ikea));
+    
     skog->addRoute(new Road("east", skog, borg, new Tree()));
     skog->addRoute(new Road("northeast", skog, kth, snape));
-    tysk->addRoute(new Door("out", tysk, kth));
+    skog->addRoute(new Hatch("circles", skog, nowhere));
+    
+    nowhere->addRoute(new Door("in", nowhere, wc, white_key));
+    nowhere->addRoute(new Road("away", nowhere, kth ));
+    
+    wc->addRoute(new Door("out", wc, nowhere));
+    wc->addRoute(new Door("employee toilet", wc, toilet, toilet_key));
 
+    toilet->addRoute(new Door("out", toilet, wc, toilet_key));
+
+    ikea->addRoute(new Door("out", ikea, kth));
+    
     //add Character to Area
     borg->enter(albus);
     borg->enter(necro);
@@ -97,6 +117,7 @@ hax::Level* hax::initNewGame()
 
     //add Object to Character
     albus->give(alohomora);
+    voldy->give(white_key);
 
     return test;
 };

@@ -5,6 +5,7 @@
 
 namespace hax
 {
+    class Undead;
     class Human : public Character
     {
       public:
@@ -17,6 +18,8 @@ namespace hax
         virtual void view_stats() const;
         virtual void attack(Character*);
         virtual void talk_to(Character*);
+        virtual void talk_to(Human*);
+        virtual void talk_to(Undead*);
 
 	virtual void ToString(std::ostream&) const;
 	virtual void FromString(std::istream&);

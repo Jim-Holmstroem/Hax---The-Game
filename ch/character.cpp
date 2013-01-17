@@ -285,7 +285,7 @@ void hax::Character::attack(Character* enemy)
 }
 void hax::Character::talk_to(Character* npc)
 {
-//TODO
+    std::cout << getName() << ": I just don't know what to say man" << std::endl;
 }
 bool hax::Character::pick_up(std::string objName)
 {

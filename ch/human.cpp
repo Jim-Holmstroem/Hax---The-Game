@@ -44,10 +44,7 @@ void hax::Human::talk_to(Character* ch)
                 std::cout << "My pet is a " << bp << " and I think yours is a " << bp2 << ", am I right or what?";
                 break;
             case 2:
-                std::cout << "I think " << ch->getType() << "s is scary and thus so are you :)";  
-                break;
-            case 3:
-                std::cout << "Wanna see my " << bp << ch->getName() << "?";
+                std::cout << "Wanna see my " << bp << " " << ch->getName() << "?";
                 break;
         }
     }
@@ -55,12 +52,21 @@ void hax::Human::talk_to(Character* ch)
     {
         const std::string a[] = { "bag of chips","cup of tea","type of sausage","pet of choice"};
         std::string ap = a[rand()%len(a)];
-        std::cout << "Get away from me you freak of nature." << ch->getType() << "s isn't really my " << ap;
+        switch(rand()%2)
+        {
+            case 0:
+                std::cout << "Get away from me you freak of nature, " << ch->getType() << "s isn't my " << ap;
+                break;
+            case 1:
+                std::cout << "I think " << ch->getType() << "s is scary and thus so are you :)";  
+                break;
+        }
     }
     else
     {
         std::cout << "What kinda' freak are you?!" << std::endl;
     }
+    std::cout << std::endl;
 } 
 
 

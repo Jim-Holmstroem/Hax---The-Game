@@ -284,9 +284,23 @@ void hax::Character::attack(Character* enemy)
 {
 //TODO
 }
-void hax::Character::talk_to(Character* npc)
+void hax::Character::talk_to(Character* enemy)
 {
     std::cout << getName() << ": I just don't know what to say man" << std::endl;
+}
+bool hax::Character::talk_to(std::string name)
+{
+    Character* enemy = curArea->getChar(name); //is NULL if not found
+    if(enemy == NULL){
+        std::cout <<"No `"<< name <<"` in this area.. man."<< std::endl;
+        return false;
+    }else if(this == enemy){ //protection against fighting myself
+        std::cout <<"You cannot talk to yourself!"<< std::endl;
+        return false;
+    }else{
+        talk_to(enemy);
+        return true;
+    }
 }
 bool hax::Character::pick_up(std::string objName)
 {

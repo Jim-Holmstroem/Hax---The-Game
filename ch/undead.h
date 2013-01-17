@@ -10,14 +10,13 @@ namespace hax
         Undead();
         Undead(std::string, bool);
         ~Undead();
-
-	virtual void action();
         virtual std::string getType() const;
         virtual void attack(Character*);
 	virtual void talk_to(Character*);
 
       protected:
         virtual void initStats(int,int,int,int);
+
       private:
         void regenerate();
     };
@@ -28,7 +27,7 @@ namespace hax
 	Skeleton();
 	Skeleton(std::string, bool);
 	std::string getType() const;
-//no definition of attack here so will automatically use Undead::attack(ch)
+        //no definition of attack here so will automatically use Undead::attack(ch)
     };
 
     class Necromancer : public Undead

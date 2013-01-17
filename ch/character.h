@@ -30,7 +30,6 @@ namespace hax
     class Container;
     class Pocket;
     class Wallet;
-//    template <typename T> class Container;
 
     class Character : public ISerializable
     {
@@ -49,7 +48,7 @@ namespace hax
         int totWeight() const;
         bool hasObject(Object* const) const;
 
-        virtual void action(); //TODO return type? depends on current situation, for Hero let it be input from getch, for Foe let it be random
+//        virtual void action(); //return type? depends on current situation, for Hero let it be input from getch, for Foe let it be random
         virtual void view_stats() const;
         void view_area() const;
         void view_inventory() const;

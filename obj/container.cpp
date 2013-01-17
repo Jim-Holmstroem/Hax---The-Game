@@ -7,9 +7,10 @@
 #include "../helper.h"
 
 hax::Container::Container(){}
-/*hax::Container::Container(const Container& co) : Object(co){
-  vec_obj = co.vec_obj;
-  }*/
+hax::Container::Container(const Container& co) : Object(co)
+{
+    vec_obj = co.vec_obj;
+}
 hax::Container::~Container()
 {
     std::cout << "~Container: emptying " << description() << "..." << std::endl;

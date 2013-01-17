@@ -8,6 +8,7 @@
 #include "../obj/container.h"
 #include "../obj/coin.h"
 #include "../area/route.h"
+#include "../serialize/simpleHeap.h"
 #include "../helper.h"
 
 hax::Character::Character()
@@ -41,14 +42,14 @@ hax::Character::Character(const Character& ch)
 #ifdef DEBUG
     std::cout <<"Character::copy constructor"<< std::endl;
 #endif
-    curArea = ch.curArea;
+//    curArea = dynamic_cast<Area*>(allocateData(ch.curArea->getType(),ch.curArea->getName()));
     controllable = ch.controllable;
-    //race = ch.getType();
     name = ch.name;
     curHp = ch.curHp;
     maxHp = ch.maxHp;
     strength = ch.strength;
-//    inventory = new Pocket(ch.inventory); //TODO ok?
+    inventory = new Pocket(ch.inventory);
+    myWallet = new Wallet(ch.myWallet);
 }
 hax::Character::~Character()
 {
@@ -90,10 +91,6 @@ int hax::Character::totWeight() const
 bool hax::Character::hasObject(Object* const ob) const
 {
     return inventory->hasObject(ob);
-}
-void hax::Character::action()
-{
-//TODO
 }
 void hax::Character::view_stats() const
 {
@@ -214,7 +211,7 @@ bool hax::Character::go(std::string routeName)
         return false;
     }
 }
-bool hax::Character::go(const Route& ro) //TODO Route is passed by reference, what is the difference with pass by pointer? will virtual calls work?
+bool hax::Character::go(const Route& ro) //Route is passed by reference, what is the difference with pass by pointer? will virtual calls work?
 {
     if(ro.isBlocked(this)){
         std::cout << this->name <<" is blocked when trying to go to "<< ro.nextArea->getName() <<" through a "<< ro.getType() <<". "<< ro.blockMessage() << std::endl;
@@ -253,11 +250,6 @@ bool hax::Character::fight(std::string name)
 void hax::Character::fight(Character* ch)
 {
     attack(ch);
-//TODO
-/*        char msg[512];
-          sprintf(msg,"%s has %iHP left",ch->name.c_str(),ch->curHp);
-          hax::log.write(msg);
-*/
     std::cout<< ch->name <<" has " << ch->curHp <<" HP left."<< std::endl << std::endl;
     if(ch->curHp <= 0){
         delete ch; //character is killed

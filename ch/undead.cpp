@@ -5,9 +5,6 @@
 hax::Undead::Undead() : Character(){}
 hax::Undead::Undead(std::string name, bool control) : Character(name, control){}
 hax::Undead::~Undead(){}
-void hax::Undead::action() //TODO
-{
-}
 void hax::Undead::talk_to(Character* ch)
 {
     const std::string sounds[] = {

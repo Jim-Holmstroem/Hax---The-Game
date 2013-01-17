@@ -68,16 +68,14 @@ hax::Level* hax::initNewGame()
     Character* snape = new Wizard("Snape",0);
     Character* necro = new Necromancer("Sauron",1);
 
-    Key* nyckel = new Key();
     Key* white_key = new Key("White key");
     Key* toilet_key = new Key("Employee toilet key");
-    Container* sack = new Backpack();
     
     borg->addRoute(new Road("north", borg, kth));
     borg->addRoute(new Road("west", borg, skog));
     
     kth->addRoute(new Road("south", kth, borg));
-    kth->addRoute(new Door("southwest", kth, skog, nyckel));
+    kth->addRoute(new Road("southwest", kth, skog));
     kth->addRoute(new Door("in", kth, ikea));
     
     skog->addRoute(new Road("east", skog, borg, new Tree()));
@@ -85,10 +83,10 @@ hax::Level* hax::initNewGame()
     skog->addRoute(new Hatch("circles", skog, nowhere));
     
     nowhere->addRoute(new Door("in", nowhere, wc, white_key));
-    nowhere->addRoute(new Road("away", nowhere, kth ));
+    nowhere->addRoute(new Road("away", nowhere, kth));
     
     wc->addRoute(new Door("out", wc, nowhere));
-    wc->addRoute(new Door("employee toilet", wc, toilet, toilet_key));
+    wc->addRoute(new Door("sneak", wc, toilet, toilet_key));
 
     toilet->addRoute(new Door("out", toilet, wc, toilet_key));
 
@@ -101,8 +99,7 @@ hax::Level* hax::initNewGame()
     kth->enter(voldy);
 
     //add Object to Area
-    kth->pick_up(nyckel);
-    borg->pick_up(sack);
+    borg->pick_up(new Backpack());
     borg->pick_up(new Rock());
     kth->pick_up(new Rock());
     skog->pick_up(new Rock());

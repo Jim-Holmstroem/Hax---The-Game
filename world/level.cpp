@@ -378,7 +378,6 @@ bool hax::Level::kill(std::string name)
 }
 bool hax::Level::save(std::string filename)
 {
-    serializeQueue.clear(); //not really needed, just to be on the safe side since serializeQueue is a global variable
     std::ofstream outFile(("saved/"+filename+".dat").c_str());
     serializeQueue.push(this);
     while(!serializeQueue.empty())

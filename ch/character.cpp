@@ -280,27 +280,37 @@ bool hax::Character::fight_random()
     fight(enemy);
     return true;
 }
-void hax::Character::attack(Character* enemy)
+void hax::Character::attack(Character* enemy) //TODO
 {
-//TODO
-}
-void hax::Character::talk_to(Character* enemy)
-{
-    std::cout << getName() << ": I just don't know what to say man" << std::endl;
 }
 bool hax::Character::talk_to(std::string name)
 {
-    Character* enemy = curArea->getChar(name); //is NULL if not found
-    if(enemy == NULL){
+    Character* target = curArea->getChar(name); //is NULL if not found
+    if(target == NULL){
         std::cout <<"No `"<< name <<"` in this area.. man."<< std::endl;
         return false;
-    }else if(this == enemy){ //protection against fighting myself
+    }else if(this == target){ //protection against fighting myself
         std::cout <<"You cannot talk to yourself!"<< std::endl;
         return false;
     }else{
-        talk_to(enemy);
+        talk_to(target);
         return true;
     }
+}
+void hax::Character::talk_to(Character* target)
+{
+    std::cout << getName() << ": I just don't know what to say man" << std::endl;
+}
+bool hax::Character::talk_to_random()
+{
+    Character* target = this;
+    while(target == this) //protection against interacting with myself
+    {
+        target = curArea->getAnotherRandomCharForInteraction();
+        if(target == NULL){return false;}
+    }
+    talk_to(target);
+    return true;
 }
 bool hax::Character::pick_up(std::string objName)
 {

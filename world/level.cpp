@@ -16,6 +16,7 @@ hax::Level::Level()
     randomActions.push_back(&Character::go_random);
     randomActions.push_back(&Character::fight_random);
     randomActions.push_back(&Character::rest);
+    randomActions.push_back(&Character::talk_to_random);
 
     /*Global commands*/
     opmap["save"] = new LevelOpBool1String(&Level::save);

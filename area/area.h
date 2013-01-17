@@ -50,6 +50,7 @@ namespace hax
 
 	/*search functions*/
         Character* getChar(std::string);
+        Character* getAnotherRandomCharForInteraction();
         SerializableVector<Character*>::iterator findChar(Character*);
         bool hasChar(Character* const) const;
         Object* getObject(std::string);

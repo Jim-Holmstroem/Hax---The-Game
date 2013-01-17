@@ -114,6 +114,9 @@ hax::Level* hax::initNewGame()
     //add Object to Area
     kth->pick_up(nyckel);
     borg->pick_up(sack);
+    borg->pick_up(new Rock());
+    kth->pick_up(new Rock());
+    skog->pick_up(new Rock());
 
     //add Object to Character
     albus->give(alohomora);

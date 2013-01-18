@@ -17,6 +17,7 @@ hax::ISerializable* hax::allocateData(std::string type, std::string name)
     else if(type == "barbarian"){return new Barbarian();}
     else if(type == "skeleton"){return new Skeleton();}
     else if(type == "necromancer"){return new Necromancer();}
+    else if(type == "area"){return new Area();}
     else if(type == "forest"){return new Forest();}
     else if(type == "castle"){return new Castle();}
     else if(type == "school"){return new School();}
@@ -29,6 +30,7 @@ hax::ISerializable* hax::allocateData(std::string type, std::string name)
     else if(type == "ground"){return new Ground();}
     else if(type == "backpack"){return new Backpack();}
     else if(type == "key"){return new Key();}
+    else if(type == "rock"){return new Rock();}
     else if(type == "coin"){return new Coin();}
     else if(type == "tree"){return new Tree();}
     else{return NULL;}

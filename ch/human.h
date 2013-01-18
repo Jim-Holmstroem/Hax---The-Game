@@ -6,7 +6,6 @@
 namespace hax
 {
     class Undead;
-    class HumanFeeling;
     class Human : public Character
     {
       public:
@@ -23,6 +22,7 @@ namespace hax
         virtual void ToString(std::ostream&) const;
         virtual void FromString(std::istream&);
         virtual std::string getType() const;
+        virtual Feeling getFeeling() const;
 
       protected:
         virtual void initStats(int,int,int,int);

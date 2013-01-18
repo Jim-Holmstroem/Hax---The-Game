@@ -41,7 +41,17 @@ void hax::Undead::regenerate()
     }
     std::cout << getName() << " regenerated " << regen << " HP" << std::endl;
 }
-
+hax::Feeling hax::Undead::getFeeling() const
+{
+    float hp = (float)getcurHp()/(float)getmaxHp();
+    Distribution dist = {{
+        0.1f, //go
+        hp, //fight
+        1.0f-hp, //rest
+        0.1f, //talk
+    }};
+    return Feeling(dist);
+}
 
 hax::Skeleton::Skeleton() : Undead()
 {

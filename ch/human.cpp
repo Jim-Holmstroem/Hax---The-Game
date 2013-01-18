@@ -72,7 +72,17 @@ void hax::Human::talk_to(Character* ch)
     }
     std::cout << std::endl;
 } 
-
+hax::Feeling hax::Human::getFeeling() const
+{
+    float hp = (float)getcurHp()/(float)getmaxHp();
+    Distribution dist = {{
+        0.1f,
+        hp,
+        1.0f-hp,
+        hp,
+    }};
+    return Feeling(dist);
+}
 
 void hax::Human::ToString(std::ostream& out) const
 {

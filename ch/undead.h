@@ -4,7 +4,6 @@
 
 namespace hax
 {
-    class UndeadFeeling;
     class Undead : public Character
     {
       public:
@@ -14,6 +13,7 @@ namespace hax
         virtual std::string getType() const;
         virtual void attack(Character*);
 	virtual void talk_to(Character*);
+        virtual Feeling getFeeling() const;
 
       protected:
         virtual void initStats(int,int,int,int);

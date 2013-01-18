@@ -255,7 +255,12 @@ void hax::Level::action()
                 playerHasPerformedAction.insert( std::pair<std::string,Character*>(ch->getName(),ch) );
                 std::cout << ch->getName() << " is performing action..." << std::endl;
                 //if action not possible then try again until an action is performed
-                while( !ch->*(ch->getFeeling()->getRandomAction())() );
+                bool works = false;
+                while( !works )
+                {
+                    Feeling feel = ch->getFeeling();
+                    works = ( ch->*(feel.getRandomAction()) )();
+                }
             }
             it++;
         }

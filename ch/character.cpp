@@ -80,12 +80,12 @@ hax::Character::~Character()
 
 hax::Feeling hax::Character::getFeeling() const
 {
-    struct Distribution dist = {{
+    Distribution dist = {{
         0.25f,
         0.25f,
         0.25f,
         0.25f,
-    }};         
+    }};
     return Feeling(dist);
 }
 

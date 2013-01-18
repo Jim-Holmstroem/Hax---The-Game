@@ -45,7 +45,7 @@ namespace hax
         std::string getName() const;
         int getcurHp() const;
         int getmaxHp() const;
-        virtual hax::Feeling getFeeling() const; 
+        virtual Feeling getFeeling() const;
         int getStr() const;
         int totWeight() const;
         bool hasObject(Object* const) const;
@@ -56,7 +56,7 @@ namespace hax
         void view_inventory() const;
         void view_curContainer() const;
         bool change_curContainer(std::string);
-    //	bool move_obj(std::string, std::string); //arg is objName, destination
+        //      bool move_obj(std::string, std::string); //arg is objName, destination
         bool move_obj(std::string, std::string, std::string); //arg is objName, source, destination
         bool go(std::string);
         bool go(const Route&);
@@ -75,12 +75,12 @@ namespace hax
         bool rest();
         void give(Object* const);
 
-	/*serialization*/
-	virtual void ToString(std::ostream&) const;
-	virtual void FromString(std::istream&);
+        /*serialization*/
+        virtual void ToString(std::ostream&) const;
+        virtual void FromString(std::istream&);
         virtual std::string getType() const;
 
-	/*public data*/
+        /*public data*/
         Area* curArea;
         int curHp; //if health<0 then sleeping with the fishes TODO this should be protected, but then ch->curHp is protected in derived classes
 
@@ -92,12 +92,13 @@ namespace hax
         virtual void initStats(int,int,int,int);
 
       private:
-	/*private data*/
+        /*private data*/
         std::string name;
         Pocket* inventory;
         Wallet* myWallet;
         Container* curContainer; //command "cd" and "ls" uses this
         std::stack<Container*> folderStack;
+
     };
 }
 #endif

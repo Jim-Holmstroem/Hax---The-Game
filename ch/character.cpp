@@ -16,6 +16,7 @@ hax::Character::Character()
     name = "defaultName";
     curArea = NULL;
     myWallet = NULL;
+    feeling = NULL;
 }
 hax::Character::Character(std::string name, bool control)
 {

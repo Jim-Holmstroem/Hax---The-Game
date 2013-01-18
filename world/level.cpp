@@ -9,14 +9,11 @@
 /*#include<algorithm>
   #include<functional>*/
 
+
 hax::Level::Level()
 {
     curChar = NULL;
 
-    randomActions.push_back(&Character::go_random);
-    randomActions.push_back(&Character::fight_random);
-    randomActions.push_back(&Character::rest);
-    randomActions.push_back(&Character::talk_to_random);
 
     /*Global commands*/
     opmap["save"] = new LevelOpBool1String(&Level::save);
@@ -256,12 +253,8 @@ void hax::Level::action()
                 foundPlayerWaitingToAct = true;
                 playerHasPerformedAction.insert( std::pair<std::string,Character*>(ch->getName(),ch) );
                 std::cout << ch->getName() << " is performing action..." << std::endl;
-                unsigned int actionNr = rand() % randomActions.size();
                 //if action not possible then try again until an action is performed
-                while( !(ch->*randomActions[actionNr])() )
-                {
-                    actionNr = rand() % randomActions.size();
-                }
+                while( !(ch->feeling->*getRandomAction())() );
             }
             it++;
         }

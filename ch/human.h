@@ -6,6 +6,7 @@
 namespace hax
 {
     class Undead;
+    class HumanFeeling;
     class Human : public Character
     {
       public:

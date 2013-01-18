@@ -2,6 +2,7 @@
 #include<cstdlib>
 #include<fstream>
 #include "character.h"
+#include "feeling.h"
 #include "../area/area.h" //included here since there are only Area pointers
 #include "../area/indoor.h"
 #include "../obj/object.h" //same reason as above
@@ -16,7 +17,6 @@ hax::Character::Character()
     name = "defaultName";
     curArea = NULL;
     myWallet = NULL;
-    feeling = NULL;
 }
 hax::Character::Character(std::string name, bool control)
 {
@@ -27,7 +27,6 @@ hax::Character::Character(std::string name, bool control)
     curContainer = inventory;
     myWallet = new Wallet(name);
     myWallet->add(new NdCoin()); //1000 kr
-
 /*
 //works perfectly, just too many debug prints
 Coin values[] = {PtCoin(), AuCoin(), AgCoin(), CuCoin(), FeCoin(), NiCoin()};
@@ -79,6 +78,17 @@ hax::Character::~Character()
 /*hax::Character& hax::Character::operator=(const Character& ch){
   return *this;
   };*/
+
+Feeling hax::Character::getFeeling() const
+{
+    struct Distribution<4> dist = {{
+        0.25f,
+        0.25f,
+        0.25f,
+        0.25f,
+    }};         
+    return Feeling(dist);
+}
 
 bool hax::Character::isControllable() const{return controllable;}
 std::string hax::Character::getName() const{return name;}

@@ -4,6 +4,7 @@
 #include "level.h"
 #include "../area/area.h"
 #include "../ch/character.h"
+#include "../ch/feeling.h"
 #include "../obj/container.h"
 #include "../serialize/simpleHeap.h"
 /*#include<algorithm>
@@ -254,7 +255,7 @@ void hax::Level::action()
                 playerHasPerformedAction.insert( std::pair<std::string,Character*>(ch->getName(),ch) );
                 std::cout << ch->getName() << " is performing action..." << std::endl;
                 //if action not possible then try again until an action is performed
-                while( !(ch->feeling->*getRandomAction())() );
+                while( !((*((ch->getFeeling()).getRandomAction))())() );
             }
             it++;
         }

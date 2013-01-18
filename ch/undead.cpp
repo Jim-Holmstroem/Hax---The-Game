@@ -1,10 +1,13 @@
 #include "undead.h"
+#include "feeling.h"
 #include "../area/area.h"
 
-
-hax::Undead::Undead() : Character(){}
-hax::Undead::Undead(std::string name, bool control) : Character(name, control){}
-hax::Undead::~Undead(){}
+hax::Undead::Undead() : Character(){
+}
+hax::Undead::Undead(std::string name, bool control) : Character(name, control){
+}
+hax::Undead::~Undead(){
+}
 void hax::Undead::talk_to(Character* ch)
 {
     const std::string sounds[] = {

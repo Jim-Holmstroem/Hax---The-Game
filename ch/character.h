@@ -30,6 +30,7 @@ namespace hax
     class Container;
     class Pocket;
     class Wallet;
+    class Feeling;
 
     class Character : public ISerializable
     {
@@ -44,6 +45,7 @@ namespace hax
         std::string getName() const;
         int getcurHp() const;
         int getmaxHp() const;
+        virtual Feeling getFeeling() const; 
         int getStr() const;
         int totWeight() const;
         bool hasObject(Object* const) const;
@@ -94,8 +96,8 @@ namespace hax
         std::string name;
         Pocket* inventory;
         Wallet* myWallet;
-	Container* curContainer; //command "cd" and "ls" uses this
-	std::stack<Container*> folderStack;
+        Container* curContainer; //command "cd" and "ls" uses this
+        std::stack<Container*> folderStack;
     };
 }
 #endif

@@ -2,11 +2,15 @@
 #include<cstdlib>
 #include<fstream>
 #include "human.h"
+#include "feeling.h"
 #include "undead.h"
 
-hax::Human::Human() : Character(){}
-hax::Human::Human(std::string name, bool control) : Character(name, control){}
-hax::Human::Human(const Human& hu) : Character(hu){}
+hax::Human::Human() : Character(){
+}
+hax::Human::Human(std::string name, bool control) : Character(name, control){
+}
+hax::Human::Human(const Human& hu) : Character(hu){
+}
 hax::Human::~Human(){}
 
 /*hax::Human& hax::Human::operator=(const Human& hu){

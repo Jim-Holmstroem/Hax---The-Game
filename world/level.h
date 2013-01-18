@@ -23,6 +23,7 @@ namespace hax
     class Character;
     class Container;
     class OperationVoid;
+    class Feeling;
 
     class Level : public ISerializable
     {

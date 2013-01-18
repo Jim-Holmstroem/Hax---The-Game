@@ -4,6 +4,7 @@
 
 namespace hax
 {
+    class UndeadFeeling;
     class Undead : public Character
     {
       public:

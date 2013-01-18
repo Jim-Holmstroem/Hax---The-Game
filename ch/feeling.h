@@ -1,7 +1,6 @@
 #ifndef FEELING_H
 #define FEELING_H
 #include<algorithm>
-#include<iostream>
 
 #define randf() (float)rand()/(float)RAND_MAX
 
@@ -30,19 +29,12 @@ namespace hax
                 float r = randf();
                 float acc = 0.0f;
                 int j = 0;
-                for(int i = 0;i<4;i++)
-                {
-                    std::cout << p[i] << std::endl;
-                }              
-                std::cout << r << std::endl;
                 acc+=p[j];
                 while(acc<r)
                 {
                     ++j;
                     acc += p[j];
                 }
-                std::cout << "acc" << acc << std::endl;
-                std::cout << "j" << j << std::endl;
                 return j;
             };
     };

@@ -1,0 +1,68 @@
+0x5a05880:level:0x5a09070:0x5a09350:0x5a09640:0x5a09930:0x5a0a4b0:0x5a0a720:0x5a0b270:end:0:
+0x5a09070:castle:Hogwarts:You are inside a huge castle.:0x5a0b4e0:0x5a0e0a0:end:0x5a0edf0:0x5a0ef40:end:0x5a09120:
+0x5a09350:school:KTH:Here you can has some new gangsta skillz.:0x5a0cac0:0x5a0bfd0:end:0x5a0f340:0x5a0f090:0x5a0f1f0:end:0x5a09400:
+0x5a09640:forest:FoReSt Of DoOm:You are surrounded by trees.:0x5a0d5b0:end:0x5a0f890:0x5a0f540:0x5a0f6f0:end:0x5a096f0:
+0x5a09930:shop:IKEA:Here you can get some bling-bling.:end:0x5a10020:end:0x5a099f0:0x5a09c30:
+0x5a0a4b0:area:nowhere::end:0x5a0fb10:0x5a0f9d0:end:0x5a0a560:
+0x5a0a720:shop:White Castle:Here you can get some bling-bling.:end:0x5a0fc60:0x5a0fda0:end:0x5a0a7e0:0x5a0aa40:
+0x5a0b270:area:Employee Toilet::end:0x5a0fee0:end:0x5a0b320:
+0x5a0b4e0:wizard:1:Albus:30:30:5:60:0x5a09070:0x5a0bb40:0x5a0bb40:0x5a0bca0:100:100:
+0x5a0e0a0:necromancer:1:Sauron:50:50:7:40:0x5a09070:0x5a0e700:0x5a0e700:0x5a0e860:
+0x5a0edf0:road:north::0x5a09070:0x5a09350:0:0:
+0x5a0ef40:road:west::0x5a09070:0x5a09640:0:0:
+0x5a09120:ground:Hogwarts's:21:7:50:0x5a10240:0x5a10370:end:
+0x5a0cac0:barbarian:1:Conan:50:50:10:80:0x5a09350:0x5a0d120:0x5a0d120:0x5a0d280:
+0x5a0bfd0:wizard:1:Voldy:30:30:5:60:0x5a09350:0x5a0c630:0x5a0c630:0x5a0c790:100:100:
+0x5a0f340:door:in::0x5a09350:0x5a09930:0:
+0x5a0f090:road:south::0x5a09350:0x5a09070:0:0:
+0x5a0f1f0:road:southwest::0x5a09350:0x5a09640:0:0:
+0x5a09400:ground:KTH's:20:5:0:0x5a10480:end:
+0x5a0d5b0:wizard:0:Snape:30:30:5:60:0x5a09640:0x5a0dc10:0x5a0dc10:0x5a0dd70:100:100:
+0x5a0f890:hatch:circles::0x5a09640:0x5a0a4b0:
+0x5a0f540:road:east::0x5a09640:0x5a09070:0:0x5a0f480:
+0x5a0f6f0:road:northeast::0x5a09640:0x5a09350:0x5a0d5b0:0:
+0x5a096f0:ground:FoReSt Of DoOm's:19:5:0:0x5a0f480:0x5a10590:end:
+0x5a10020:door:out::0x5a09930:0x5a09350:0:
+0x5a099f0:ground:IKEA's:0:0:0:end:
+0x5a09c30:ground:Goods sold at IKEA's:5:10:250:0x5a09d90:0x5a09ec0:0x5a0a060:0x5a0a210:0x5a0a2f0:end:
+0x5a0fb10:road:away::0x5a0a4b0:0x5a09350:0:0:
+0x5a0f9d0:door:in::0x5a0a4b0:0x5a0a720:0x5a0eba0:
+0x5a0a560:ground:nowhere's:0:0:0:end:
+0x5a0fc60:door:out::0x5a0a720:0x5a0a4b0:0:
+0x5a0fda0:door:sneak::0x5a0a720:0x5a0b270:0x5a0ecd0:
+0x5a0a7e0:ground:White Castle's:0:0:0:0x5a0ecd0:end:
+0x5a0aa40:ground:Goods sold at White Castle's:5:10:250:0x5a0abb0:0x5a0ace0:0x5a0ae80:0x5a0afc0:0x5a0b0a0:end:
+0x5a0fee0:door:out::0x5a0b270:0x5a0a720:0x5a0ecd0:
+0x5a0b320:ground:Employee Toilet's:0:0:0:end:
+0x5a0bb40:pocket:Albus's:1:1:0:end:
+0x5a0bca0:wallet:Albus's:1:2:1000:0x5a0bdf0:end:
+0x5a0e700:pocket:Sauron's:1:1:0:end:
+0x5a0e860:wallet:Sauron's:1:2:1000:0x5a0e9b0:end:
+0x5a10240:backpack:cool:1:2:50:end:
+0x5a10370:rock::20:5:0:
+0x5a0d120:pocket:Conan's:1:1:0:end:
+0x5a0d280:wallet:Conan's:1:2:1000:0x5a0d3d0:end:
+0x5a0c630:pocket:Voldy's:1:1:0:0x5a0eba0:end:
+0x5a0c790:wallet:Voldy's:1:2:1000:0x5a0c8e0:end:
+0x5a10480:rock::20:5:0:
+0x5a0dc10:pocket:Snape's:1:1:0:end:
+0x5a0dd70:wallet:Snape's:1:2:1000:0x5a0dec0:end:
+0x5a0f480:tree:willow:-1:0:0:
+0x5a10590:rock::20:5:0:
+0x5a09d90:backpack:orange:1:2:50:end:
+0x5a09ec0:backpack:Hello Kitty:1:2:50:end:
+0x5a0a060:backpack:Hello Kitty:1:2:50:end:
+0x5a0a210:backpack:old:1:2:50:end:
+0x5a0a2f0:backpack:old:1:2:50:end:
+0x5a0ecd0:key:Employee toilet key:0:0:0:
+0x5a0abb0:backpack:gangsta:1:2:50:end:
+0x5a0ace0:backpack:Hello Kitty:1:2:50:end:
+0x5a0ae80:backpack:old:1:2:50:end:
+0x5a0afc0:backpack:gangsta:1:2:50:end:
+0x5a0b0a0:backpack:orange:1:2:50:end:
+0x5a0bdf0:coin:neodymium:0:1:1000:
+0x5a0e9b0:coin:neodymium:0:1:1000:
+0x5a0d3d0:coin:neodymium:0:1:1000:
+0x5a0eba0:key:White key:0:0:0:
+0x5a0c8e0:coin:neodymium:0:1:1000:
+0x5a0dec0:coin:neodymium:0:1:1000:

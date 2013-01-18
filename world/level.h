@@ -5,6 +5,7 @@
 #include<map>
 #include<queue>
 #include "operation.h"
+#include "../ch/feeling.h"
 #include "../serialize/serializablevector.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
@@ -23,7 +24,6 @@ namespace hax
     class Character;
     class Container;
     class OperationVoid;
-    class Feeling;
 
     class Level : public ISerializable
     {

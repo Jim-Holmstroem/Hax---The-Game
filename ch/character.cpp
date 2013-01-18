@@ -2,7 +2,6 @@
 #include<cstdlib>
 #include<fstream>
 #include "character.h"
-#include "feeling.h"
 #include "../area/area.h" //included here since there are only Area pointers
 #include "../area/indoor.h"
 #include "../obj/object.h" //same reason as above
@@ -79,9 +78,9 @@ hax::Character::~Character()
   return *this;
   };*/
 
-Feeling hax::Character::getFeeling() const
+hax::Feeling hax::Character::getFeeling() const
 {
-    struct Distribution<4> dist = {{
+    struct Distribution dist = {{
         0.25f,
         0.25f,
         0.25f,

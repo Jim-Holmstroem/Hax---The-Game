@@ -9,6 +9,7 @@
 #include<cmath>
 #include<string>
 #include "../serialize/iserializable.h"
+#include "feeling.h"
 #ifndef DEBUG
 #include "../ncurses/logger.h"
 #endif
@@ -30,7 +31,6 @@ namespace hax
     class Container;
     class Pocket;
     class Wallet;
-    class Feeling;
 
     class Character : public ISerializable
     {
@@ -45,7 +45,7 @@ namespace hax
         std::string getName() const;
         int getcurHp() const;
         int getmaxHp() const;
-        virtual Feeling getFeeling() const; 
+        virtual hax::Feeling getFeeling() const; 
         int getStr() const;
         int totWeight() const;
         bool hasObject(Object* const) const;

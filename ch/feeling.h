@@ -1,24 +1,21 @@
 #ifndef FEELING_H
 #define FEELING_H
-
 #include<algorithm>
 #define randf() (float)rand()/(float)RAND_MAX
 
 namespace hax
 {
-    class Character;
-    template<int N>
     struct Distribution
     {
-        float p[N];
+        float p[4];
         void normalize()
         {
             float n = 0.0f;
-            for(int i = 0;i<N;i++)
+            for(int i = 0;i<4;i++)
             {
-                n+=max(p[i],0.0f);    
+                n+=std::max(p[i],0.0f);    
             }
-            for(int i = 0;i<N;i++)
+            for(int i = 0;i<4;i++)
             {
                 p[i]/=n;
             }
@@ -36,13 +33,15 @@ namespace hax
             return i;
         };
     };
+    
+    class Character;
     class Feeling
     {
       public:
-        Feeling(const Distribution<4>);
+        Feeling(const Distribution);
         bool(Character::*)(void) getRandomAction() const;
       private:
-        const Distribution<4> dist;
+        const Distribution dist;
         std::vector<bool(Character::*)(void)> actions;
     };
 }

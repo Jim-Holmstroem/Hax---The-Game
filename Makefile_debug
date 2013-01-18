@@ -1,4 +1,4 @@
-MOD = helper game_debug level area indoor outdoor route road character human undead object container obstacle coin simpleHeap
+MOD = helper game_debug level area indoor outdoor route road character human undead object container obstacle coin simpleHeap feeling
 
 SRC = $(MOD:=.cpp)
 HDR = $(MOD:=.h)
